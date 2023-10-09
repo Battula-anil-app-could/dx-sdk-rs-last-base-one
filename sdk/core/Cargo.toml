@@ -1,0 +1,37 @@
+[package]
+name = "dharitri-sdk"
+version = "0.2.0"
+edition = "2021"
+
+authors = [
+    "Dharitri <contact@dharitri.com>",
+]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/dharitri/mx-sdk-rs"
+homepage = "https://dharitri.com/"
+documentation = "https://docs.dharitri.com/"
+description = "SDK for interacting with the Dharitri blockchain"
+categories = ["cryptography::cryptocurrencies", "api-bindings"]
+keywords = ["dharitri", "blockchain", "sdk", "api"]
+
+[dependencies]
+tokio = { version = "1.24", features = ["full"] }
+reqwest = { version = "0.11.4", features = ["blocking", "json"] }
+serde = { version = "1.0.130", features = ["derive"] }
+serde_json = { version = "1.0.68", features = ["preserve_order"] }
+serde_repr = "0.1.8"
+anyhow = "1.0.44"
+rand = "0.8.5"
+bip39 = { version = "2.0.0", features = ["rand"] }
+sha2 = "0.9.8"
+sha3 = "0.9.1"
+hmac = { version = "0.11.0", features = ["std"] }
+hex = "0.4.3"
+base64 = "0.13.0"
+ed25519 = "1.2.0"
+pbkdf2 = { version = "0.9.0", default-features = false }
+zeroize = "1.4.2"
+bech32 = "0.9"
+itertools = "0.10.3"
+pem = "1.0.1"

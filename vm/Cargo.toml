@@ -1,0 +1,33 @@
+[package]
+name = "dharitri-chain-vm"
+version = "0.5.2"
+edition = "2021"
+
+authors = [
+    "Andrei Marinica <andrei.marinica@dharitri.com>",
+    "Dharitri <contact@dharitri.com>",
+]
+license = "GPL-3.0-only"
+readme = "README.md"
+repository = "https://github.com/dharitri/mx-sdk-rs"
+homepage = "https://dharitri.com/"
+documentation = "https://docs.dharitri.com/"
+description = "Dharitri VM implementation and tooling"
+keywords = ["dharitri", "blockchain", "vm", "tools"]
+categories = ["cryptography::cryptocurrencies", "development-tools::debugging"]
+
+[dependencies]
+num-bigint = "0.4"
+num-traits = "0.2"
+hex = "0.4"
+sha2 = "0.10.6"
+sha3 = "0.10.6"
+rand = "0.8.5"
+rand_seeder = "0.2.2"
+ed25519-dalek = "2.0.0"
+itertools = "0.10.3"
+hex-literal = "0.3.1"
+bitflags = "1.3.2"
+
+[dependencies.dharitri-chain-vm-executor]
+version = "0.1.0"

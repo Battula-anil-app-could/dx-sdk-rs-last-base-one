@@ -1,0 +1,12 @@
+[package]
+name = "forwarder-raw-meta"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies.forwarder-raw]
+path = ".."
+
+[dependencies.dharitri-sc-meta]
+version = "0.43.4"
+path = "../../../../../framework/meta"

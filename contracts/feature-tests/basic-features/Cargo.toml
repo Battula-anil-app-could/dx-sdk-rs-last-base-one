@@ -1,0 +1,24 @@
+[package]
+name = "basic-features"
+version = "0.0.0"
+authors = ["Andrei Marinica <andrei.marinica@dharitri.com>"]
+edition = "2021"
+publish = false
+
+[lib]
+path = "src/basic_features_main.rs"
+
+[dependencies.dharitri-sc]
+version = "0.43.4"
+path = "../../../framework/base"
+
+[dev-dependencies.dharitri-sc-scenario]
+version = "0.43.4"
+path = "../../../framework/scenario"
+
+[dependencies.dharitri-sc-modules]
+version = "0.43.4"
+path = "../../../contracts/modules"
+
+[dev-dependencies.dct-system-sc-mock]
+path = "../dct-system-sc-mock"

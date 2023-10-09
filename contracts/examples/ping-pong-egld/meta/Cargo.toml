@@ -1,0 +1,13 @@
+[package]
+name = "ping-pong-egld-meta"
+version = "0.0.0"
+authors = [ "Bruda Claudiu-Marcel <claudiu725@yahoo.com>",]
+edition = "2021"
+publish = false
+
+[dependencies.ping-pong-egld]
+path = ".."
+
+[dependencies.dharitri-sc-meta]
+version = "0.43.4"
+path = "../../../../framework/meta"

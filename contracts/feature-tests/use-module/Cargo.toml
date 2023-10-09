@@ -1,0 +1,25 @@
+[package]
+name = "use-module"
+version = "0.0.0"
+authors = ["Andrei Marinica <andrei.marinica@dharitri.com>"]
+edition = "2021"
+publish = false
+
+[lib]
+path = "src/use_module.rs"
+
+[dependencies.dharitri-sc-modules]
+version = "0.43.4"
+path = "../../../contracts/modules"
+
+[dependencies.dharitri-sc]
+version = "0.43.4"
+path = "../../../framework/base"
+
+[dev-dependencies.dharitri-sc-scenario]
+version = "0.43.4"
+path = "../../../framework/scenario"
+
+[dev-dependencies.dharitri-sc-meta]
+version = "0.43.4"
+path = "../../../framework/meta"
