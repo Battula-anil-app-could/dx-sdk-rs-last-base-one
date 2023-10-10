@@ -33,7 +33,7 @@ dharitri_sc_wasm_adapter::endpoints! {
         forward_direct_dct_multi => forward_direct_dct_multi
         forward_async_call => forward_async_call
         forward_async_call_half_payment => forward_async_call_half_payment
-        forward_transf_exec_egld => forward_transf_exec_egld
+        forward_transf_exec_moax => forward_transf_exec_moax
         forward_transf_exec_dct => forward_transf_exec_dct
         forward_transf_exec => forward_transf_exec
         forward_transf_exec_twice => forward_transf_exec_twice

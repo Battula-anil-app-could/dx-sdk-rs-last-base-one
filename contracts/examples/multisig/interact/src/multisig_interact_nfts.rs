@@ -5,7 +5,7 @@ use dharitri_sc_snippets::dharitri_sc::codec::test_util::top_encode_to_vec_u8_or
 
 use super::*;
 
-const ISSUE_COST: u64 = 50000000000000000; // 0.05 EGLD
+const ISSUE_COST: u64 = 50000000000000000; // 0.05 MOAX
 
 const COLLECTION_NAME: &str = "TestCollection1";
 const COLLECTION_TICKER: &str = "TESTCOLL1";
@@ -18,7 +18,7 @@ const METADATA: &str = "tags:test,rust-interactor";
 impl MultisigInteract {
     pub async fn issue_multisig_and_collection_full(&mut self) {
         self.deploy().await;
-        self.feed_contract_egld().await;
+        self.feed_contract_moax().await;
         self.issue_collection().await;
         self.set_special_role().await;
         self.interactor.sleep(Duration::from_secs(15)).await;
@@ -27,7 +27,7 @@ impl MultisigInteract {
 
     pub async fn issue_multisig_and_collection_with_all_roles_full(&mut self) {
         self.deploy().await;
-        self.feed_contract_egld().await;
+        self.feed_contract_moax().await;
         self.issue_collection_with_all_roles().await;
         self.interactor.sleep(Duration::from_secs(15)).await;
         self.create_items().await;

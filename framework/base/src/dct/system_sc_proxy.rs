@@ -6,7 +6,7 @@ use hex_literal::hex;
 use crate::{
     api::{CallTypeApi, SendApi},
     types::{
-        BigUint, ContractCall, ContractCallNoPayment, ContractCallWithEgld, DctLocalRole,
+        BigUint, ContractCall, ContractCallNoPayment, ContractCallWithMoax, DctLocalRole,
         DctTokenType, ManagedAddress, ManagedBuffer, TokenIdentifier,
     },
 };
@@ -58,7 +58,7 @@ where
         token_ticker: &ManagedBuffer<SA>,
         initial_supply: &BigUint<SA>,
         properties: FungibleTokenProperties,
-    ) -> ContractCallWithEgld<SA, ()> {
+    ) -> ContractCallWithMoax<SA, ()> {
         self.issue(
             issue_cost,
             DctTokenType::Fungible,
@@ -88,7 +88,7 @@ where
         token_display_name: &ManagedBuffer<SA>,
         token_ticker: &ManagedBuffer<SA>,
         properties: NonFungibleTokenProperties,
-    ) -> ContractCallWithEgld<SA, ()> {
+    ) -> ContractCallWithMoax<SA, ()> {
         let zero = BigUint::zero();
         self.issue(
             issue_cost,
@@ -119,7 +119,7 @@ where
         token_display_name: &ManagedBuffer<SA>,
         token_ticker: &ManagedBuffer<SA>,
         properties: SemiFungibleTokenProperties,
-    ) -> ContractCallWithEgld<SA, ()> {
+    ) -> ContractCallWithMoax<SA, ()> {
         let zero = BigUint::zero();
         self.issue(
             issue_cost,
@@ -150,7 +150,7 @@ where
         token_display_name: &ManagedBuffer<SA>,
         token_ticker: &ManagedBuffer<SA>,
         properties: MetaTokenProperties,
-    ) -> ContractCallWithEgld<SA, ()> {
+    ) -> ContractCallWithMoax<SA, ()> {
         let zero = BigUint::zero();
         self.issue(
             issue_cost,
@@ -180,10 +180,10 @@ where
         token_ticker: ManagedBuffer<SA>,
         token_type: DctTokenType,
         num_decimals: usize,
-    ) -> ContractCallWithEgld<SA, ()> {
+    ) -> ContractCallWithMoax<SA, ()> {
         let dct_system_sc_address = self.dct_system_sc_address();
 
-        let mut contract_call = ContractCallWithEgld::new(
+        let mut contract_call = ContractCallWithMoax::new(
             dct_system_sc_address,
             ISSUE_AND_SET_ALL_ROLES_ENDPOINT_NAME,
             issue_cost,
@@ -214,7 +214,7 @@ where
         token_ticker: &ManagedBuffer<SA>,
         initial_supply: &BigUint<SA>,
         properties: TokenProperties,
-    ) -> ContractCallWithEgld<SA, ()> {
+    ) -> ContractCallWithMoax<SA, ()> {
         let dct_system_sc_address = self.dct_system_sc_address();
 
         let endpoint_name = match token_type {
@@ -226,7 +226,7 @@ where
         };
 
         let mut contract_call =
-            ContractCallWithEgld::new(dct_system_sc_address, endpoint_name, issue_cost);
+            ContractCallWithMoax::new(dct_system_sc_address, endpoint_name, issue_cost);
 
         contract_call.proxy_arg(token_display_name);
         contract_call.proxy_arg(token_ticker);

@@ -8,12 +8,12 @@ PROXY=https://testnet-api.dharitri.com
 DEPLOY_GAS="80000000"
 TARGET=10
 DEADLINE_UNIX_TIMESTAMP=1609452000 # Fri Jan 01 2021 00:00:00 GMT+0200 (Eastern European Standard Time)
-EGLD_TOKEN_ID=0x45474c44 # "EGLD"
+MOAX_TOKEN_ID=0x4d4f4158 # "MOAX"
 
 deploy() {
     mxpy --verbose contract deploy --project=${PROJECT} --recall-nonce --pem=${ALICE} \
           --gas-limit=${DEPLOY_GAS} \
-          --arguments ${TARGET} ${DEADLINE_UNIX_TIMESTAMP} ${EGLD_TOKEN_ID} \
+          --arguments ${TARGET} ${DEADLINE_UNIX_TIMESTAMP} ${MOAX_TOKEN_ID} \
           --outfile="deploy-testnet.interaction.json" --send --proxy=${PROXY} --chain=T || return
 
     TRANSACTION=$(mxpy data parse --file="deploy-testnet.interaction.json" --expression="data['emittedTransactionHash']")

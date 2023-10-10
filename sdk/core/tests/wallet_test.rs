@@ -4,21 +4,21 @@ use dharitri_sdk::{crypto::public_key::PublicKey, data::address::Address, wallet
 
 #[test]
 fn test_private_key_from_mnemonic() {
-    let mnemonic: Mnemonic = Mnemonic::parse_normalized("acid twice post genre topic observe valid viable gesture fortune funny dawn around blood enemy page update reduce decline van bundle zebra rookie real").unwrap();
+    let mnemonic: Mnemonic = Mnemonic::parse_normalized("acid twice post genre topic observe apple viable gesture fortune funny dawn around blood enemy page update reduce decline van bundle zebra rookie real").unwrap();
 
     let private_key = Wallet::get_private_key_from_mnemonic(mnemonic.clone(), 0, 0);
     let public_key = PublicKey::from(&private_key);
     let address = Address::from(&public_key);
     assert_eq!(
-        "0b7966138e80b8f3bb64046f56aea4250fd7bacad6ed214165cea6767fd0bc2c",
+        "c6ecd5ee6ae3ed006d3033093d6c3ca1d28566fc87beaad387ab67bb2b259057",
         private_key.to_string()
     );
     assert_eq!(
-        "dfefe0453840e5903f2bd519de9b0ed6e9621e57e28ba0b4c1b15115091dd72f",
+        "1e152cda4a8babddb6750c6ba48b3849719d9453ab323b89d75ba7b85b1ef431",
         public_key.to_string()
     );
     assert_eq!(
-        "moa1mlh7q3fcgrjeq0et65vaaxcw6m5ky8jhu296pdxpk9g32zga6uhs5rqfkd",
+        "moa1rc2jekj23w4amdn4p346fzecf9cem9zn4verhzwhtwnmskc77scsjt74t7",
         address.to_string()
     );
 
@@ -26,15 +26,15 @@ fn test_private_key_from_mnemonic() {
     let public_key = PublicKey::from(&private_key);
     let address = Address::from(&public_key);
     assert_eq!(
-        "1648ad209d6b157a289884933e3bb30f161ec7113221ec16f87c3578b05830b0",
+        "db6140e6f0854ad8a0b10b3e50e94fb1259b60bb0d7c2665d597eb1970f7a3a9",
         private_key.to_string()
     );
     assert_eq!(
-        "af8fef070a581873912ccbafb6a78bb9eb4e003085ac43dbbdfa3e20eb93cede",
+        "413885ecb0b058f51db1362568a6d156c4fa6d310debf2cfaa94365ab93d9f74",
         public_key.to_string()
     );
     assert_eq!(
-        "moa147877pc2tqv88yfvewhmdfuth845uqpsskky8kaalglzp6unem0qvk32m6",
+        "moa1gyugtm9skpv028d3xcjk3fk32mz05mf3ph4l9na2jsm94wfana6qt9gfd5",
         address.to_string()
     );
 }
@@ -42,6 +42,7 @@ fn test_private_key_from_mnemonic() {
 #[test]
 fn test_load_from_pem() {
     let wallet = Wallet::from_pem_file("tests/alice.pem").unwrap();
+    eprintln!("wallte is {:?}", wallet);
     let addr = wallet.address();
     assert_eq!(
         addr.to_bech32_string().unwrap(),

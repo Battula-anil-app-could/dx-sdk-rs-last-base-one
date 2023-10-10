@@ -34,7 +34,7 @@
             "expect": {
                 "out": [
                     "0",
-                    "str:EGLD"
+                    "str:MOAX"
                 ],
                 "status": "",
                 "logs": "*",
@@ -48,7 +48,7 @@
             "tx": {
                 "from": "address:an-account",
                 "to": "sc:payable-features",
-                "egldValue": "5",
+                "moaxValue": "5",
                 "function": "payable_any_1",
                 "arguments": [],
                 "gasLimit": "50,000,000",
@@ -57,7 +57,7 @@
             "expect": {
                 "out": [
                     "5",
-                    "str:EGLD"
+                    "str:MOAX"
                 ],
                 "status": "",
                 "logs": "*",

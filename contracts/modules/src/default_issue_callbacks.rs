@@ -46,9 +46,9 @@ pub trait DefaultIssueCallbacksModule {
     }
 
     fn return_failed_issue_funds(&self, initial_caller: ManagedAddress) {
-        let egld_returned = self.call_value().egld_value();
-        if *egld_returned > 0u32 {
-            self.send().direct_egld(&initial_caller, &egld_returned);
+        let moax_returned = self.call_value().moax_value();
+        if *moax_returned > 0u32 {
+            self.send().direct_moax(&initial_caller, &moax_returned);
         }
     }
 }

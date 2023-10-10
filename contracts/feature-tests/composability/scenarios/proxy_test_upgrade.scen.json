@@ -20,7 +20,7 @@
             "tx": {
                 "from": "address:a_user",
                 "to": "sc:proxy-first",
-                "egldValue": "200",
+                "moaxValue": "200",
                 "function": "upgradeSecondContract",
                 "arguments": [
                     "file:../proxy-test-second/output/proxy-test-second.wasm"

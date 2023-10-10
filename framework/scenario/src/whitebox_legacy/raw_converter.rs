@@ -21,7 +21,7 @@ use super::{ScCallMandos, ScQueryMandos, TxExpectMandos};
 pub(crate) const STAR_STR: &str = "*";
 
 pub(crate) fn account_as_raw(acc: &AccountData) -> AccountRaw {
-    let balance_raw = Some(rust_biguint_as_raw(&acc.egld_balance));
+    let balance_raw = Some(rust_biguint_as_raw(&acc.moax_balance));
     let developer_rewards_raw = Some(rust_biguint_as_raw(&acc.developer_rewards));
     let code_raw = acc
         .contract_path
@@ -117,8 +117,8 @@ pub(crate) fn tx_call_as_raw(tx_call: &ScCallMandos) -> TxCallRaw {
     TxCallRaw {
         from: address_as_raw(&tx_call.from),
         to: address_as_raw(&tx_call.to),
-        value: None, // this is the old "value" field, which is now "egld_value". Only kept for backwards compatibility
-        egld_value: rust_biguint_as_opt_raw(&tx_call.egld_value),
+        value: None, // this is the old "value" field, which is now "moax_value". Only kept for backwards compatibility
+        moax_value: rust_biguint_as_opt_raw(&tx_call.moax_value),
         dct_value: all_dct_raw,
         function: tx_call.function.clone(),
         arguments: arguments_raw,
@@ -234,7 +234,7 @@ pub(crate) fn account_as_check_state_raw(acc: &AccountData) -> CheckAccountsRaw 
     };
     let check_acc_raw = CheckAccountRaw {
         nonce: CheckBytesValueRaw::Star,
-        balance: CheckBytesValueRaw::Equal(rust_biguint_as_raw(&acc.egld_balance)),
+        balance: CheckBytesValueRaw::Equal(rust_biguint_as_raw(&acc.moax_balance)),
         dct: CheckDctMapRaw::Equal(CheckDctMapContentsRaw {
             other_dcts_allowed: false,
             contents: all_check_dct_raw,

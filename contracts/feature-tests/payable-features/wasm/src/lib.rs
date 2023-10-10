@@ -29,10 +29,10 @@ dharitri_sc_wasm_adapter::endpoints! {
         payable_any_2 => payable_any_2
         payable_any_3 => payable_any_3
         payable_any_4 => payable_any_4
-        payable_egld_1 => payable_egld_1
-        payable_egld_2 => payable_egld_2
-        payable_egld_3 => payable_egld_3
-        payable_egld_4 => payable_egld_4
+        payable_moax_1 => payable_moax_1
+        payable_moax_2 => payable_moax_2
+        payable_moax_3 => payable_moax_3
+        payable_moax_4 => payable_moax_4
         payable_token_1 => payable_token_1
         payable_token_2 => payable_token_2
         payable_token_3 => payable_token_3

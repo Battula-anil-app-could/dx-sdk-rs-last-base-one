@@ -8,7 +8,7 @@ use num_traits::Zero;
 pub struct ScCallMandos {
     pub(crate) from: Address,
     pub(crate) to: Address,
-    pub(crate) egld_value: num_bigint::BigUint,
+    pub(crate) moax_value: num_bigint::BigUint,
     pub(crate) dct: Vec<TxTokenTransfer>,
     pub(crate) function: String,
     pub(crate) arguments: Vec<Vec<u8>>,
@@ -21,7 +21,7 @@ impl ScCallMandos {
         ScCallMandos {
             from: from.clone(),
             to: to.clone(),
-            egld_value: num_bigint::BigUint::zero(),
+            moax_value: num_bigint::BigUint::zero(),
             dct: Vec::new(),
             function: function.to_owned(),
             arguments: Vec::new(),
@@ -30,8 +30,8 @@ impl ScCallMandos {
         }
     }
 
-    pub fn add_egld_value(&mut self, egld_value: &num_bigint::BigUint) {
-        self.egld_value = egld_value.clone();
+    pub fn add_moax_value(&mut self, moax_value: &num_bigint::BigUint) {
+        self.moax_value = moax_value.clone();
     }
 
     pub fn add_dct_transfer(

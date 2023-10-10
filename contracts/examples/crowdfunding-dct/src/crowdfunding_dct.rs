@@ -13,7 +13,7 @@ pub enum Status {
 #[dharitri_sc::contract]
 pub trait Crowdfunding {
     #[init]
-    fn init(&self, target: BigUint, deadline: u64, token_identifier: EgldOrDctTokenIdentifier) {
+    fn init(&self, target: BigUint, deadline: u64, token_identifier: MoaxOrDctTokenIdentifier) {
         require!(target > 0, "Target must be more than 0");
         self.target().set(target);
 
@@ -30,7 +30,7 @@ pub trait Crowdfunding {
     #[endpoint]
     #[payable("*")]
     fn fund(&self) {
-        let (token, _, payment) = self.call_value().egld_or_single_dct().into_tuple();
+        let (token, _, payment) = self.call_value().moax_or_single_dct().into_tuple();
 
         require!(
             self.status() == Status::FundingPeriod,
@@ -113,5 +113,5 @@ pub trait Crowdfunding {
 
     #[view(getCrowdfundingTokenIdentifier)]
     #[storage_mapper("tokenIdentifier")]
-    fn cf_token_identifier(&self) -> SingleValueMapper<EgldOrDctTokenIdentifier>;
+    fn cf_token_identifier(&self) -> SingleValueMapper<MoaxOrDctTokenIdentifier>;
 }

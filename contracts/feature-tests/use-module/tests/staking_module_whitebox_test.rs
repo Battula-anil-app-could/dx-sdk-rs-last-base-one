@@ -1,4 +1,4 @@
-use dharitri_sc::types::{Address, EgldOrDctTokenIdentifier, ManagedVec};
+use dharitri_sc::types::{Address, MoaxOrDctTokenIdentifier, ManagedVec};
 use dharitri_sc_modules::staking::StakingModule;
 use dharitri_sc_scenario::{
     managed_address, managed_biguint, managed_token_id,
@@ -107,7 +107,7 @@ fn test_staking_module() {
             )));
 
             sc.init_staking_module(
-                &EgldOrDctTokenIdentifier::dct(managed_token_id!(STAKING_TOKEN_ID)),
+                &MoaxOrDctTokenIdentifier::dct(managed_token_id!(STAKING_TOKEN_ID)),
                 &managed_biguint!(REQUIRED_STAKE_AMOUNT),
                 &managed_biguint!(SLASH_AMOUNT),
                 QUORUM,

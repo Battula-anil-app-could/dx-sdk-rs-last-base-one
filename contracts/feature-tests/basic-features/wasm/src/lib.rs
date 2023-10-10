@@ -357,7 +357,7 @@ dharitri_sc_wasm_adapter::endpoints! {
         unique_id_mapper_set => unique_id_mapper_set
         unique_id_mapper => unique_id_mapper
         managed_struct_eq => managed_struct_eq
-        token_identifier_egld => token_identifier_egld
+        token_identifier_moax => token_identifier_moax
         token_identifier_is_valid_1 => token_identifier_is_valid_1
         token_identifier_is_valid_2 => token_identifier_is_valid_2
         non_zero_usize_iter => non_zero_usize_iter

@@ -52,11 +52,11 @@ impl ScDeployStep {
         self
     }
 
-    pub fn egld_value<V>(mut self, expr: V) -> Self
+    pub fn moax_value<V>(mut self, expr: V) -> Self
     where
         BigUintValue: From<V>,
     {
-        self.tx.egld_value = BigUintValue::from(expr);
+        self.tx.moax_value = BigUintValue::from(expr);
         self
     }
 

@@ -40,7 +40,7 @@ impl TxContext {
         tx_cache.insert_account(AccountData {
             address: contract_address.clone(),
             nonce: 0,
-            egld_balance: BigUint::zero(),
+            moax_balance: BigUint::zero(),
             storage: HashMap::new(),
             dct: AccountDct::default(),
             username: Vec::new(),
@@ -141,7 +141,7 @@ impl TxContext {
         self.tx_cache.insert_account(AccountData {
             address: new_address.clone(),
             nonce: 0,
-            egld_balance: BigUint::zero(),
+            moax_balance: BigUint::zero(),
             storage: HashMap::new(),
             dct: AccountDct::default(),
             username: Vec::new(),

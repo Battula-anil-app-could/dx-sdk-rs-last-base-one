@@ -22,8 +22,8 @@ dharitri_sc_wasm_adapter::endpoints! {
     child
     (
         init => init
-        issueWrappedEgld => issue_wrapped_egld
-        getWrappedEgldTokenIdentifier => wrapped_egld_token_identifier
+        issueWrappedMoax => issue_wrapped_moax
+        getWrappedMoaxTokenIdentifier => wrapped_moax_token_identifier
     )
 }
 

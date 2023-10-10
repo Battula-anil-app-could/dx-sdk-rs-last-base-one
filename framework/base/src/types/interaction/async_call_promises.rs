@@ -11,7 +11,7 @@ where
     SA: CallTypeApi + 'static,
 {
     pub(crate) to: ManagedAddress<SA>,
-    pub(crate) egld_payment: BigUint<SA>,
+    pub(crate) moax_payment: BigUint<SA>,
     pub(crate) endpoint_name: ManagedBuffer<SA>,
     pub(crate) arg_buffer: ManagedArgBuffer<SA>,
     pub(crate) explicit_gas_limit: u64,
@@ -55,7 +55,7 @@ where
 
         SendRawWrapper::<SA>::new().create_async_call_raw(
             &self.to,
-            &self.egld_payment,
+            &self.moax_payment,
             &self.endpoint_name,
             &self.arg_buffer,
             callback_name,

@@ -50,12 +50,12 @@ pub trait MultisigProposeModule: crate::multisig_state::MultisigStateModule {
     fn prepare_call_data(
         &self,
         to: ManagedAddress,
-        egld_amount: BigUint,
+        moax_amount: BigUint,
         opt_function: OptionalValue<ManagedBuffer>,
         arguments: MultiValueEncoded<ManagedBuffer>,
     ) -> CallActionData<Self::Api> {
         require!(
-            egld_amount > 0 || opt_function.is_some(),
+            moax_amount > 0 || opt_function.is_some(),
             "proposed action has no effect"
         );
 
@@ -65,25 +65,25 @@ pub trait MultisigProposeModule: crate::multisig_state::MultisigStateModule {
         };
         CallActionData {
             to,
-            egld_amount,
+            moax_amount,
             endpoint_name,
             arguments: arguments.into_vec_of_buffers(),
         }
     }
 
     /// Propose a transaction in which the contract will perform a transfer-execute call.
-    /// Can send EGLD without calling anything.
+    /// Can send MOAX without calling anything.
     /// Can call smart contract endpoints directly.
     /// Doesn't really work with builtin functions.
     #[endpoint(proposeTransferExecute)]
     fn propose_transfer_execute(
         &self,
         to: ManagedAddress,
-        egld_amount: BigUint,
+        moax_amount: BigUint,
         opt_function: OptionalValue<ManagedBuffer>,
         arguments: MultiValueEncoded<ManagedBuffer>,
     ) -> usize {
-        let call_data = self.prepare_call_data(to, egld_amount, opt_function, arguments);
+        let call_data = self.prepare_call_data(to, moax_amount, opt_function, arguments);
         self.propose_action(Action::SendTransferExecute(call_data))
     }
 
@@ -91,16 +91,16 @@ pub trait MultisigProposeModule: crate::multisig_state::MultisigStateModule {
     /// Can call smart contract endpoints directly.
     /// Can use DCTTransfer/DCTNFTTransfer/MultiDCTTransfer to send tokens, while also optionally calling endpoints.
     /// Works well with builtin functions.
-    /// Cannot simply send EGLD directly without calling anything.
+    /// Cannot simply send MOAX directly without calling anything.
     #[endpoint(proposeAsyncCall)]
     fn propose_async_call(
         &self,
         to: ManagedAddress,
-        egld_amount: BigUint,
+        moax_amount: BigUint,
         opt_function: OptionalValue<ManagedBuffer>,
         arguments: MultiValueEncoded<ManagedBuffer>,
     ) -> usize {
-        let call_data = self.prepare_call_data(to, egld_amount, opt_function, arguments);
+        let call_data = self.prepare_call_data(to, moax_amount, opt_function, arguments);
         self.propose_action(Action::SendAsyncCall(call_data))
     }
 

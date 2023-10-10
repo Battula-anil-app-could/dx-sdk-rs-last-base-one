@@ -103,7 +103,7 @@ dependencies = [
 
 [[package]]
 name = "dharitri-sc-codec"
-version = "0.18.1"
+version = "0.0.1"
 dependencies = [
  "arrayvec",
  "dharitri-sc-codec-derive",
@@ -111,7 +111,7 @@ dependencies = [
 
 [[package]]
 name = "dharitri-sc-codec-derive"
-version = "0.18.1"
+version = "0.0.1"
 dependencies = [
  "hex",
  "proc-macro2",
@@ -121,7 +121,7 @@ dependencies = [
 
 [[package]]
 name = "dharitri-sc-derive"
-version = "0.43.4"
+version = "0.0.1"
 dependencies = [
  "hex",
  "proc-macro2",
@@ -132,7 +132,7 @@ dependencies = [
 
 [[package]]
 name = "dharitri-sc-wasm-adapter"
-version = "0.43.4"
+version = "0.0.1"
 dependencies = [
  "dharitri-sc",
 ]

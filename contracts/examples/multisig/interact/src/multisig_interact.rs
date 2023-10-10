@@ -2,7 +2,7 @@ mod multisig_interact_cli;
 mod multisig_interact_config;
 mod multisig_interact_nfts;
 mod multisig_interact_state;
-mod multisig_interact_wegld;
+mod multisig_interact_wmoax;
 
 use clap::Parser;
 use multisig::{
@@ -51,7 +51,7 @@ async fn main() {
             multisig_interact.dns_register(&args.name).await;
         },
         Some(multisig_interact_cli::InteractCliCommand::Feed) => {
-            multisig_interact.feed_contract_egld().await;
+            multisig_interact.feed_contract_moax().await;
         },
         Some(multisig_interact_cli::InteractCliCommand::MultiDeploy(args)) => {
             multisig_interact.multi_deploy(&args.count).await;
@@ -79,14 +79,14 @@ async fn main() {
         Some(multisig_interact_cli::InteractCliCommand::Quorum) => {
             multisig_interact.print_quorum().await;
         },
-        Some(multisig_interact_cli::InteractCliCommand::UnwrapEgld) => {
-            multisig_interact.unwrap_egld().await;
+        Some(multisig_interact_cli::InteractCliCommand::UnwrapMoax) => {
+            multisig_interact.unwrap_moax().await;
         },
-        Some(multisig_interact_cli::InteractCliCommand::WEgldSwapFull) => {
-            multisig_interact.wegld_swap_full().await;
+        Some(multisig_interact_cli::InteractCliCommand::WMoaxSwapFull) => {
+            multisig_interact.wmoax_swap_full().await;
         },
-        Some(multisig_interact_cli::InteractCliCommand::WrapEgld) => {
-            multisig_interact.wrap_egld().await;
+        Some(multisig_interact_cli::InteractCliCommand::WrapMoax) => {
+            multisig_interact.wrap_moax().await;
         },
         None => {},
     }
@@ -153,7 +153,7 @@ impl MultisigInteract {
             self.interactor.post_runners.run_scenario(&scenario);
         }
 
-        self.wegld_swap_set_state().await;
+        self.wmoax_swap_set_state().await;
     }
 
     async fn deploy(&mut self) {
@@ -242,14 +242,14 @@ impl MultisigInteract {
         ])
     }
 
-    async fn feed_contract_egld(&mut self) {
+    async fn feed_contract_moax(&mut self) {
         let _ = self
             .interactor
             .transfer(
                 TransferStep::new()
                     .from(&self.wallet_address)
                     .to(self.state.multisig())
-                    .egld_value("0,050000000000000000"),
+                    .moax_value("0,050000000000000000"),
             )
             .await;
     }

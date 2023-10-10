@@ -48,8 +48,8 @@ pub trait DctTransferWithFee {
     #[endpoint]
     fn transfer(&self, address: ManagedAddress) {
         require!(
-            *self.call_value().egld_value() == 0,
-            "EGLD transfers not allowed"
+            *self.call_value().moax_value() == 0,
+            "MOAX transfers not allowed"
         );
         let payments = self.call_value().all_dct_transfers();
         let mut new_payments = ManagedVec::new();

@@ -7,8 +7,8 @@ CHAIN_ID=local-testnet
 CHILD_CODE=0x"$(xxd -p ../child/output/child.wasm | tr -d '\n')"
 DCT_ISSUE_COST=5000000000000000000
 
-TOKEN_DISPLAY_NAME=0x5772617070656445676c64  # "WrappedEgld"
-TOKEN_TICKER=0x5745474c44  # "WEGLD"
+TOKEN_DISPLAY_NAME=0x5772617070656445676c64  # "WrappedMoax"
+TOKEN_TICKER=0x574d4f4158  # "WMOAX"
 INITIAL_SUPPLY=0x03e8 # 1000
 
 deployParent() {
@@ -41,9 +41,9 @@ getChildContractAddress() {
     echo "Child address: ${CHILD_ADDRESS}"
 }
 
-getWrappedEgldTokenIdentifier() {
+getWrappedMoaxTokenIdentifier() {
     getChildContractAddress
-    mxpy --verbose contract call ${CHILD_ADDRESS} --recall-nonce --pem=${ALICE} --gas-limit=50000000 --function="getWrappedEgldTokenIdentifier" --send --proxy=${PROXY} --chain=${CHAIN_ID}
+    mxpy --verbose contract call ${CHILD_ADDRESS} --recall-nonce --pem=${ALICE} --gas-limit=50000000 --function="getWrappedMoaxTokenIdentifier" --send --proxy=${PROXY} --chain=${CHAIN_ID}
 }
 
 # helpers

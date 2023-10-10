@@ -16,7 +16,7 @@ pub enum InteractCliCommand {
     Add(AddArgs),
     #[command(name = "deploy", about = "Deploy contract")]
     Deploy,
-    #[command(name = "feed", about = "Feed contract EGLD")]
+    #[command(name = "feed", about = "Feed contract MOAX")]
     Feed,
     #[command(name = "multi-deploy", about = "Multiple deploy contracts")]
     MultiDeploy(MultiDeployArgs),

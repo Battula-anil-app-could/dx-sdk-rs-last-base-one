@@ -12,10 +12,10 @@ pub struct RgbColor {
 pub trait NonFungibleTokenMapperFeatures:
     dharitri_sc_modules::default_issue_callbacks::DefaultIssueCallbacksModule
 {
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint]
     fn issue_and_set_all_roles_meta(&self, token_ticker: ManagedBuffer) {
-        let payment = self.call_value().egld_value();
+        let payment = self.call_value().moax_value();
         self.non_fungible_token_mapper().issue_and_set_all_roles(
             DctTokenType::Meta,
             payment.clone_value(),

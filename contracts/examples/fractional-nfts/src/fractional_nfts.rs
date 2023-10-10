@@ -12,14 +12,14 @@ pub trait FractionalNfts: default_issue_callbacks::DefaultIssueCallbacksModule {
     fn init(&self) {}
 
     #[only_owner]
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     fn issue_and_set_all_roles(
         &self,
         token_display_name: ManagedBuffer,
         token_ticker: ManagedBuffer,
         num_decimals: usize,
     ) {
-        let issue_cost = self.call_value().egld_value();
+        let issue_cost = self.call_value().moax_value();
         self.fractional_token().issue_and_set_all_roles(
             DctTokenType::SemiFungible,
             issue_cost.clone_value(),
@@ -152,7 +152,7 @@ mod nft_marketplace_proxy {
         fn claim_tokens(
             &self,
             claim_destination: &ManagedAddress,
-            token_id: &EgldOrDctTokenIdentifier,
+            token_id: &MoaxOrDctTokenIdentifier,
             token_nonce: u64,
         ) -> MultiValue2<BigUint, ManagedVec<DctTokenPayment>>;
     }

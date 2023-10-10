@@ -65,7 +65,7 @@ fn tx_input_from_deploy(sc_deploy_step: &ScDeployStep) -> TxInput {
     TxInput {
         from: tx.from.to_vm_address(),
         to: dharitri_chain_vm::types::VMAddress::zero(),
-        egld_value: tx.egld_value.value.clone(),
+        moax_value: tx.moax_value.value.clone(),
         dct_values: Vec::new(),
         func_name: TxFunctionName::INIT,
         args: tx

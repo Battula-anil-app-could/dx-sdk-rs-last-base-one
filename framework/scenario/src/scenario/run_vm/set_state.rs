@@ -38,7 +38,7 @@ fn execute(state: &mut BlockchainState, set_state_step: &SetStateStep) {
                 .as_ref()
                 .map(|nonce| nonce.value)
                 .unwrap_or_default(),
-            egld_balance: account
+            moax_balance: account
                 .balance
                 .as_ref()
                 .map(|balance| balance.value.clone())

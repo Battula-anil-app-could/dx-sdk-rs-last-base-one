@@ -28,7 +28,7 @@
             "tx": {
                 "from": "address:user",
                 "to": "sc:dct",
-                "egldValue": "5",
+                "moaxValue": "5",
                 "function": "issue",
                 "arguments": [
                     "str:display",
@@ -53,7 +53,7 @@
             "tx": {
                 "from": "address:user",
                 "to": "sc:dct",
-                "egldValue": "5",
+                "moaxValue": "5",
                 "function": "issue",
                 "arguments": [
                     "str:display",
@@ -106,7 +106,7 @@
             "tx": {
                 "from": "address:user",
                 "to": "sc:dct",
-                "egldValue": "5",
+                "moaxValue": "5",
                 "function": "issue",
                 "arguments": [
                     "str:display",
@@ -133,7 +133,7 @@
             "tx": {
                 "from": "address:user",
                 "to": "sc:dct",
-                "egldValue": "5",
+                "moaxValue": "5",
                 "function": "issueNonFungible",
                 "arguments": [
                     "str:display",
@@ -158,7 +158,7 @@
             "tx": {
                 "from": "address:user",
                 "to": "sc:dct",
-                "egldValue": "5",
+                "moaxValue": "5",
                 "function": "issueSemiFungible",
                 "arguments": [
                     "str:display",
@@ -183,7 +183,7 @@
             "tx": {
                 "from": "address:user",
                 "to": "sc:dct",
-                "egldValue": "5",
+                "moaxValue": "5",
                 "function": "registerMetaDCT",
                 "arguments": [
                     "str:display",

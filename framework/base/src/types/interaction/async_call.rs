@@ -10,7 +10,7 @@ where
     SA: CallTypeApi + 'static,
 {
     pub(crate) to: ManagedAddress<SA>,
-    pub(crate) egld_payment: BigUint<SA>,
+    pub(crate) moax_payment: BigUint<SA>,
     pub(crate) endpoint_name: ManagedBuffer<SA>,
     pub(crate) arg_buffer: ManagedArgBuffer<SA>,
     pub(crate) callback_call: Option<CallbackClosure<SA>>,
@@ -36,7 +36,7 @@ where
     pub fn call_and_exit_ignore_callback(&self) -> ! {
         SendRawWrapper::<SA>::new().async_call_raw(
             &self.to,
-            &self.egld_payment,
+            &self.moax_payment,
             &self.endpoint_name,
             &self.arg_buffer,
         )

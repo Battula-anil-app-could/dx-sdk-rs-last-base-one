@@ -1,6 +1,6 @@
 use crate::{
     api::StaticApi,
-    dharitri_sc::types::{ContractCall, ContractCallWithEgld, DctTokenPayment},
+    dharitri_sc::types::{ContractCall, ContractCallWithMoax, DctTokenPayment},
     scenario::model::{AddressValue, BigUintValue, BytesValue, U64Value},
     scenario_format::{
         interpret_trait::{InterpretableFrom, InterpreterContext, IntoRaw},
@@ -8,7 +8,7 @@ use crate::{
     },
 };
 
-use super::{tx_interpret_util::interpret_egld_value, TxDCT};
+use super::{tx_interpret_util::interpret_moax_value, TxDCT};
 
 pub const DEFAULT_GAS_EXPR: &str = "5,000,000";
 
@@ -16,7 +16,7 @@ pub const DEFAULT_GAS_EXPR: &str = "5,000,000";
 pub struct TxCall {
     pub from: AddressValue,
     pub to: AddressValue,
-    pub egld_value: BigUintValue,
+    pub moax_value: BigUintValue,
     pub dct_value: Vec<TxDCT>,
     pub function: String,
     pub arguments: Vec<BytesValue>,
@@ -29,7 +29,7 @@ impl Default for TxCall {
         Self {
             from: Default::default(),
             to: Default::default(),
-            egld_value: Default::default(),
+            moax_value: Default::default(),
             dct_value: Default::default(),
             function: Default::default(),
             arguments: Default::default(),
@@ -44,7 +44,7 @@ impl InterpretableFrom<TxCallRaw> for TxCall {
         TxCall {
             from: AddressValue::interpret_from(from.from, context),
             to: AddressValue::interpret_from(from.to, context),
-            egld_value: interpret_egld_value(from.value, from.egld_value, context),
+            moax_value: interpret_moax_value(from.value, from.moax_value, context),
             dct_value: from
                 .dct_value
                 .into_iter()
@@ -68,7 +68,7 @@ impl IntoRaw<TxCallRaw> for TxCall {
             from: self.from.into_raw(),
             to: self.to.into_raw(),
             value: None,
-            egld_value: self.egld_value.into_raw_opt(),
+            moax_value: self.moax_value.into_raw_opt(),
             dct_value: self
                 .dct_value
                 .into_iter()
@@ -87,11 +87,11 @@ impl IntoRaw<TxCallRaw> for TxCall {
 }
 
 impl TxCall {
-    pub fn to_contract_call(&self) -> ContractCallWithEgld<StaticApi, ()> {
-        let mut contract_call = ContractCallWithEgld::new(
+    pub fn to_contract_call(&self) -> ContractCallWithMoax<StaticApi, ()> {
+        let mut contract_call = ContractCallWithMoax::new(
             (&self.to.value).into(),
             self.function.as_bytes(),
-            (&self.egld_value.value).into(),
+            (&self.moax_value.value).into(),
         );
 
         contract_call.basic.explicit_gas_limit = self.gas_limit.value;

@@ -21,7 +21,7 @@ pub trait Lottery {
     fn start(
         &self,
         lottery_name: ManagedBuffer,
-        token_identifier: EgldOrDctTokenIdentifier,
+        token_identifier: MoaxOrDctTokenIdentifier,
         ticket_price: BigUint,
         opt_total_tickets: Option<usize>,
         opt_deadline: Option<u64>,
@@ -47,7 +47,7 @@ pub trait Lottery {
     fn create_lottery_pool(
         &self,
         lottery_name: ManagedBuffer,
-        token_identifier: EgldOrDctTokenIdentifier,
+        token_identifier: MoaxOrDctTokenIdentifier,
         ticket_price: BigUint,
         opt_total_tickets: Option<usize>,
         opt_deadline: Option<u64>,
@@ -73,7 +73,7 @@ pub trait Lottery {
     fn start_lottery(
         &self,
         lottery_name: ManagedBuffer,
-        token_identifier: EgldOrDctTokenIdentifier,
+        token_identifier: MoaxOrDctTokenIdentifier,
         ticket_price: BigUint,
         opt_total_tickets: Option<usize>,
         opt_deadline: Option<u64>,
@@ -122,7 +122,7 @@ pub trait Lottery {
 
         match opt_burn_percentage {
             OptionalValue::Some(burn_percentage) => {
-                require!(!token_identifier.is_egld(), "EGLD can't be burned!");
+                require!(!token_identifier.is_moax(), "MOAX can't be burned!");
 
                 let roles = self
                     .blockchain()
@@ -165,7 +165,7 @@ pub trait Lottery {
     #[endpoint]
     #[payable("*")]
     fn buy_ticket(&self, lottery_name: ManagedBuffer) {
-        let (token_identifier, payment) = self.call_value().egld_or_single_fungible_dct();
+        let (token_identifier, payment) = self.call_value().moax_or_single_fungible_dct();
 
         match self.status(&lottery_name) {
             Status::Inactive => sc_panic!("Lottery is currently inactive."),
@@ -208,7 +208,7 @@ pub trait Lottery {
     fn update_after_buy_ticket(
         &self,
         lottery_name: &ManagedBuffer,
-        token_identifier: &EgldOrDctTokenIdentifier,
+        token_identifier: &MoaxOrDctTokenIdentifier,
         payment: &BigUint,
     ) {
         let info_mapper = self.lottery_info(lottery_name);

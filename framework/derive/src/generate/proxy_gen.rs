@@ -69,7 +69,7 @@ pub fn generate_proxy_method_sig(
 pub fn generate_proxy_endpoint(m: &Method, endpoint_name: String) -> proc_macro2::TokenStream {
     let mut token_count = 0;
     let mut token_expr =
-        quote! { dharitri_sc::types::EgldOrDctTokenIdentifier::<Self::Api>::egld() };
+        quote! { dharitri_sc::types::MoaxOrDctTokenIdentifier::<Self::Api>::moax() };
     let mut nonce_count = 0;
     let mut nonce_expr = quote! { 0u64 };
     let mut payment_count = 0;
@@ -133,18 +133,18 @@ pub fn generate_proxy_endpoint(m: &Method, endpoint_name: String) -> proc_macro2
         assert!(multi_count == 0, "#[payment_multi] cannot coexist with any other payment annotation in the same endpoint");
 
         if token_count == 0 && nonce_count == 0 {
-            contract_call_type = quote! { dharitri_sc::types::ContractCallWithEgld };
+            contract_call_type = quote! { dharitri_sc::types::ContractCallWithMoax };
             contract_call_init = quote! {
-                let mut ___contract_call___ = dharitri_sc::types::ContractCallWithEgld::new(
+                let mut ___contract_call___ = dharitri_sc::types::ContractCallWithMoax::new(
                     ___address___,
                     #endpoint_name,
                     #payment_expr,
                 );
             };
         } else {
-            contract_call_type = quote! { dharitri_sc::types::ContractCallWithEgldOrSingleDct };
+            contract_call_type = quote! { dharitri_sc::types::ContractCallWithMoaxOrSingleDct };
             contract_call_init = quote! {
-                let mut ___contract_call___ = dharitri_sc::types::ContractCallWithEgldOrSingleDct::new(
+                let mut ___contract_call___ = dharitri_sc::types::ContractCallWithMoaxOrSingleDct::new(
                     ___address___,
                     #endpoint_name,
                     #token_expr,
@@ -222,7 +222,7 @@ pub fn generate_proxy_deploy(init_method: &Method) -> proc_macro2::TokenStream {
                 payment_count += 1;
                 let pat = &arg.pat;
                 quote! {
-                    ___contract_deploy___ = ___contract_deploy___.with_egld_transfer(#pat);
+                    ___contract_deploy___ = ___contract_deploy___.with_moax_transfer(#pat);
                 }
             },
             ArgPaymentMetadata::PaymentMulti => {

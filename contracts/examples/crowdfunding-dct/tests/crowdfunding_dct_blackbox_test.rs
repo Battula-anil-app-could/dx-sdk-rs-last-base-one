@@ -1,7 +1,7 @@
 use crowdfunding_dct::{ProxyTrait as _, Status};
 use dharitri_sc::{
     storage::mappers::SingleValue,
-    types::{Address, EgldOrDctTokenIdentifier},
+    types::{Address, MoaxOrDctTokenIdentifier},
 };
 use dharitri_sc_scenario::{
     api::StaticApi,
@@ -89,7 +89,7 @@ impl CrowdfundingDCTTestState {
                 .call(self.crowdfunding_dct_contract.init(
                     2_000u32,
                     CF_DEADLINE,
-                    EgldOrDctTokenIdentifier::dct(CF_TOKEN_ID),
+                    MoaxOrDctTokenIdentifier::dct(CF_TOKEN_ID),
                 )),
         );
 
@@ -180,7 +180,7 @@ fn test_sc_error() {
     state.world.sc_call(
         ScCallStep::new()
             .from(FIRST_USER_ADDRESS_EXPR)
-            .egld_value("1_000")
+            .moax_value("1_000")
             .call(state.crowdfunding_dct_contract.fund())
             .expect(TxExpect::user_error("str:wrong token")),
     );

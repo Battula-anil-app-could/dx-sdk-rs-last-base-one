@@ -28,7 +28,7 @@ impl CallValueApiImpl for VmApiImpl {
         }
     }
 
-    fn load_egld_value(&self, dest: Self::BigIntHandle) {
+    fn load_moax_value(&self, dest: Self::BigIntHandle) {
         unsafe {
             bigIntGetCallValue(dest);
         }

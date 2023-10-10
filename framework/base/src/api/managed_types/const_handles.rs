@@ -8,7 +8,7 @@ pub const UNINITIALIZED_HANDLE: RawHandle = i32::MAX;
 /// WARNING! With the current VM this still needs to be initialized before use.
 pub const BIG_INT_CONST_ZERO: RawHandle = -10;
 
-pub const CALL_VALUE_EGLD: RawHandle = -11;
+pub const CALL_VALUE_MOAX: RawHandle = -11;
 pub const CALL_VALUE_SINGLE_DCT: RawHandle = -13;
 
 pub const BIG_INT_TEMPORARY_1: RawHandle = -14;

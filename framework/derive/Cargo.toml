@@ -1,6 +1,6 @@
 [package]
 name = "dharitri-sc-derive"
-version = "0.43.4"
+version = "0.0.1"
 edition = "2021"
 
 authors = ["Andrei Marinica <andrei.marinica@dharitri.com>", "Dharitri <contact@dharitri.com>"]

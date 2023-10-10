@@ -21,11 +21,11 @@ pub trait SignatureOperationsModule: storage::StorageModule + helpers::HelpersMo
             "withdrawal has not been available yet"
         );
 
-        let mut egld_funds = deposit.egld_funds;
+        let mut moax_funds = deposit.moax_funds;
         let mut dct_funds = deposit.dct_funds;
 
-        if paid_fee_token.token_identifier == EgldOrDctTokenIdentifier::egld() {
-            egld_funds += paid_fee_token.amount;
+        if paid_fee_token.token_identifier == MoaxOrDctTokenIdentifier::moax() {
+            moax_funds += paid_fee_token.amount;
         } else {
             let dct_fee_token = paid_fee_token.unwrap_dct();
             let dct_fee =
@@ -33,9 +33,9 @@ pub trait SignatureOperationsModule: storage::StorageModule + helpers::HelpersMo
             dct_funds.push(dct_fee);
         }
 
-        if egld_funds > 0 {
+        if moax_funds > 0 {
             self.send()
-                .direct_egld(&deposit.depositor_address, &egld_funds);
+                .direct_moax(&deposit.depositor_address, &moax_funds);
         }
 
         if !dct_funds.is_empty() {
@@ -71,9 +71,9 @@ pub trait SignatureOperationsModule: storage::StorageModule + helpers::HelpersMo
         self.collected_fees(&fee_token)
             .update(|collected_fees| *collected_fees += fee_cost);
 
-        if deposit.egld_funds > 0 {
+        if deposit.moax_funds > 0 {
             self.send()
-                .direct_egld(&caller_address, &deposit.egld_funds);
+                .direct_moax(&caller_address, &deposit.moax_funds);
         }
         if !deposit.dct_funds.is_empty() {
             self.send()
@@ -92,7 +92,7 @@ pub trait SignatureOperationsModule: storage::StorageModule + helpers::HelpersMo
         forward_address: ManagedAddress,
         signature: ManagedByteArray<Self::Api, ED25519_SIGNATURE_BYTE_LEN>,
     ) {
-        let paid_fee = self.call_value().egld_or_single_dct();
+        let paid_fee = self.call_value().moax_or_single_dct();
         let caller_address = self.blockchain().get_caller();
         let fee_token = paid_fee.token_identifier.clone();
         self.require_signature(&address, &caller_address, signature);
@@ -105,7 +105,7 @@ pub trait SignatureOperationsModule: storage::StorageModule + helpers::HelpersMo
         let num_tokens = current_deposit.get_num_tokens();
         new_deposit.update(|fwd_deposit| {
             require!(
-                fwd_deposit.egld_funds == BigUint::zero() && fwd_deposit.dct_funds.is_empty(),
+                fwd_deposit.moax_funds == BigUint::zero() && fwd_deposit.dct_funds.is_empty(),
                 "key already used"
             );
             require!(
@@ -117,7 +117,7 @@ pub trait SignatureOperationsModule: storage::StorageModule + helpers::HelpersMo
             fwd_deposit.valability = current_deposit.valability;
             fwd_deposit.expiration_round = self.get_expiration_round(current_deposit.valability);
             fwd_deposit.dct_funds = current_deposit.dct_funds;
-            fwd_deposit.egld_funds = current_deposit.egld_funds;
+            fwd_deposit.moax_funds = current_deposit.moax_funds;
         });
 
         let forward_fee = &fee * num_tokens as u64;

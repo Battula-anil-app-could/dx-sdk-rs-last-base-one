@@ -7,9 +7,9 @@ use crate::{
 };
 #[dharitri_sc::module]
 pub trait HelpersModule: storage::StorageModule {
-    fn send_fee_to_address(&self, fee: &EgldOrDctTokenPayment, address: &ManagedAddress) {
-        if fee.token_identifier == EgldOrDctTokenIdentifier::egld() {
-            self.send().direct_egld(address, &fee.amount);
+    fn send_fee_to_address(&self, fee: &MoaxOrDctTokenPayment, address: &ManagedAddress) {
+        if fee.token_identifier == MoaxOrDctTokenIdentifier::moax() {
+            self.send().direct_moax(address, &fee.amount);
         } else {
             let dct_fee = fee.clone().unwrap_dct();
             self.send()
@@ -19,11 +19,11 @@ pub trait HelpersModule: storage::StorageModule {
 
     fn get_num_token_transfers(
         &self,
-        egld_value: &BigUint,
+        moax_value: &BigUint,
         dct_transfers: &ManagedVec<DctTokenPayment>,
     ) -> usize {
         let mut amount = dct_transfers.len();
-        if egld_value > &0 {
+        if moax_value > &0 {
             amount += 1;
         }
 
@@ -35,7 +35,7 @@ pub trait HelpersModule: storage::StorageModule {
         self.blockchain().get_block_round() + valability_rounds
     }
 
-    fn get_fee_for_token(&self, token: &EgldOrDctTokenIdentifier) -> BigUint {
+    fn get_fee_for_token(&self, token: &MoaxOrDctTokenIdentifier) -> BigUint {
         require!(
             self.whitelisted_fee_tokens().contains(token),
             "invalid fee toke provided"
@@ -46,7 +46,7 @@ pub trait HelpersModule: storage::StorageModule {
 
     fn make_fund(
         &self,
-        egld_payment: BigUint,
+        moax_payment: BigUint,
         dct_payment: ManagedVec<DctTokenPayment>,
         address: ManagedAddress,
         valability: u64,
@@ -55,15 +55,15 @@ pub trait HelpersModule: storage::StorageModule {
 
         deposit_mapper.update(|deposit| {
             require!(
-                deposit.egld_funds == 0 && deposit.dct_funds.is_empty(),
+                deposit.moax_funds == 0 && deposit.dct_funds.is_empty(),
                 "key already used"
             );
-            let num_tokens = self.get_num_token_transfers(&egld_payment, &dct_payment);
+            let num_tokens = self.get_num_token_transfers(&moax_payment, &dct_payment);
             deposit.fees.num_token_to_transfer += num_tokens;
             deposit.valability = valability;
             deposit.expiration_round = self.get_expiration_round(valability);
             deposit.dct_funds = dct_payment;
-            deposit.egld_funds = egld_payment;
+            deposit.moax_funds = moax_payment;
         });
     }
 
@@ -84,7 +84,7 @@ pub trait HelpersModule: storage::StorageModule {
         &self,
         caller_address: ManagedAddress,
         address: &ManagedAddress,
-        payment: EgldOrDctTokenPayment,
+        payment: MoaxOrDctTokenPayment,
     ) {
         self.get_fee_for_token(&payment.token_identifier);
         let deposit_mapper = self.deposit(address);
@@ -106,7 +106,7 @@ pub trait HelpersModule: storage::StorageModule {
         let new_deposit = DepositInfo {
             depositor_address: caller_address,
             dct_funds: ManagedVec::new(),
-            egld_funds: BigUint::zero(),
+            moax_funds: BigUint::zero(),
             valability: 0,
             expiration_round: 0,
             fees: Fee {

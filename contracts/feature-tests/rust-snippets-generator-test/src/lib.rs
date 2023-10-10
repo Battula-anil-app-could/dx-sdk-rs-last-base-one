@@ -81,7 +81,7 @@ pub trait PayableFeatures {
     }
 
     #[endpoint]
-    fn egld_or_dct_payment(&self, arg: EgldOrDctTokenPayment) -> EgldOrDctTokenIdentifier {
+    fn moax_or_dct_payment(&self, arg: MoaxOrDctTokenPayment) -> MoaxOrDctTokenIdentifier {
         arg.token_identifier
     }
 

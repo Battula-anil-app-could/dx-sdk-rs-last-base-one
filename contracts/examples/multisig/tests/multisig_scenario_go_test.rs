@@ -67,8 +67,8 @@ fn interactor_nft_all_roles_go() {
 }
 
 #[test]
-fn interactor_wegld_go() {
-    world().run("scenarios/interactor_wegld.scen.json");
+fn interactor_wmoax_go() {
+    world().run("scenarios/interactor_wmoax.scen.json");
 }
 
 #[test]

@@ -147,10 +147,10 @@ pub trait KittyAuction {
         )
     }
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint]
     fn bid(&self, kitty_id: u32) {
-        let payment = self.call_value().egld_value();
+        let payment = self.call_value().moax_value();
 
         require!(
             self.is_up_for_auction(kitty_id),
@@ -184,7 +184,7 @@ pub trait KittyAuction {
         // refund losing bid
         if !auction.current_winner.is_zero() {
             self.send()
-                .direct_egld(&auction.current_winner, &auction.current_bid);
+                .direct_moax(&auction.current_winner, &auction.current_bid);
         }
 
         // update auction bid and winner
@@ -357,7 +357,7 @@ pub trait KittyAuction {
                     && !auction.current_winner.is_zero()
                 {
                     self.send()
-                        .direct_egld(&auction.kitty_owner, &auction.current_bid);
+                        .direct_moax(&auction.kitty_owner, &auction.current_bid);
                 }
             },
             ManagedAsyncCallResult::Err(_) => {

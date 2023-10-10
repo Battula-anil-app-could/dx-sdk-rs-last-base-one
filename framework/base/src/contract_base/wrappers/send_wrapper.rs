@@ -13,7 +13,7 @@ use crate::{
     codec,
     dct::DCTSystemSmartContractProxy,
     types::{
-        BigUint, ContractCall, ContractCallNoPayment, EgldOrDctTokenIdentifier, DctTokenPayment,
+        BigUint, ContractCall, ContractCallNoPayment, MoaxOrDctTokenIdentifier, DctTokenPayment,
         ManagedAddress, ManagedArgBuffer, ManagedBuffer, ManagedType, ManagedVec, TokenIdentifier,
     },
 };
@@ -24,7 +24,7 @@ const PERCENTAGE_TOTAL: u64 = 10_000;
 
 use super::SendRawWrapper;
 
-/// API that groups methods that either send EGLD or DCT, or that call other contracts.
+/// API that groups methods that either send MOAX or DCT, or that call other contracts.
 // pub trait SendApi: Clone + Sized {
 
 #[derive(Default)]
@@ -58,7 +58,7 @@ where
         DCTSystemSmartContractProxy::new_proxy_obj()
     }
 
-    /// Convenient way to quickly instance a minimal contract call (with no EGLD, no arguments, etc.)
+    /// Convenient way to quickly instance a minimal contract call (with no MOAX, no arguments, etc.)
     ///
     /// You can further configure this contract call by chaining methods to it.
     #[inline]
@@ -70,39 +70,39 @@ where
         ContractCallNoPayment::new(to, endpoint_name)
     }
 
-    /// Sends EGLD to a given address, directly.
-    /// Used especially for sending EGLD to regular accounts.
+    /// Sends MOAX to a given address, directly.
+    /// Used especially for sending MOAX to regular accounts.
     #[inline]
-    pub fn direct_egld(&self, to: &ManagedAddress<A>, amount: &BigUint<A>) {
-        self.send_raw_wrapper().direct_egld(to, amount, Empty)
+    pub fn direct_moax(&self, to: &ManagedAddress<A>, amount: &BigUint<A>) {
+        self.send_raw_wrapper().direct_moax(to, amount, Empty)
     }
 
-    /// Sends EGLD to a given address, directly.
-    /// Used especially for sending EGLD to regular accounts.
+    /// Sends MOAX to a given address, directly.
+    /// Used especially for sending MOAX to regular accounts.
     ///
     /// If the amount is 0, it returns without error.
-    pub fn direct_non_zero_egld(&self, to: &ManagedAddress<A>, amount: &BigUint<A>) {
+    pub fn direct_non_zero_moax(&self, to: &ManagedAddress<A>, amount: &BigUint<A>) {
         if amount == &0 {
             return;
         }
 
-        self.direct_egld(to, amount)
+        self.direct_moax(to, amount)
     }
 
-    /// Sends either EGLD, DCT or NFT to the target address,
+    /// Sends either MOAX, DCT or NFT to the target address,
     /// depending on the token identifier and nonce
     #[inline]
     pub fn direct(
         &self,
         to: &ManagedAddress<A>,
-        token: &EgldOrDctTokenIdentifier<A>,
+        token: &MoaxOrDctTokenIdentifier<A>,
         nonce: u64,
         amount: &BigUint<A>,
     ) {
         self.direct_with_gas_limit(to, token, nonce, amount, 0, Empty, &[]);
     }
 
-    /// Sends either EGLD, DCT or NFT to the target address,
+    /// Sends either MOAX, DCT or NFT to the target address,
     /// depending on the token identifier and nonce.
     ///
     /// If the amount is 0, it returns without error.
@@ -110,7 +110,7 @@ where
     pub fn direct_non_zero(
         &self,
         to: &ManagedAddress<A>,
-        token: &EgldOrDctTokenIdentifier<A>,
+        token: &MoaxOrDctTokenIdentifier<A>,
         nonce: u64,
         amount: &BigUint<A>,
     ) {
@@ -220,7 +220,7 @@ where
         );
     }
 
-    /// Sends either EGLD, DCT or NFT to the target address,
+    /// Sends either MOAX, DCT or NFT to the target address,
     /// depending on the token identifier and nonce.
     /// Also and calls an endpoint at the destination.
     ///
@@ -229,7 +229,7 @@ where
     pub fn direct_with_gas_limit<D>(
         &self,
         to: &ManagedAddress<A>,
-        token: &EgldOrDctTokenIdentifier<A>,
+        token: &MoaxOrDctTokenIdentifier<A>,
         nonce: u64,
         amount: &BigUint<A>,
         gas: u64,
@@ -249,7 +249,7 @@ where
                 arguments,
             );
         } else {
-            let _ = self.send_raw_wrapper().direct_egld_execute(
+            let _ = self.send_raw_wrapper().direct_moax_execute(
                 to,
                 amount,
                 gas,
@@ -258,7 +258,7 @@ where
             );
         }
     }
-    /// Sends either EGLD, DCT or NFT to the target address,
+    /// Sends either MOAX, DCT or NFT to the target address,
     /// depending on the token identifier and nonce.
     /// Also and calls an endpoint at the destination.
     ///
@@ -269,7 +269,7 @@ where
     pub fn direct_non_zero_with_gas_limit<D>(
         &self,
         to: &ManagedAddress<A>,
-        token: &EgldOrDctTokenIdentifier<A>,
+        token: &MoaxOrDctTokenIdentifier<A>,
         nonce: u64,
         amount: &BigUint<A>,
         gas: u64,
@@ -306,7 +306,7 @@ where
     ///
     /// If you want to perform multiple transfers, use `self.send().transfer_multiple_dct_via_async_call()` instead.
     ///
-    /// Note that EGLD can NOT be transfered with this function.  
+    /// Note that MOAX can NOT be transfered with this function.  
     pub fn transfer_dct_via_async_call(
         &self,
         to: ManagedAddress<A>,
@@ -326,7 +326,7 @@ where
     /// so only use as the last call in your endpoint.
     ///
     /// If you want to perform multiple transfers, use `self.send().transfer_multiple_dct_via_async_call()` instead.  
-    /// Note that EGLD can NOT be transfered with this function.
+    /// Note that MOAX can NOT be transfered with this function.
     ///
     /// If the amount is 0, it returns without error.
     pub fn transfer_dct_non_zero_via_async_call(
@@ -682,7 +682,7 @@ where
         nft_nonce: u64,
         nft_amount: &BigUint<A>,
         buyer: &ManagedAddress<A>,
-        payment_token: &EgldOrDctTokenIdentifier<A>,
+        payment_token: &MoaxOrDctTokenIdentifier<A>,
         payment_nonce: u64,
         payment_amount: &BigUint<A>,
     ) -> BigUint<A> {
@@ -729,7 +729,7 @@ where
         nft_nonce: u64,
         nft_amount: &BigUint<A>,
         buyer: &ManagedAddress<A>,
-        payment_token: &EgldOrDctTokenIdentifier<A>,
+        payment_token: &MoaxOrDctTokenIdentifier<A>,
         payment_nonce: u64,
         payment_amount: &BigUint<A>,
     ) -> BigUint<A> {

@@ -13,7 +13,7 @@ use super::TxFunctionName;
 pub struct TxInput {
     pub from: VMAddress,
     pub to: VMAddress,
-    pub egld_value: BigUint,
+    pub moax_value: BigUint,
     pub dct_values: Vec<TxTokenTransfer>,
     pub func_name: TxFunctionName,
     pub args: Vec<Vec<u8>>,
@@ -29,7 +29,7 @@ impl Default for TxInput {
         TxInput {
             from: VMAddress::zero(),
             to: VMAddress::zero(),
-            egld_value: BigUint::zero(),
+            moax_value: BigUint::zero(),
             dct_values: Vec::new(),
             func_name: TxFunctionName::EMPTY,
             args: Vec::new(),
@@ -47,7 +47,7 @@ impl fmt::Display for TxInput {
         write!(f, "TxInput {{ func: {}, args: {:?}, call_value: {}, dct_value: {:?}, from: 0x{}, to: 0x{}\n}}", 
             self.func_name.as_str(),
             self.args,
-            self.egld_value,
+            self.moax_value,
             self.dct_values,
             address_hex(&self.from),
             address_hex(&self.to))
@@ -79,17 +79,17 @@ pub struct TxTokenTransfer {
 /// Signals to the callback that funds have been returned to it, without performing any transfer.
 #[derive(Default, Clone, Debug)]
 pub struct CallbackPayments {
-    pub egld_value: BigUint,
+    pub moax_value: BigUint,
     pub dct_values: Vec<TxTokenTransfer>,
 }
 
 impl TxInput {
-    /// The received EGLD can come either from the original caller, or from an async call, during callback.
-    pub fn received_egld(&self) -> &BigUint {
-        if !self.callback_payments.egld_value.is_zero() {
-            &self.callback_payments.egld_value
+    /// The received MOAX can come either from the original caller, or from an async call, during callback.
+    pub fn received_moax(&self) -> &BigUint {
+        if !self.callback_payments.moax_value.is_zero() {
+            &self.callback_payments.moax_value
         } else {
-            &self.egld_value
+            &self.moax_value
         }
     }
 

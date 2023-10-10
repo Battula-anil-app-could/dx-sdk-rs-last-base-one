@@ -47,11 +47,11 @@ impl<OriginalResult> TypedScCall<OriginalResult> {
         self
     }
 
-    pub fn egld_value<A>(mut self, amount: A) -> Self
+    pub fn moax_value<A>(mut self, amount: A) -> Self
     where
         BigUintValue: From<A>,
     {
-        self.sc_call_step = self.sc_call_step.egld_value(amount);
+        self.sc_call_step = self.sc_call_step.moax_value(amount);
         self
     }
 

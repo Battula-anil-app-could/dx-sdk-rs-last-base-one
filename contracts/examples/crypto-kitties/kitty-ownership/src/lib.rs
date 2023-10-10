@@ -47,11 +47,11 @@ pub trait KittyOwnership {
     #[endpoint]
     fn claim(&self) {
         let caller = self.blockchain().get_caller();
-        let egld_balance = self
+        let moax_balance = self
             .blockchain()
-            .get_sc_balance(&EgldOrDctTokenIdentifier::egld(), 0);
+            .get_sc_balance(&MoaxOrDctTokenIdentifier::moax(), 0);
 
-        self.send().direct_egld(&caller, &egld_balance);
+        self.send().direct_moax(&caller, &moax_balance);
     }
 
     // views/endpoints - ERC721 required
@@ -279,13 +279,13 @@ pub trait KittyOwnership {
         self.sire_allowed_address(kitty_id).set(&address);
     }
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint(breedWith)]
     fn breed_with(&self, matron_id: u32, sire_id: u32) {
         require!(self.is_valid_id(matron_id), "Invalid matron id!");
         require!(self.is_valid_id(sire_id), "Invalid sire id!");
 
-        let payment = self.call_value().egld_value();
+        let payment = self.call_value().moax_value();
         let auto_birth_fee = self.birth_fee().get();
         let caller = self.blockchain().get_caller();
 
@@ -568,7 +568,7 @@ pub trait KittyOwnership {
 
                 // send birth fee to caller
                 let fee = self.birth_fee().get();
-                self.send().direct_egld(&original_caller, &fee);
+                self.send().direct_moax(&original_caller, &fee);
             },
             ManagedAsyncCallResult::Err(_) => {
                 // this can only fail if the kitty_genes contract address is invalid

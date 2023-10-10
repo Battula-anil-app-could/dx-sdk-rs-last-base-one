@@ -50,7 +50,7 @@ fn tx_input_from_query(sc_query_step: &ScQueryStep) -> TxInput {
     TxInput {
         from: sc_query_step.tx.to.to_vm_address(),
         to: sc_query_step.tx.to.to_vm_address(),
-        egld_value: BigUint::from(0u32),
+        moax_value: BigUint::from(0u32),
         dct_values: Vec::new(),
         func_name: sc_query_step.tx.function.clone().into(),
         args: sc_query_step

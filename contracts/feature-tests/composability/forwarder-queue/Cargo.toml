@@ -15,14 +15,14 @@ promises = ["dharitri-sc/promises"]
 path = "../vault"
 
 [dependencies.dharitri-sc]
-version = "0.43.4"
+version = "0.0.1"
 path = "../../../../framework/base"
 
 [dependencies.dharitri-sc-wasm-adapter]
-version = "0.43.4"
+version = "0.0.1"
 path = "../../../../framework/wasm-adapter"
 optional = true
 
 [dev-dependencies.dharitri-sc-scenario]
-version = "0.43.4"
+version = "0.0.1"
 path = "../../../../framework/scenario"

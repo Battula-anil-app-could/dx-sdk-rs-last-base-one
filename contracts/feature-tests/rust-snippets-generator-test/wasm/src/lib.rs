@@ -32,7 +32,7 @@ dharitri_sc_wasm_adapter::endpoints! {
         optional_type => optional_type
         option_type => option_type
         dct_token_payment => dct_token_payment
-        egld_or_dct_payment => egld_or_dct_payment
+        moax_or_dct_payment => moax_or_dct_payment
         payable_endpoint => payable_endpoint
         managed_buffer => managed_buffer
         multi_value_2 => multi_value_2

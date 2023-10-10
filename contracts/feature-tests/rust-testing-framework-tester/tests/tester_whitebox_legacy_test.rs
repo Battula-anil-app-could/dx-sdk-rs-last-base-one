@@ -229,14 +229,14 @@ fn test_sc_payment_ok() {
 
     wrapper
         .execute_tx(&caller_addr, &sc_wrapper, &rust_biguint!(1_000), |sc| {
-            let actual_payment = sc.receive_egld();
+            let actual_payment = sc.receive_moax();
             let expected_payment = managed_biguint!(1_000);
             assert_eq!(actual_payment, expected_payment);
         })
         .assert_ok();
 
-    wrapper.check_egld_balance(&caller_addr, &rust_biguint!(0));
-    wrapper.check_egld_balance(sc_wrapper.address_ref(), &rust_biguint!(3_000));
+    wrapper.check_moax_balance(&caller_addr, &rust_biguint!(0));
+    wrapper.check_moax_balance(sc_wrapper.address_ref(), &rust_biguint!(3_000));
 }
 
 #[test]
@@ -256,8 +256,8 @@ fn test_sc_payment_reverted() {
         })
         .assert_user_error("No payment allowed!");
 
-    wrapper.check_egld_balance(&caller_addr, &rust_biguint!(1_000));
-    wrapper.check_egld_balance(sc_wrapper.address_ref(), &rust_biguint!(2_000));
+    wrapper.check_moax_balance(&caller_addr, &rust_biguint!(1_000));
+    wrapper.check_moax_balance(sc_wrapper.address_ref(), &rust_biguint!(2_000));
 }
 
 #[test]
@@ -273,12 +273,12 @@ fn test_sc_half_payment() {
 
     wrapper
         .execute_tx(&caller_addr, &sc_wrapper, &rust_biguint!(1_000), |sc| {
-            sc.recieve_egld_half();
+            sc.recieve_moax_half();
         })
         .assert_ok();
 
-    wrapper.check_egld_balance(&caller_addr, &rust_biguint!(500));
-    wrapper.check_egld_balance(sc_wrapper.address_ref(), &rust_biguint!(2_500));
+    wrapper.check_moax_balance(&caller_addr, &rust_biguint!(500));
+    wrapper.check_moax_balance(sc_wrapper.address_ref(), &rust_biguint!(2_500));
 }
 
 #[test]
@@ -799,7 +799,7 @@ fn test_query() {
     );
 
     let _ = wrapper.execute_query(&sc_wrapper, |sc| {
-        let actual_balance = sc.get_egld_balance();
+        let actual_balance = sc.get_moax_balance();
         let expected_balance = managed_biguint!(2_000);
         assert_eq!(actual_balance, expected_balance);
     });
@@ -1205,7 +1205,7 @@ fn test_async_call() {
 #[test]
 fn test_wrapper_getters() {
     let mut wrapper = BlockchainStateWrapper::new();
-    let egld_balance = rust_biguint!(1_000);
+    let moax_balance = rust_biguint!(1_000);
 
     let dct_token_id = b"DCT-123456";
     let dct_balance = rust_biguint!(100);
@@ -1218,7 +1218,7 @@ fn test_wrapper_getters() {
         cool_factor: 100,
     };
 
-    let user_addr = wrapper.create_user_account(&egld_balance);
+    let user_addr = wrapper.create_user_account(&moax_balance);
     wrapper.set_dct_balance(&user_addr, dct_token_id, &dct_balance);
     wrapper.set_nft_balance(
         &user_addr,
@@ -1228,14 +1228,14 @@ fn test_wrapper_getters() {
         &nft_attributes,
     );
 
-    let actual_egld_balance = wrapper.get_egld_balance(&user_addr);
+    let actual_moax_balance = wrapper.get_moax_balance(&user_addr);
     let actual_dct_balance = wrapper.get_dct_balance(&user_addr, dct_token_id, 0);
     let actual_nft_balance = wrapper.get_dct_balance(&user_addr, nft_token_id, nft_nonce);
     let actual_attributes = wrapper
         .get_nft_attributes::<NftDummyAttributes>(&user_addr, nft_token_id, nft_nonce)
         .unwrap();
 
-    assert_eq!(egld_balance, actual_egld_balance);
+    assert_eq!(moax_balance, actual_moax_balance);
     assert_eq!(dct_balance, actual_dct_balance);
     assert_eq!(nft_balance, actual_nft_balance);
     assert_eq!(nft_attributes, actual_attributes);
@@ -1549,7 +1549,7 @@ fn dump_state_single_test() {
         cool_factor: 255,
     };
 
-    wrapper.set_egld_balance(sc_wrapper.address_ref(), &rust_biguint!(444));
+    wrapper.set_moax_balance(sc_wrapper.address_ref(), &rust_biguint!(444));
     wrapper.set_dct_balance(
         sc_wrapper.address_ref(),
         fungible_token_id,
@@ -1593,7 +1593,7 @@ fn dump_state_raw_attributes_test() {
         cool_factor: 255,
     };
 
-    wrapper.set_egld_balance(sc_wrapper.address_ref(), &rust_biguint!(444));
+    wrapper.set_moax_balance(sc_wrapper.address_ref(), &rust_biguint!(444));
     wrapper.set_dct_balance(
         sc_wrapper.address_ref(),
         fungible_token_id,
@@ -1638,7 +1638,7 @@ fn dump_state_all_test() {
         cool_factor: 255,
     };
 
-    wrapper.set_egld_balance(sc_wrapper.address_ref(), &rust_biguint!(444));
+    wrapper.set_moax_balance(sc_wrapper.address_ref(), &rust_biguint!(444));
     wrapper.set_dct_balance(
         sc_wrapper.address_ref(),
         fungible_token_id,

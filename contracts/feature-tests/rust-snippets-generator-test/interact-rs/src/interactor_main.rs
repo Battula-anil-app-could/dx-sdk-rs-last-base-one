@@ -47,7 +47,7 @@ async fn main() {
         "optional_type" => state.optional_type().await,
         "option_type" => state.option_type().await,
         "dct_token_payment" => state.dct_token_payment().await,
-        "egld_or_dct_payment" => state.egld_or_dct_payment().await,
+        "moax_or_dct_payment" => state.moax_or_dct_payment().await,
         "payable_endpoint" => state.payable_endpoint().await,
         "managed_buffer" => state.managed_buffer().await,
         "multi_value_2" => state.multi_value_2().await,
@@ -277,18 +277,18 @@ impl State {
         println!("Result: {result:?}");
     }
 
-    async fn egld_or_dct_payment(&mut self) {
-        let arg = EgldOrDctTokenPayment::new(
-            EgldOrDctTokenIdentifier::dct(&b""[..]),
+    async fn moax_or_dct_payment(&mut self) {
+        let arg = MoaxOrDctTokenPayment::new(
+            MoaxOrDctTokenIdentifier::dct(&b""[..]),
             0u64,
             BigUint::from(0u128),
         );
 
-        let response: TypedResponse<EgldOrDctTokenIdentifier<StaticApi>> = self
+        let response: TypedResponse<MoaxOrDctTokenIdentifier<StaticApi>> = self
             .interactor
             .sc_call_use_result(
                 ScCallStep::new()
-                    .call(self.contract.egld_or_dct_payment(arg))
+                    .call(self.contract.moax_or_dct_payment(arg))
                     .from(&self.wallet_address)
                     .expect(TxExpect::ok().additional_error_message("SC call failed: ")),
             )

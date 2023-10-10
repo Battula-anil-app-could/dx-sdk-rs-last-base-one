@@ -79,7 +79,7 @@ impl VMHooksHandlerSource for StaticApiVMHooksHandler {
     fn perform_async_call(
         &self,
         _to: VMAddress,
-        _egld_value: num_bigint::BigUint,
+        _moax_value: num_bigint::BigUint,
         _func_name: TxFunctionName,
         _args: Vec<Vec<u8>>,
     ) -> ! {
@@ -89,7 +89,7 @@ impl VMHooksHandlerSource for StaticApiVMHooksHandler {
     fn perform_execute_on_dest_context(
         &self,
         _to: VMAddress,
-        _egld_value: num_bigint::BigUint,
+        _moax_value: num_bigint::BigUint,
         _func_name: TxFunctionName,
         _args: Vec<Vec<u8>>,
     ) -> Vec<Vec<u8>> {
@@ -98,7 +98,7 @@ impl VMHooksHandlerSource for StaticApiVMHooksHandler {
 
     fn perform_deploy(
         &self,
-        _egld_value: num_bigint::BigUint,
+        _moax_value: num_bigint::BigUint,
         _contract_code: Vec<u8>,
         _code_metadata: VMCodeMetadata,
         _args: Vec<Vec<u8>>,
@@ -109,7 +109,7 @@ impl VMHooksHandlerSource for StaticApiVMHooksHandler {
     fn perform_transfer_execute(
         &self,
         _to: VMAddress,
-        _egld_value: num_bigint::BigUint,
+        _moax_value: num_bigint::BigUint,
         _func_name: TxFunctionName,
         _arguments: Vec<Vec<u8>>,
     ) {

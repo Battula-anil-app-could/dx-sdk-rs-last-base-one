@@ -152,14 +152,14 @@ impl MultisigTestState {
     fn propose_transfer_execute(
         &mut self,
         to: Address,
-        egld_amount: u64,
+        moax_amount: u64,
         contract_call: ContractCallNoPayment<StaticApi, ()>,
     ) -> usize {
         self.world
             .sc_call_get_result(ScCallStep::new().from(PROPOSER_ADDRESS_EXPR).call(
                 self.multisig_contract.propose_transfer_execute(
                     to,
-                    egld_amount,
+                    moax_amount,
                     contract_call.endpoint_name,
                     contract_call.arg_buffer.into_multi_value_encoded(),
                 ),
@@ -169,14 +169,14 @@ impl MultisigTestState {
     fn propose_async_call(
         &mut self,
         to: Address,
-        egld_amount: u64,
+        moax_amount: u64,
         contract_call: ContractCallNoPayment<StaticApi, ()>,
     ) -> usize {
         self.world
             .sc_call_get_result(ScCallStep::new().from(PROPOSER_ADDRESS_EXPR).call(
                 self.multisig_contract.propose_async_call(
                     to,
-                    egld_amount,
+                    moax_amount,
                     contract_call.endpoint_name,
                     contract_call.arg_buffer.into_multi_value_encoded(),
                 ),
@@ -425,7 +425,7 @@ fn test_transfer_execute_to_user() {
     state.world.sc_call(
         ScCallStep::new()
             .from(PROPOSER_ADDRESS_EXPR)
-            .egld_value(AMOUNT)
+            .moax_value(AMOUNT)
             .call(state.multisig_contract.deposit()),
     );
 

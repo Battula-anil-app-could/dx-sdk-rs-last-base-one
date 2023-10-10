@@ -14,14 +14,14 @@
                     "balance": "0",
                     "dct": {
                         "str:USDC-aaaaaa": "500",
-                        "str:WEGLD-012345": "500"
+                        "str:WMOAX-012345": "500"
                     }
                 },
                 "address:user2": {
                     "nonce": "0",
                     "balance": "0",
                     "dct": {
-                        "str:WEGLD-012345": "500",
+                        "str:WMOAX-012345": "500",
                         "str:MFNFT-567890": {
                             "instances": [
                                 {
@@ -80,7 +80,7 @@
                     "balance": "0",
                     "dct": {
                         "str:USDC-aaaaaa": "500",
-                        "str:WEGLD-012345": "500"
+                        "str:WMOAX-012345": "500"
                     }
                 },
                 "address:user2": {
@@ -103,7 +103,7 @@
                                 }
                             ]
                         },
-                        "str:WEGLD-012345": "500"
+                        "str:WMOAX-012345": "500"
                     }
                 },
                 "sc:dct-transfer-with-fee": {

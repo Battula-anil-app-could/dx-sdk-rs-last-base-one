@@ -7,7 +7,7 @@ use crate::{
     },
     err_msg,
     types::{
-        BigUint, EgldOrDctTokenIdentifier, EgldOrDctTokenPayment, EgldOrMultiDctPayment,
+        BigUint, MoaxOrDctTokenIdentifier, MoaxOrDctTokenPayment, MoaxOrMultiDctPayment,
         DctTokenPayment, ManagedRef, ManagedVec, TokenIdentifier,
     },
 };
@@ -30,21 +30,21 @@ where
         }
     }
 
-    /// Retrieves the EGLD call value from the VM.
-    /// Will return 0 in case of an DCT transfer (cannot have both EGLD and DCT transfer simultaneously).
-    pub fn egld_value(&self) -> ManagedRef<'static, A, BigUint<A>> {
+    /// Retrieves the MOAX call value from the VM.
+    /// Will return 0 in case of an DCT transfer (cannot have both MOAX and DCT transfer simultaneously).
+    pub fn moax_value(&self) -> ManagedRef<'static, A, BigUint<A>> {
         let mut call_value_handle: A::BigIntHandle =
-            use_raw_handle(A::static_var_api_impl().get_call_value_egld_handle());
+            use_raw_handle(A::static_var_api_impl().get_call_value_moax_handle());
         if call_value_handle == const_handles::UNINITIALIZED_HANDLE {
-            call_value_handle = use_raw_handle(const_handles::CALL_VALUE_EGLD);
-            A::static_var_api_impl().set_call_value_egld_handle(call_value_handle.get_raw_handle());
-            A::call_value_api_impl().load_egld_value(call_value_handle.clone());
+            call_value_handle = use_raw_handle(const_handles::CALL_VALUE_MOAX);
+            A::static_var_api_impl().set_call_value_moax_handle(call_value_handle.get_raw_handle());
+            A::call_value_api_impl().load_moax_value(call_value_handle.clone());
         }
         unsafe { ManagedRef::wrap_handle(call_value_handle) }
     }
 
     /// Returns all DCT transfers that accompany this SC call.
-    /// Will return 0 results if nothing was transfered, or just EGLD.
+    /// Will return 0 results if nothing was transfered, or just MOAX.
     /// Fully managed underlying types, very efficient.
     pub fn all_dct_transfers(&self) -> ManagedRef<'static, A, ManagedVec<A, DctTokenPayment<A>>> {
         let mut call_value_handle: A::ManagedBufferHandle =
@@ -94,34 +94,34 @@ where
         (payment.token_identifier, payment.amount)
     }
 
-    /// Accepts and returns either an EGLD payment, or a single DCT token.
+    /// Accepts and returns either an MOAX payment, or a single DCT token.
     ///
     /// Will halt execution if more than one DCT transfer was received.
     ///
-    /// In case no transfer of value happen, it will return a payment of 0 EGLD.
-    pub fn egld_or_single_dct(&self) -> EgldOrDctTokenPayment<A> {
+    /// In case no transfer of value happen, it will return a payment of 0 MOAX.
+    pub fn moax_or_single_dct(&self) -> MoaxOrDctTokenPayment<A> {
         let dct_transfers = self.all_dct_transfers();
         match dct_transfers.len() {
-            0 => EgldOrDctTokenPayment {
-                token_identifier: EgldOrDctTokenIdentifier::egld(),
+            0 => MoaxOrDctTokenPayment {
+                token_identifier: MoaxOrDctTokenIdentifier::moax(),
                 token_nonce: 0,
-                amount: self.egld_value().clone_value(),
+                amount: self.moax_value().clone_value(),
             },
             1 => dct_transfers.get(0).into(),
             _ => A::error_api_impl().signal_error(err_msg::INCORRECT_NUM_DCT_TRANSFERS.as_bytes()),
         }
     }
 
-    /// Accepts and returns either an EGLD payment, or a single fungible DCT token.
+    /// Accepts and returns either an MOAX payment, or a single fungible DCT token.
     ///
     /// Will halt execution if more than one DCT transfer was received, or if the received DCT is non- or semi-fungible.
     ///
-    /// Works similar to `egld_or_single_dct`,
+    /// Works similar to `moax_or_single_dct`,
     /// but checks the nonce to be 0 and returns a tuple of just token identifier and amount, for convenience.
     ///
-    /// In case no transfer of value happen, it will return a payment of 0 EGLD.
-    pub fn egld_or_single_fungible_dct(&self) -> (EgldOrDctTokenIdentifier<A>, BigUint<A>) {
-        let payment = self.egld_or_single_dct();
+    /// In case no transfer of value happen, it will return a payment of 0 MOAX.
+    pub fn moax_or_single_fungible_dct(&self) -> (MoaxOrDctTokenIdentifier<A>, BigUint<A>) {
+        let payment = self.moax_or_single_dct();
         if payment.token_nonce != 0 {
             A::error_api_impl().signal_error(err_msg::FUNGIBLE_TOKEN_EXPECTED_ERR_MSG.as_bytes());
         }
@@ -130,14 +130,14 @@ where
     }
 
     /// Accepts any sort of patyment, which is either:
-    /// - EGLD (can be zero in case of no payment whatsoever);
+    /// - MOAX (can be zero in case of no payment whatsoever);
     /// - Multi-DCT (one or more DCT transfers).
-    pub fn any_payment(&self) -> EgldOrMultiDctPayment<A> {
+    pub fn any_payment(&self) -> MoaxOrMultiDctPayment<A> {
         let dct_transfers = self.all_dct_transfers();
         if dct_transfers.is_empty() {
-            EgldOrMultiDctPayment::Egld(self.egld_value().clone_value())
+            MoaxOrMultiDctPayment::Moax(self.moax_value().clone_value())
         } else {
-            EgldOrMultiDctPayment::MultiDct(dct_transfers.clone_value())
+            MoaxOrMultiDctPayment::MultiDct(dct_transfers.clone_value())
         }
     }
 }

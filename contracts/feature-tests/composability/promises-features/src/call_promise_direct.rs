@@ -16,10 +16,10 @@ pub trait CallPromisesDirectModule {
         extra_gas_for_callback: u64,
         args: MultiValueEncoded<ManagedBuffer>,
     ) {
-        let payment = self.call_value().egld_or_single_dct();
+        let payment = self.call_value().moax_or_single_dct();
         self.send()
             .contract_call::<()>(to, endpoint_name)
-            .with_egld_or_single_dct_transfer(payment)
+            .with_moax_or_single_dct_transfer(payment)
             .with_raw_arguments(args.to_arg_buffer())
             .with_gas_limit(gas_limit)
             .async_call_promise()

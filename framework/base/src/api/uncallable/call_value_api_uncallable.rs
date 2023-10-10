@@ -15,7 +15,7 @@ impl CallValueApiImpl for UncallableApi {
         unreachable!()
     }
 
-    fn load_egld_value(&self, _dest: Self::BigIntHandle) {
+    fn load_moax_value(&self, _dest: Self::BigIntHandle) {
         unreachable!()
     }
 

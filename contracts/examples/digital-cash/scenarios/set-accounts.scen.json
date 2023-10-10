@@ -45,7 +45,7 @@
                 "contractCode": "file:../output/digital-cash.wasm",
                 "arguments": [
                     "10",
-                    "str:EGLD"
+                    "str:MOAX"
                 ],
                 "gasLimit": "5,000,000",
                 "gasPrice": "0"
@@ -64,13 +64,13 @@
                     "nonce": "0",
                     "balance": "0",
                     "storage": {
-                        "str:fee|nested:str:EGLD": "10",
+                        "str:fee|nested:str:MOAX": "10",
                         "str:whitelistedFeeTokens|str:.len": "1",
-                        "str:whitelistedFeeTokens|str:.item|u32:1": "str:EGLD",
-                        "str:whitelistedFeeTokens|str:.index|nested:str:EGLD": "1",
+                        "str:whitelistedFeeTokens|str:.item|u32:1": "str:MOAX",
+                        "str:whitelistedFeeTokens|str:.index|nested:str:MOAX": "1",
                         "str:allTimeFeeTokens|str:.len": "1",
-                        "str:allTimeFeeTokens|str:.item|u32:1": "str:EGLD",
-                        "str:allTimeFeeTokens|str:.index|nested:str:EGLD": "1"
+                        "str:allTimeFeeTokens|str:.item|u32:1": "str:MOAX",
+                        "str:allTimeFeeTokens|str:.index|nested:str:MOAX": "1"
                     },
                     "code": "file:../output/digital-cash.wasm"
                 },

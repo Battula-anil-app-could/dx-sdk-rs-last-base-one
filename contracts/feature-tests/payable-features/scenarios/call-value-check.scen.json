@@ -28,11 +28,11 @@
         },
         {
             "step": "scCall",
-            "id": "call-value-egld",
+            "id": "call-value-moax",
             "tx": {
                 "from": "address:an-account",
                 "to": "sc:payable-features",
-                "egldValue": "100",
+                "moaxValue": "100",
                 "function": "echo_call_value",
                 "arguments": [],
                 "gasLimit": "50,000,000",

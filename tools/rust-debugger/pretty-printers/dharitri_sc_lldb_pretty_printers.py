@@ -36,7 +36,7 @@ MANAGED_OPTION_NONE_HANDLE = 2147483646  # i32::MAX - 1
 MANAGED_OPTION_TYPE = f"{MOD_PATH}::managed_option::ManagedOption<{DEBUG_API_TYPE}, {ANY_TYPE}>"
 
 DCT_TOKEN_PAYMENT_TYPE = f"{MOD_PATH}::dct_token_payment::DctTokenPayment<{DEBUG_API_TYPE}>"
-EGLD_OR_DCT_TOKEN_IDENTIFIER_TYPE = f"{MOD_PATH}::egld_or_dct_token_identifier::EgldOrDctTokenIdentifier<{DEBUG_API_TYPE}>"
+MOAX_OR_DCT_TOKEN_IDENTIFIER_TYPE = f"{MOD_PATH}::moax_or_dct_token_identifier::MoaxOrDctTokenIdentifier<{DEBUG_API_TYPE}>"
 
 # ManagedVec
 MANAGED_VEC_INNER_TYPE_INDEX = 1
@@ -406,16 +406,16 @@ class DctTokenPayment(ManagedVecItem, ManagedType):
         return f"{{ token_identifier: {token_id}, nonce: {nonce}, amount: {amount} }}"
 
 
-class EgldOrDctTokenIdentifier(PlainManagedVecItem, ManagedType):
-    def lookup(self, egld_or_dct_token_identifier: lldb.value) -> lldb.value:
-        return egld_or_dct_token_identifier.data
+class MoaxOrDctTokenIdentifier(PlainManagedVecItem, ManagedType):
+    def lookup(self, moax_or_dct_token_identifier: lldb.value) -> lldb.value:
+        return moax_or_dct_token_identifier.data
 
     @check_invalid_handle
     def summary_from_raw_handle(self, raw_handle: int, context: lldb.value, type_info: lldb.SBType) -> str:
         if raw_handle == MANAGED_OPTION_NONE_HANDLE:
-            return "EgldOrDctTokenIdentifier::egld()"
+            return "MoaxOrDctTokenIdentifier::moax()"
         token_summary = TokenIdentifier().summary_from_raw_handle(raw_handle, context, None)
-        return f"EgldOrDctTokenIdentifier::dct({token_summary})"
+        return f"MoaxOrDctTokenIdentifier::dct({token_summary})"
 
 
 class ManagedVec(PlainManagedVecItem, ManagedType):
@@ -471,7 +471,7 @@ DHARITRI_WASM_TYPE_HANDLERS = [
     (MANAGED_BYTE_ARRAY_TYPE, ManagedByteArray),
     (MANAGED_OPTION_TYPE, ManagedOption),
     (DCT_TOKEN_PAYMENT_TYPE, DctTokenPayment),
-    (EGLD_OR_DCT_TOKEN_IDENTIFIER_TYPE, EgldOrDctTokenIdentifier),
+    (MOAX_OR_DCT_TOKEN_IDENTIFIER_TYPE, MoaxOrDctTokenIdentifier),
     (MANAGED_VEC_TYPE, ManagedVec),
     # 4. SC wasm - Managed multi value types
     # 5. SC wasm - heap

@@ -12,13 +12,13 @@ pub trait SendApi: ManagedTypeApi + BlockchainApi {
     fn send_api_impl() -> Self::SendApiImpl;
 }
 
-/// API that groups methods that either send EGLD or DCT, or that call other contracts.
+/// API that groups methods that either send MOAX or DCT, or that call other contracts.
 pub trait SendApiImpl: ManagedTypeApiImpl {
-    /// Sends EGLD to an address (optionally) and executes like an async call, but without callback.
+    /// Sends MOAX to an address (optionally) and executes like an async call, but without callback.
     fn transfer_value_execute(
         &self,
         to_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         gas_limit: u64,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
@@ -39,7 +39,7 @@ pub trait SendApiImpl: ManagedTypeApiImpl {
     fn async_call_raw(
         &self,
         to_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
     ) -> !;
@@ -48,7 +48,7 @@ pub trait SendApiImpl: ManagedTypeApiImpl {
     fn create_async_call_raw(
         &self,
         to_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
         success_callback: &'static str,
@@ -66,7 +66,7 @@ pub trait SendApiImpl: ManagedTypeApiImpl {
     fn deploy_contract(
         &self,
         gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         code_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
@@ -81,7 +81,7 @@ pub trait SendApiImpl: ManagedTypeApiImpl {
     fn deploy_from_source_contract(
         &self,
         gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         source_contract_address_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
@@ -93,7 +93,7 @@ pub trait SendApiImpl: ManagedTypeApiImpl {
         &self,
         sc_address_handle: RawHandle,
         gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         source_contract_address_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
@@ -106,7 +106,7 @@ pub trait SendApiImpl: ManagedTypeApiImpl {
         &self,
         sc_address_handle: RawHandle,
         gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         code_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
@@ -117,7 +117,7 @@ pub trait SendApiImpl: ManagedTypeApiImpl {
         &self,
         gas: u64,
         address_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
         result_handle: RawHandle,
@@ -127,7 +127,7 @@ pub trait SendApiImpl: ManagedTypeApiImpl {
         &self,
         gas: u64,
         address_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
         result_handle: RawHandle,

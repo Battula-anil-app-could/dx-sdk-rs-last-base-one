@@ -193,7 +193,7 @@
             "tx": {
                 "from": "address:an_address",
                 "to": "0x1000000000000000000000000000000000000000000000000000000000000000",
-                "egldValue": "0x00",
+                "moaxValue": "0x00",
                 "function": "someFunctionName",
                 "arguments": [
                     "0x1234123400000000000000000000000000000000000000000000000000000004",
@@ -250,7 +250,7 @@
             "tx": {
                 "from": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b000000000000000000000000",
                 "to": "0x1000000000000000000000000000000000000000000000000000000000000000",
-                "egldValue": "0x00",
+                "moaxValue": "0x00",
                 "dctValue": [
                     {
                         "tokenIdentifier": "str:MyToken",
@@ -304,7 +304,7 @@
             "comment": "another",
             "tx": {
                 "from": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b000000000000000000000000",
-                "egldValue": "123,456,000",
+                "moaxValue": "123,456,000",
                 "contractCode": "``new contract code here",
                 "arguments": [
                     "0x1234123400000000000000000000000000000000000000000000000000000004",
@@ -344,7 +344,7 @@
             "tx": {
                 "from": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b000000000000000000000000",
                 "to": "0x1000000000000000000000000000000000000000000000000000000000000000",
-                "egldValue": "1234",
+                "moaxValue": "1234",
                 "dctValue": [
                     {
                         "tokenIdentifier": "str:MyToken",
@@ -359,7 +359,7 @@
             "comment": "system send out validator rewards",
             "tx": {
                 "to": "sc:delegation",
-                "egldValue": "555,000,000"
+                "moaxValue": "555,000,000"
             }
         },
         {

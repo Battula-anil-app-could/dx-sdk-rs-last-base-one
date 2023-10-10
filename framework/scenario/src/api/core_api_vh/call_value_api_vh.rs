@@ -15,7 +15,7 @@ impl<VHB: VMHooksApiBackend> CallValueApiImpl for VMHooksApi<VHB> {
         self.with_vm_hooks(|vh| vh.check_no_payment())
     }
 
-    fn load_egld_value(&self, dest: Self::BigIntHandle) {
+    fn load_moax_value(&self, dest: Self::BigIntHandle) {
         self.assert_live_handle(&dest);
         self.with_vm_hooks(|vh| vh.big_int_get_call_value(dest.get_raw_handle_unchecked()));
     }

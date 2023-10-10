@@ -26,7 +26,7 @@
             "tx": {
                 "from": "address:a_user",
                 "to": "sc:forwarder-queue",
-                "egldValue": "1000",
+                "moaxValue": "1000",
                 "function": "add_queued_call_legacy_async",
                 "arguments": [
                     "sc:vault",
@@ -56,7 +56,7 @@
                         "address": "sc:forwarder-queue",
                         "endpoint": "str:forward_queued_calls",
                         "topics": [
-                            "str:forward_queued_call_egld",
+                            "str:forward_queued_call_moax",
                             "1",
                             "sc:vault",
                             "str:accept_funds",

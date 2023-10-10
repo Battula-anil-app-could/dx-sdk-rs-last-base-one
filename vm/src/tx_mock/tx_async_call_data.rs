@@ -22,7 +22,7 @@ pub fn async_call_tx_input(async_call: &AsyncCallTxData) -> TxInput {
     TxInput {
         from: async_call.from.clone(),
         to: async_call.to.clone(),
-        egld_value: async_call.call_value.clone(),
+        moax_value: async_call.call_value.clone(),
         dct_values: Vec::new(),
         func_name: async_call.endpoint_name.clone(),
         args: async_call.arguments.clone(),
@@ -57,7 +57,7 @@ pub fn async_callback_tx_input(
     TxInput {
         from: async_data.to.clone(),
         to: async_data.from.clone(),
-        egld_value: 0u32.into(),
+        moax_value: 0u32.into(),
         dct_values: Vec::new(),
         func_name: TxFunctionName::CALLBACK,
         args,
@@ -82,7 +82,7 @@ fn extract_callback_payments(
             if !token_transfers.is_empty() {
                 callback_payments.dct_values = token_transfers.transfers;
             } else {
-                callback_payments.egld_value = async_call.call_value.clone();
+                callback_payments.moax_value = async_call.call_value.clone();
             }
             break;
         }
@@ -109,7 +109,7 @@ pub fn async_promise_tx_input(
     TxInput {
         from: promise.call.from.clone(),
         to: address.clone(),
-        egld_value: 0u32.into(),
+        moax_value: 0u32.into(),
         dct_values: Vec::new(),
         func_name: callback_name,
         args,

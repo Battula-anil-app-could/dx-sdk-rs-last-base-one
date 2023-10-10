@@ -10,7 +10,7 @@ pub fn process_payable_attribute(
 			pass_1_data.payable = parse_payable_identifier(identifier.as_str());
 		} else {
 			panic!(
-				"Endpoint `payable` attribute requires one argument. Replace with `#[payable(\"*\")]` or `#[payable(\"EGLD\")]`. Method name: {}",
+				"Endpoint `payable` attribute requires one argument. Replace with `#[payable(\"*\")]` or `#[payable(\"MOAX\")]`. Method name: {}",
 				&pass_1_data.method_name);
 		}
 	}).is_some()
@@ -18,7 +18,7 @@ pub fn process_payable_attribute(
 
 fn parse_payable_identifier(identifier: &str) -> MethodPayableMetadata {
     match identifier {
-        "EGLD" => MethodPayableMetadata::Egld,
+        "MOAX" => MethodPayableMetadata::Moax,
         "*" => MethodPayableMetadata::AnyToken,
         "" => panic!("empty token name not allowed in #[payable] attribute"),
         _ => MethodPayableMetadata::SingleDctToken(identifier.to_string()),

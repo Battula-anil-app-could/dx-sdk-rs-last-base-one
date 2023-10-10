@@ -6,7 +6,7 @@ const ROYALTIES_MAX: u32 = 10_000;
 
 #[derive(TypeAbi, TopEncode, TopDecode)]
 pub struct PriceTag<M: ManagedTypeApi> {
-    pub token: EgldOrDctTokenIdentifier<M>,
+    pub token: MoaxOrDctTokenIdentifier<M>,
     pub nonce: u64,
     pub amount: BigUint<M>,
 }
@@ -16,12 +16,12 @@ pub trait NftModule {
     // endpoints - owner-only
 
     #[only_owner]
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint(issueToken)]
     fn issue_token(&self, token_name: ManagedBuffer, token_ticker: ManagedBuffer) {
         require!(self.nft_token_id().is_empty(), "Token already issued");
 
-        let payment_amount = self.call_value().egld_value();
+        let payment_amount = self.call_value().moax_value();
         self.send()
             .dct_system_sc_proxy()
             .issue_non_fungible(
@@ -64,7 +64,7 @@ pub trait NftModule {
     #[payable("*")]
     #[endpoint(buyNft)]
     fn buy_nft(&self, nft_nonce: u64) {
-        let payment = self.call_value().egld_or_single_dct();
+        let payment = self.call_value().moax_or_single_dct();
 
         self.require_token_issued();
         require!(
@@ -113,7 +113,7 @@ pub trait NftModule {
     fn get_nft_price(
         &self,
         nft_nonce: u64,
-    ) -> OptionalValue<MultiValue3<EgldOrDctTokenIdentifier, u64, BigUint>> {
+    ) -> OptionalValue<MultiValue3<MoaxOrDctTokenIdentifier, u64, BigUint>> {
         if self.price_tag(nft_nonce).is_empty() {
             // NFT was already sold
             OptionalValue::None
@@ -129,7 +129,7 @@ pub trait NftModule {
     #[callback]
     fn issue_callback(
         &self,
-        #[call_result] result: ManagedAsyncCallResult<EgldOrDctTokenIdentifier>,
+        #[call_result] result: ManagedAsyncCallResult<MoaxOrDctTokenIdentifier>,
     ) {
         match result {
             ManagedAsyncCallResult::Ok(token_id) => {
@@ -137,8 +137,8 @@ pub trait NftModule {
             },
             ManagedAsyncCallResult::Err(_) => {
                 let caller = self.blockchain().get_owner_address();
-                let returned = self.call_value().egld_or_single_dct();
-                if returned.token_identifier.is_egld() && returned.amount > 0 {
+                let returned = self.call_value().moax_or_single_dct();
+                if returned.token_identifier.is_moax() && returned.amount > 0 {
                     self.send()
                         .direct(&caller, &returned.token_identifier, 0, &returned.amount);
                 }
@@ -156,7 +156,7 @@ pub trait NftModule {
         attributes: T,
         uri: ManagedBuffer,
         selling_price: BigUint,
-        token_used_as_payment: EgldOrDctTokenIdentifier,
+        token_used_as_payment: MoaxOrDctTokenIdentifier,
         token_used_as_payment_nonce: u64,
     ) -> u64 {
         self.require_token_issued();

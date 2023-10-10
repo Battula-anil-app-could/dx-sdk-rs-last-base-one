@@ -41,7 +41,7 @@ async fn main() {
             adder_interact.deploy().await;
         },
         Some(adder_interact_cli::InteractCliCommand::Feed) => {
-            adder_interact.feed_contract_egld().await;
+            adder_interact.feed_contract_moax().await;
         },
         Some(adder_interact_cli::InteractCliCommand::MultiDeploy(args)) => {
             adder_interact.multi_deploy(&args.count).await;
@@ -161,14 +161,14 @@ impl AdderInteract {
         }
     }
 
-    async fn feed_contract_egld(&mut self) {
+    async fn feed_contract_moax(&mut self) {
         let _ = self
             .interactor
             .transfer(
                 TransferStep::new()
                     .from(&self.wallet_address)
                     .to(self.state.adder())
-                    .egld_value("0,050000000000000000"),
+                    .moax_value("0,050000000000000000"),
             )
             .await;
     }

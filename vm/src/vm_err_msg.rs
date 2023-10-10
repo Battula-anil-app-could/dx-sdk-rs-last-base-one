@@ -1,4 +1,4 @@
-pub const NON_PAYABLE_FUNC_EGLD: &str = "function does not accept EGLD payment";
+pub const NON_PAYABLE_FUNC_MOAX: &str = "function does not accept MOAX payment";
 pub const NON_PAYABLE_FUNC_DCT: &str = "function does not accept DCT payment";
 
 pub const BIG_INT_BITWISE_OPERATION_NEGATIVE: &str =

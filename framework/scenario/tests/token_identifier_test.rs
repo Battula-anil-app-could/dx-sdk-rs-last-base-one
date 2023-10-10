@@ -1,30 +1,30 @@
 use dharitri_sc::types::{
-    BoxedBytes, EgldOrDctTokenIdentifier, EgldOrDctTokenPayment, DctTokenPayment, ManagedBuffer,
+    BoxedBytes, MoaxOrDctTokenIdentifier, MoaxOrDctTokenPayment, DctTokenPayment, ManagedBuffer,
     TokenIdentifier,
 };
 use dharitri_sc_scenario::{
-    api::StaticApi, managed_egld_token_id, managed_test_util::check_managed_top_encode_decode,
+    api::StaticApi, managed_moax_token_id, managed_test_util::check_managed_top_encode_decode,
     managed_token_id, managed_token_id_wrapped, dharitri_sc,
 };
 
 #[test]
-fn test_egld() {
-    assert!(EgldOrDctTokenIdentifier::<StaticApi>::egld().is_egld());
+fn test_moax() {
+    assert!(MoaxOrDctTokenIdentifier::<StaticApi>::moax().is_moax());
 }
 
 #[test]
 fn test_codec() {
     check_managed_top_encode_decode(
-        EgldOrDctTokenIdentifier::<StaticApi>::egld(),
-        EgldOrDctTokenIdentifier::<StaticApi>::EGLD_REPRESENTATION,
+        MoaxOrDctTokenIdentifier::<StaticApi>::moax(),
+        MoaxOrDctTokenIdentifier::<StaticApi>::MOAX_REPRESENTATION,
     );
 
     let expected = BoxedBytes::from_concat(&[
         &[0, 0, 0, 4],
-        &EgldOrDctTokenIdentifier::<StaticApi>::EGLD_REPRESENTATION[..],
+        &MoaxOrDctTokenIdentifier::<StaticApi>::MOAX_REPRESENTATION[..],
     ]);
     check_managed_top_encode_decode(
-        vec![EgldOrDctTokenIdentifier::<StaticApi>::egld()],
+        vec![MoaxOrDctTokenIdentifier::<StaticApi>::moax()],
         expected.as_slice(),
     );
 }
@@ -128,19 +128,19 @@ fn test_ticker() {
 }
 
 #[test]
-fn test_is_valid_egld_or_dct() {
-    // egld is always valid
-    assert!(EgldOrDctTokenIdentifier::<StaticApi>::egld().is_valid());
+fn test_is_valid_moax_or_dct() {
+    // moax is always valid
+    assert!(MoaxOrDctTokenIdentifier::<StaticApi>::moax().is_valid());
 
     // valid dct
     assert!(
-        EgldOrDctTokenIdentifier::<StaticApi>::dct(TokenIdentifier::from("ALC-6258d2"))
+        MoaxOrDctTokenIdentifier::<StaticApi>::dct(TokenIdentifier::from("ALC-6258d2"))
             .is_valid()
     );
 
     // invalid dct, see above
     assert!(
-        !EgldOrDctTokenIdentifier::<StaticApi>::dct(TokenIdentifier::from("ALCCCCCCCCC-6258d2"))
+        !MoaxOrDctTokenIdentifier::<StaticApi>::dct(TokenIdentifier::from("ALCCCCCCCCC-6258d2"))
             .is_valid()
     );
 }
@@ -157,16 +157,16 @@ fn test_token_identifier_eq() {
     );
 
     assert_eq!(
-        EgldOrDctTokenIdentifier::<StaticApi>::dct(TokenIdentifier::from("DCT-00003")),
+        MoaxOrDctTokenIdentifier::<StaticApi>::dct(TokenIdentifier::from("DCT-00003")),
         TokenIdentifier::<StaticApi>::from("DCT-00003")
     );
     assert_ne!(
-        EgldOrDctTokenIdentifier::<StaticApi>::egld(),
+        MoaxOrDctTokenIdentifier::<StaticApi>::moax(),
         TokenIdentifier::<StaticApi>::from("ANYTHING-1234")
     );
     assert_ne!(
-        EgldOrDctTokenIdentifier::<StaticApi>::egld(),
-        TokenIdentifier::<StaticApi>::from("EGLD")
+        MoaxOrDctTokenIdentifier::<StaticApi>::moax(),
+        TokenIdentifier::<StaticApi>::from("MOAX")
     );
 }
 
@@ -181,48 +181,48 @@ fn test_payment_eq() {
         DctTokenPayment::<StaticApi>::new("PAY-00002".into(), 0, 1000u32.into()),
     );
     assert_eq!(
-        EgldOrDctTokenPayment::<StaticApi>::no_payment(),
-        EgldOrDctTokenPayment::<StaticApi>::no_payment(),
+        MoaxOrDctTokenPayment::<StaticApi>::no_payment(),
+        MoaxOrDctTokenPayment::<StaticApi>::no_payment(),
     );
     assert_eq!(
-        EgldOrDctTokenPayment::<StaticApi>::new(
-            EgldOrDctTokenIdentifier::dct("DCTPAY-00000"),
+        MoaxOrDctTokenPayment::<StaticApi>::new(
+            MoaxOrDctTokenIdentifier::dct("DCTPAY-00000"),
             0,
             1000u32.into()
         ),
-        EgldOrDctTokenPayment::<StaticApi>::new(
-            EgldOrDctTokenIdentifier::dct("DCTPAY-00000"),
-            0,
-            1000u32.into()
-        ),
-    );
-    assert_ne!(
-        EgldOrDctTokenPayment::<StaticApi>::new(
-            EgldOrDctTokenIdentifier::dct("DCTPAY-00001"),
-            0,
-            1000u32.into()
-        ),
-        EgldOrDctTokenPayment::<StaticApi>::new(
-            EgldOrDctTokenIdentifier::dct("DCTPAY-00002"),
+        MoaxOrDctTokenPayment::<StaticApi>::new(
+            MoaxOrDctTokenIdentifier::dct("DCTPAY-00000"),
             0,
             1000u32.into()
         ),
     );
     assert_ne!(
-        EgldOrDctTokenPayment::<StaticApi>::new(
-            EgldOrDctTokenIdentifier::dct("DCTPAY-00001"),
+        MoaxOrDctTokenPayment::<StaticApi>::new(
+            MoaxOrDctTokenIdentifier::dct("DCTPAY-00001"),
             0,
             1000u32.into()
         ),
-        EgldOrDctTokenPayment::<StaticApi>::no_payment(),
+        MoaxOrDctTokenPayment::<StaticApi>::new(
+            MoaxOrDctTokenIdentifier::dct("DCTPAY-00002"),
+            0,
+            1000u32.into()
+        ),
+    );
+    assert_ne!(
+        MoaxOrDctTokenPayment::<StaticApi>::new(
+            MoaxOrDctTokenIdentifier::dct("DCTPAY-00001"),
+            0,
+            1000u32.into()
+        ),
+        MoaxOrDctTokenPayment::<StaticApi>::no_payment(),
     );
 }
 
 #[test]
 fn test_managed_token_id_macro() {
     assert_eq!(
-        managed_egld_token_id!(),
-        EgldOrDctTokenIdentifier::<StaticApi>::egld()
+        managed_moax_token_id!(),
+        MoaxOrDctTokenIdentifier::<StaticApi>::moax()
     );
     assert_eq!(
         managed_token_id!(b"ALC-6258d2"),

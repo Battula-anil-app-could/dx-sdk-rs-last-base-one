@@ -174,14 +174,14 @@ impl SendApiImpl for VmApiImpl {
     fn async_call_raw(
         &self,
         to_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
     ) -> ! {
         unsafe {
             managedAsyncCall(
                 to_handle,
-                egld_value_handle,
+                moax_value_handle,
                 endpoint_name_handle,
                 arg_buffer_handle,
             )
@@ -191,7 +191,7 @@ impl SendApiImpl for VmApiImpl {
     fn create_async_call_raw(
         &self,
         to_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
         success_callback: &'static str,
@@ -203,7 +203,7 @@ impl SendApiImpl for VmApiImpl {
         unsafe {
             let _ = managedCreateAsyncCall(
                 to_handle,
-                egld_value_handle,
+                moax_value_handle,
                 endpoint_name_handle,
                 arg_buffer_handle,
                 success_callback.as_ptr(),
@@ -220,7 +220,7 @@ impl SendApiImpl for VmApiImpl {
     fn deploy_contract(
         &self,
         gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         code_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
@@ -230,7 +230,7 @@ impl SendApiImpl for VmApiImpl {
         unsafe {
             let _ = managedCreateContract(
                 gas as i64,
-                egld_value_handle,
+                moax_value_handle,
                 code_handle,
                 code_metadata_handle,
                 arg_buffer_handle,
@@ -243,7 +243,7 @@ impl SendApiImpl for VmApiImpl {
     fn deploy_from_source_contract(
         &self,
         gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         source_contract_address_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
@@ -253,7 +253,7 @@ impl SendApiImpl for VmApiImpl {
         unsafe {
             let _ = managedDeployFromSourceContract(
                 gas as i64,
-                egld_value_handle,
+                moax_value_handle,
                 source_contract_address_handle,
                 code_metadata_handle,
                 arg_buffer_handle,
@@ -267,7 +267,7 @@ impl SendApiImpl for VmApiImpl {
         &self,
         sc_address_handle: RawHandle,
         gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         source_contract_address_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
@@ -277,7 +277,7 @@ impl SendApiImpl for VmApiImpl {
             managedUpgradeFromSourceContract(
                 sc_address_handle,
                 gas as i64,
-                egld_value_handle,
+                moax_value_handle,
                 source_contract_address_handle,
                 code_metadata_handle,
                 arg_buffer_handle,
@@ -290,7 +290,7 @@ impl SendApiImpl for VmApiImpl {
         &self,
         sc_address_handle: RawHandle,
         gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         code_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
@@ -300,7 +300,7 @@ impl SendApiImpl for VmApiImpl {
             managedUpgradeContract(
                 sc_address_handle,
                 gas as i64,
-                egld_value_handle,
+                moax_value_handle,
                 code_handle,
                 code_metadata_handle,
                 arg_buffer_handle,
@@ -316,7 +316,7 @@ impl SendApiImpl for VmApiImpl {
         &self,
         gas: u64,
         to_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
         result_handle: RawHandle,
@@ -325,7 +325,7 @@ impl SendApiImpl for VmApiImpl {
             let _ = managedExecuteOnDestContext(
                 gas as i64,
                 to_handle,
-                egld_value_handle,
+                moax_value_handle,
                 endpoint_name_handle,
                 arg_buffer_handle,
                 result_handle,
@@ -337,7 +337,7 @@ impl SendApiImpl for VmApiImpl {
         &self,
         gas: u64,
         to_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
         result_handle: RawHandle,
@@ -346,7 +346,7 @@ impl SendApiImpl for VmApiImpl {
             let _ = managedExecuteOnSameContext(
                 gas as i64,
                 to_handle,
-                egld_value_handle,
+                moax_value_handle,
                 endpoint_name_handle,
                 arg_buffer_handle,
                 result_handle,

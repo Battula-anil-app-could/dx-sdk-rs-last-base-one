@@ -18,7 +18,7 @@ They are:
     - `dharitri-sc-wasm-adapter`
     - `dharitri-sc-modules` - *standard contract modules*
 	- `dharitri-price-aggregator-sc` - *core contract*
-	- `dharitri-wegld-swap-sc` - *core contract*
+	- `dharitri-wmoax-swap-sc` - *core contract*
 - `dharitri-sc-codec`, in short `codec`, the serializer/deserializer, 2 crates:
 	- `dharitri-sc-codec`
 	- `dharitri-sc-codec-derive`
@@ -32,7 +32,7 @@ They are:
 - Testing framework: check NFT balances and attributes.
 
 ## [sc 0.43.3, vm 0.5.2] - 2023-09-08
-- Added several new methods in the `SendWrapper`, which perform EGLD & DCT transfers but don't do anything if the value is zero.
+- Added several new methods in the `SendWrapper`, which perform MOAX & DCT transfers but don't do anything if the value is zero.
 - Added the `DeleteUsername` builtin function to the VM.
 - Minor fixes in API wrapper constructors.
 
@@ -123,7 +123,7 @@ They are:
 - `ManagedVecItem` implementation for arrays.
 
 ## [sc 0.40.0, vm 0.2.0] - 2023-04-20
-- Call value `egld_value` and `all_dct_transfers` methods return `ManagedRef` instead of owned objects, because they are cached (to avoid accidental corruption of the underlying cache).
+- Call value `moax_value` and `all_dct_transfers` methods return `ManagedRef` instead of owned objects, because they are cached (to avoid accidental corruption of the underlying cache).
 
 ## [sc 0.39.8, vm 0.1.8] - 2023-03-29
 - `dharitri-sc-meta` `test-gen` command: generates Rust integration tests based on scenarios present in the `scenarios` folder.
@@ -235,7 +235,7 @@ They are:
 ## [dharitri-wasm 0.34.1] - 2022-07-19
 - `#[only_admin]` annotation
 - Safer BigUint/BigInt conversions
-- Added and published `price-aggregator` and `wegld-swap` core contracts.
+- Added and published `price-aggregator` and `wmoax-swap` core contracts.
 
 ## [dharitri-wasm 0.34.0, dharitri-codec 0.12.0, mandos 0.16.0, dharitri-interact-snippets 0.1.0] - 2022-07-08
 - Major refactor of the mandos-rs infrastructure.
@@ -257,7 +257,7 @@ They are:
 - CodecSelf for BigInt
 
 ## [dharitri-wasm 0.33.0, mandos 0.15.0] - 2022-06-20
-- Removed the data field for direct EGLD & DCT transfers.
+- Removed the data field for direct MOAX & DCT transfers.
 - Testing and debugging environment aligned with VM version 1.4.53.
 - Call value and token data infrastructure additional cleanup.
 
@@ -269,11 +269,11 @@ They are:
 	- Functionality available by adding the `ei-1-2` flag to contracts.
 - `BigFloat` functionality. Since the functionality is not yet deployed on mainnet, use flag `big-float` to use.
 - Major refactoring of the call value mechanism:
-	- `TokenIdentifier` now only refers to DCT, for mixed EGLD+DCT we have `EgldOrDctTokenIdentifier`.
-	- `DctTokenPayment` now only refers to DCT, for mixed EGLD+DCT we have `EgldOrDctTokenPayment`.
+	- `TokenIdentifier` now only refers to DCT, for mixed MOAX+DCT we have `MoaxOrDctTokenIdentifier`.
+	- `DctTokenPayment` now only refers to DCT, for mixed MOAX+DCT we have `MoaxOrDctTokenPayment`.
 	- Compact version for multi-transfer: `let [payment_a, payment_b, payment_c] = self.call_value().multi_dct();`.
-	- Explicit `single_dct` vs. `single_fungible_dct` vs. `egld_or_single_dct` vs. `egld_or_single_fungible_dct`.
-	- Payment arguments are still supported, although discouraged. They always assume the EGLD+DCT scenario.
+	- Explicit `single_dct` vs. `single_fungible_dct` vs. `moax_or_single_dct` vs. `moax_or_single_fungible_dct`.
+	- Payment arguments are still supported, although discouraged. They always assume the MOAX+DCT scenario.
 - `ManagedOption` provides some minor optimization for specific use-cases. Mostly for use in the framework.
 - Cleanup in the callback mechanism and in the `SendApi`.
 - `SparseArray` implementation.
@@ -620,7 +620,7 @@ They are:
 - SingleValueMapper redesigned for easier use. It no longer keeps the storage value cached.
 
 ## [dharitri-wasm 0.12.0] - 2021-02-25
-- Reorganized DCT and EGLD direct send api.
+- Reorganized DCT and MOAX direct send api.
 - New async call syntax
 	- redesigned contract proxies
 	- contract calls are communicated via objects returned from endpoint methods
@@ -643,17 +643,17 @@ They are:
     - contracts now use the new API + more mandos tests
 - Call Value API refactor and `#[payable]` updates:
 	- Main features:
-    	- `#[payable]` annotation more versatile: `#[payable("EGLD")]` `#[payable("TOKEN-ID")]` `#[payable("*")]`
+    	- `#[payable]` annotation more versatile: `#[payable("MOAX")]` `#[payable("TOKEN-ID")]` `#[payable("*")]`
     	- `#[payable]` still accepted but throws a warning, will become unsupported in the future.
     	- `#[payment]` argument attribute now also provides DCT payment where applicable
-    	- a new TokenIdentifier type that encodes the EGLD special token and any DCT token
+    	- a new TokenIdentifier type that encodes the MOAX special token and any DCT token
     	- a new `#[token_identifier]` argument attribute provides the token id. Similar to `#[payment]` it is a fake argument, not exported.
-    	- ABI updated ("payableInTokens" is no longer restricted to "EGLD")
+    	- ABI updated ("payableInTokens" is no longer restricted to "MOAX")
     	- all new features covered by mandos tests
-    	- async proxies still only accept `#[payable("EGLD")]`, but that is for future updates
+    	- async proxies still only accept `#[payable("MOAX")]`, but that is for future updates
 	- Less visible changes:
     	- all call value hooks now grouped in a new CallValueApi
-    	- for low-level access, developers now need to write self.call_value().egld_value(), etc.
+    	- for low-level access, developers now need to write self.call_value().moax_value(), etc.
     	- some optimizations in the handling of call value hooks
 	- Refactoring:
     	- parse_attr mod was split into a proper folder with many files, since it had grown too large

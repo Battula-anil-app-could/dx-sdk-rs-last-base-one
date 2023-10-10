@@ -8,13 +8,13 @@ publish = false
 [lib]
 path = "src/mmap_features.rs"
 [dependencies.dharitri-sc]
-version = "0.43.4"
+version = "0.0.1"
 path = "../../../framework/base"
 
 features = ["managed-map"]
 
 [dev-dependencies.dharitri-sc-scenario]
-version = "0.43.4"
+version = "0.0.1"
 path = "../../../framework/scenario"
 
 [dev-dependencies.dct-system-sc-mock]

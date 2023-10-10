@@ -16,7 +16,7 @@ pub trait NftSubscription:
     fn issue(&self) {
         self.token_id().issue_and_set_all_roles(
             DctTokenType::NonFungible,
-            self.call_value().egld_value().clone_value(),
+            self.call_value().moax_value().clone_value(),
             ManagedBuffer::from(b"Subscription"),
             ManagedBuffer::from(b"SUB"),
             0,

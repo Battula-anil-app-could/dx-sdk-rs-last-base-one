@@ -26,18 +26,18 @@ pub trait ForwarderRaw:
     fn callback_raw(&self, args: MultiValueEncoded<ManagedBuffer>) {
         let payments = self.call_value().all_dct_transfers();
         if payments.is_empty() {
-            let egld_value = self.call_value().egld_value();
-            if *egld_value > 0 {
+            let moax_value = self.call_value().moax_value();
+            if *moax_value > 0 {
                 let _ = self.callback_payments().push(&(
-                    EgldOrDctTokenIdentifier::egld(),
+                    MoaxOrDctTokenIdentifier::moax(),
                     0,
-                    egld_value.clone_value(),
+                    moax_value.clone_value(),
                 ));
             }
         } else {
             for payment in payments.into_iter() {
                 let _ = self.callback_payments().push(&(
-                    EgldOrDctTokenIdentifier::dct(payment.token_identifier),
+                    MoaxOrDctTokenIdentifier::dct(payment.token_identifier),
                     payment.token_nonce,
                     payment.amount,
                 ));

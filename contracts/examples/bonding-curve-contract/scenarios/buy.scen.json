@@ -12,7 +12,7 @@
                 "to": "sc:bonding-curve-contract",
                 "dctValue": [
                     {
-                        "tokenIdentifier": "str:EGLD-135790",
+                        "tokenIdentifier": "str:MOAX-135790",
                         "value": "100"
                     }
                 ],
@@ -38,7 +38,7 @@
                 "to": "sc:bonding-curve-contract",
                 "dctValue": [
                     {
-                        "tokenIdentifier": "str:EGLD-135790",
+                        "tokenIdentifier": "str:MOAX-135790",
                         "value": "10000"
                     }
                 ],
@@ -65,7 +65,7 @@
                 "to": "sc:bonding-curve-contract",
                 "dctValue": [
                     {
-                        "tokenIdentifier": "str:EGLD-135790",
+                        "tokenIdentifier": "str:MOAX-135790",
                         "value": "10000"
                     }
                 ],
@@ -91,7 +91,7 @@
                 "to": "sc:bonding-curve-contract",
                 "dctValue": [
                     {
-                        "tokenIdentifier": "str:EGLD-135790",
+                        "tokenIdentifier": "str:MOAX-135790",
                         "value": "100"
                     }
                 ],
@@ -123,7 +123,7 @@
                     "nonce": "2",
                     "balance": "0",
                     "dct": {
-                        "str:EGLD-135790": "135",
+                        "str:MOAX-135790": "135",
                         "str:MFFT-123456": "10",
                         "str:MFSFT-246802": {
                             "instances": [
@@ -140,7 +140,7 @@
                     "nonce": "2",
                     "balance": "0",
                     "dct": {
-                        "str:EGLD-135790": "19951",
+                        "str:MOAX-135790": "19951",
                         "str:MFNFT-567890": {
                             "instances": [
                                 {
@@ -216,7 +216,7 @@
                     "balance": "0",
                     "dct": {
                         "str:MFFT-123456": "690",
-                        "str:EGLD-135790": "114",
+                        "str:MOAX-135790": "114",
                         "str:MFSFT-246802": {
                             "instances": [
                                 {
@@ -243,9 +243,9 @@
                         }
                     },
                     "storage": {
-                        "str:bonding_curve|nested:str:MFFT-123456": "u8:0|biguint:1|biguint:1|biguint:700|biguint:690|u8:1|nested:str:EGLD-135790|u64:0|biguint:55",
-                        "str:bonding_curve|nested:str:MFSFT-246802": "u8:0|biguint:0|biguint:1|biguint:2500|biguint:2495|u8:0|nested:str:EGLD-135790|u64:0|biguint:10",
-                        "str:bonding_curve|nested:str:MFNFT-567890": "u8:1|biguint:1|biguint:7|biguint:2|u8:1|nested:str:EGLD-135790|u64:0|biguint:49",
+                        "str:bonding_curve|nested:str:MFFT-123456": "u8:0|biguint:1|biguint:1|biguint:700|biguint:690|u8:1|nested:str:MOAX-135790|u64:0|biguint:55",
+                        "str:bonding_curve|nested:str:MFSFT-246802": "u8:0|biguint:0|biguint:1|biguint:2500|biguint:2495|u8:0|nested:str:MOAX-135790|u64:0|biguint:10",
+                        "str:bonding_curve|nested:str:MFNFT-567890": "u8:1|biguint:1|biguint:7|biguint:2|u8:1|nested:str:MOAX-135790|u64:0|biguint:49",
                         "str:token_details|nested:str:MFFT-123456": "u32:1|u64:0|address:artist1",
                         "str:token_details|nested:str:MFSFT-246802": "u32:2|u64:1|u64:17|address:artist2",
                         "str:token_details|nested:str:MFNFT-567890": "u32:2|u64:8|u64:9|address:artist1",

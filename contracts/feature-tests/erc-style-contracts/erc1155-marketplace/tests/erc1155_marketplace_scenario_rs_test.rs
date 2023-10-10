@@ -20,23 +20,23 @@ fn auction_batch_rs() {
 }
 
 #[test]
-fn auction_single_token_egld_rs() {
-    world().run("scenarios/auction_single_token_egld.scen.json");
+fn auction_single_token_moax_rs() {
+    world().run("scenarios/auction_single_token_moax.scen.json");
 }
 
 #[test]
-fn bid_first_egld_rs() {
-    world().run("scenarios/bid_first_egld.scen.json");
+fn bid_first_moax_rs() {
+    world().run("scenarios/bid_first_moax.scen.json");
 }
 
 #[test]
-fn bid_second_egld_rs() {
-    world().run("scenarios/bid_second_egld.scen.json");
+fn bid_second_moax_rs() {
+    world().run("scenarios/bid_second_moax.scen.json");
 }
 
 #[test]
-fn bid_third_egld_rs() {
-    world().run("scenarios/bid_third_egld.scen.json");
+fn bid_third_moax_rs() {
+    world().run("scenarios/bid_third_moax.scen.json");
 }
 
 #[test]

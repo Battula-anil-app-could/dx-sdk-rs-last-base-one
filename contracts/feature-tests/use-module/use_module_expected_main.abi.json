@@ -14,7 +14,7 @@
         },
         "framework": {
             "name": "dharitri-sc",
-            "version": "0.43.4"
+            "version": "0.0.1"
         }
     },
     "docs": [
@@ -195,7 +195,7 @@
             "onlyOwner": true,
             "mutability": "mutable",
             "payableInTokens": [
-                "EGLD"
+                "MOAX"
             ],
             "inputs": [
                 {
@@ -214,7 +214,7 @@
             "onlyOwner": true,
             "mutability": "mutable",
             "payableInTokens": [
-                "EGLD"
+                "MOAX"
             ],
             "inputs": [
                 {
@@ -705,7 +705,7 @@
             "onlyOwner": true,
             "mutability": "mutable",
             "payableInTokens": [
-                "EGLD"
+                "MOAX"
             ],
             "inputs": [
                 {

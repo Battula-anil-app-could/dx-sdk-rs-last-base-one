@@ -181,7 +181,7 @@
         },
         {
             "step": "scCall",
-            "id": "EGLD-test",
+            "id": "MOAX-test",
             "comment": "send all types",
             "tx": {
                 "from": "address:a_user",
@@ -189,7 +189,7 @@
                 "function": "send_dct_direct_multi_transfer",
                 "arguments": [
                     "address:a_user",
-                    "str:EGLD",
+                    "str:MOAX",
                     "0",
                     "1000"
                 ],

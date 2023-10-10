@@ -82,7 +82,7 @@ pub trait ForwarderDctModule: storage::ForwarderStorageModule {
         );
     }
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint]
     fn issue_fungible_token(
         &self,
@@ -90,7 +90,7 @@ pub trait ForwarderDctModule: storage::ForwarderStorageModule {
         token_ticker: ManagedBuffer,
         initial_supply: BigUint,
     ) {
-        let issue_cost = self.call_value().egld_value();
+        let issue_cost = self.call_value().moax_value();
         let caller = self.blockchain().get_caller();
 
         self.send()
@@ -123,7 +123,7 @@ pub trait ForwarderDctModule: storage::ForwarderStorageModule {
         caller: &ManagedAddress,
         #[call_result] result: ManagedAsyncCallResult<()>,
     ) {
-        let (token_identifier, returned_tokens) = self.call_value().egld_or_single_fungible_dct();
+        let (token_identifier, returned_tokens) = self.call_value().moax_or_single_fungible_dct();
         // callback is called with DCTTransfer of the newly issued token, with the amount requested,
         // so we can get the token identifier and amount from the call data
         match result {
@@ -134,8 +134,8 @@ pub trait ForwarderDctModule: storage::ForwarderStorageModule {
             },
             ManagedAsyncCallResult::Err(message) => {
                 // return issue cost to the caller
-                if token_identifier.is_egld() && returned_tokens > 0 {
-                    self.send().direct_egld(caller, &returned_tokens);
+                if token_identifier.is_moax() && returned_tokens > 0 {
+                    self.send().direct_moax(caller, &returned_tokens);
                 }
 
                 self.last_error_message().set(&message.err_msg);

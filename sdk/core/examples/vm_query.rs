@@ -7,7 +7,7 @@ use dharitri_sdk::{
 #[tokio::main]
 async fn main() {
     let wl = Wallet::from_private_key(
-        "1648ad209d6b157a289884933e3bb30f161ec7113221ec16f87c3578b05830b0",
+        "db6140e6f0854ad8a0b10b3e50e94fb1259b60bb0d7c2665d597eb1970f7a3a9",
     )
     .unwrap();
     let addr = wl.address();

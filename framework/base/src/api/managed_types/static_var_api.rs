@@ -24,9 +24,9 @@ pub trait StaticVarApiImpl {
 
     fn get_num_arguments(&self) -> i32;
 
-    fn set_call_value_egld_handle(&self, handle: RawHandle);
+    fn set_call_value_moax_handle(&self, handle: RawHandle);
 
-    fn get_call_value_egld_handle(&self) -> RawHandle;
+    fn get_call_value_moax_handle(&self) -> RawHandle;
 
     fn set_call_value_multi_dct_handle(&self, handle: RawHandle);
 

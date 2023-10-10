@@ -15,9 +15,9 @@ pub trait CallValueApi: HandleTypeInfo {
 pub trait CallValueApiImpl: ErrorApiImpl + ManagedTypeApiImpl + Sized {
     fn check_not_payable(&self);
 
-    /// Retrieves the EGLD call value from the VM.
-    /// Will return 0 in case of an DCT transfer (cannot have both EGLD and DCT transfer simultaneously).
-    fn load_egld_value(&self, dest_handle: Self::BigIntHandle);
+    /// Retrieves the MOAX call value from the VM.
+    /// Will return 0 in case of an DCT transfer (cannot have both MOAX and DCT transfer simultaneously).
+    fn load_moax_value(&self, dest_handle: Self::BigIntHandle);
 
     /// Loads all DCT call values into a managed vec. Overwrites destination.
     fn load_all_dct_transfers(&self, dest_handle: Self::ManagedBufferHandle);

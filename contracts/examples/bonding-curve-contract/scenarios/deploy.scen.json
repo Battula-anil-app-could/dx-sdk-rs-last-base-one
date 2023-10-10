@@ -13,14 +13,14 @@
                     "nonce": "0",
                     "balance": "0",
                     "dct": {
-                        "str:EGLD-135790": "200"
+                        "str:MOAX-135790": "200"
                     }
                 },
                 "address:buyer2": {
                     "nonce": "0",
                     "balance": "0",
                     "dct": {
-                        "str:EGLD-135790": "20000"
+                        "str:MOAX-135790": "20000"
                     }
                 },
                 "address:artist1": {
@@ -130,14 +130,14 @@
                     "nonce": "0",
                     "balance": "0",
                     "dct": {
-                        "str:EGLD-135790": "200"
+                        "str:MOAX-135790": "200"
                     }
                 },
                 "address:buyer2": {
                     "nonce": "0",
                     "balance": "0",
                     "dct": {
-                        "str:EGLD-135790": "20000"
+                        "str:MOAX-135790": "20000"
                     }
                 },
                 "address:artist1": {

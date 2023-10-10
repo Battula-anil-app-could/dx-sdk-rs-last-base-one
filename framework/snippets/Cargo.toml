@@ -1,6 +1,6 @@
 [package]
 name = "dharitri-sc-snippets"
-version = "0.43.4"
+version = "0.0.1"
 edition = "2021"
 
 authors = ["Dharitri <contact@dharitri.com>"]
@@ -22,9 +22,9 @@ env_logger = "0.8.4"
 futures = "0.3"
 
 [dependencies.dharitri-sc-scenario]
-version = "=0.43.4"
+version = "=0.0.1"
 path = "../scenario"
 
 [dependencies.dharitri-sdk]
-version = "=0.2.0"
+version = "=0.0.1"
 path = "../../sdk/core"

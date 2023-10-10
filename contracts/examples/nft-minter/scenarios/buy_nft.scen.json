@@ -11,7 +11,7 @@
             "tx": {
                 "from": "address:buyer",
                 "to": "sc:nft-minter",
-                "egldValue": "400",
+                "moaxValue": "400",
                 "function": "buyNft",
                 "arguments": [
                     "1"
@@ -33,7 +33,7 @@
             "tx": {
                 "from": "address:buyer",
                 "to": "sc:nft-minter",
-                "egldValue": "500",
+                "moaxValue": "500",
                 "function": "buyNft",
                 "arguments": [
                     "3"
@@ -55,7 +55,7 @@
             "tx": {
                 "from": "address:buyer",
                 "to": "sc:nft-minter",
-                "egldValue": "500",
+                "moaxValue": "500",
                 "function": "buyNft",
                 "arguments": [
                     "1"

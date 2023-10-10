@@ -79,7 +79,7 @@
             "expect": {
                 "out": [],
                 "status": "4",
-                "message": "str:Got token TOKEN-123456, with nonce 0, amount 1000. I prefer EGLD. ERROR!",
+                "message": "str:Got token TOKEN-123456, with nonce 0, amount 1000. I prefer MOAX. ERROR!",
                 "logs": "*",
                 "gas": "*",
                 "refund": "*"
@@ -105,7 +105,7 @@
             "expect": {
                 "out": [],
                 "status": "4",
-                "message": "str:Got token TOKEN-123456, with nonce 0, amount 1000. I prefer EGLD. ERROR!",
+                "message": "str:Got token TOKEN-123456, with nonce 0, amount 1000. I prefer MOAX. ERROR!",
                 "logs": "*",
                 "gas": "*",
                 "refund": "*"

@@ -41,11 +41,11 @@ impl StaticVarApiImpl for UncallableApi {
         unreachable!()
     }
 
-    fn set_call_value_egld_handle(&self, _handle: RawHandle) {
+    fn set_call_value_moax_handle(&self, _handle: RawHandle) {
         unreachable!()
     }
 
-    fn get_call_value_egld_handle(&self) -> RawHandle {
+    fn get_call_value_moax_handle(&self) -> RawHandle {
         unreachable!()
     }
 

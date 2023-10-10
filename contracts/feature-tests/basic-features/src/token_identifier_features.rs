@@ -3,12 +3,12 @@ dharitri_sc::imports!();
 #[dharitri_sc::module]
 pub trait TokenIdentifierFeatures {
     #[endpoint]
-    fn token_identifier_egld(&self) -> EgldOrDctTokenIdentifier {
-        EgldOrDctTokenIdentifier::egld()
+    fn token_identifier_moax(&self) -> MoaxOrDctTokenIdentifier {
+        MoaxOrDctTokenIdentifier::moax()
     }
 
     #[endpoint]
-    fn token_identifier_is_valid_1(&self, token_id: EgldOrDctTokenIdentifier) -> bool {
+    fn token_identifier_is_valid_1(&self, token_id: MoaxOrDctTokenIdentifier) -> bool {
         token_id.is_valid()
     }
 

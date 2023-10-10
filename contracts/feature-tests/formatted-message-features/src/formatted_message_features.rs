@@ -25,9 +25,9 @@ pub trait FormattedMessageFeatures {
     #[payable("*")]
     #[endpoint]
     fn dynamic_message_multiple(&self) {
-        let (token_id, nonce, amount) = self.call_value().egld_or_single_dct().into_tuple();
+        let (token_id, nonce, amount) = self.call_value().moax_or_single_dct().into_tuple();
         sc_panic!(
-            "Got token {}, with nonce {}, amount {}. I prefer EGLD. ERROR!",
+            "Got token {}, with nonce {}, amount {}. I prefer MOAX. ERROR!",
             &&token_id, // references are accepted
             nonce,
             &amount
@@ -37,9 +37,9 @@ pub trait FormattedMessageFeatures {
     #[payable("*")]
     #[endpoint]
     fn dynamic_message_ascii(&self) {
-        let (token_id, nonce, amount) = self.call_value().egld_or_single_dct().into_tuple();
+        let (token_id, nonce, amount) = self.call_value().moax_or_single_dct().into_tuple();
         sc_panic!(
-            "Got token {}, with nonce {}, amount {}. I prefer EGLD. ERROR!",
+            "Got token {}, with nonce {}, amount {}. I prefer MOAX. ERROR!",
             token_id,
             nonce,
             amount, // trailing comma allowed

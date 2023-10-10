@@ -2,22 +2,22 @@
 
 dharitri_sc::imports!();
 
-const EGLD_DECIMALS: usize = 18;
+const MOAX_DECIMALS: usize = 18;
 
 #[dharitri_sc::contract]
 pub trait Child {
     #[init]
     fn init(&self) {}
 
-    #[payable("EGLD")]
-    #[endpoint(issueWrappedEgld)]
-    fn issue_wrapped_egld(
+    #[payable("MOAX")]
+    #[endpoint(issueWrappedMoax)]
+    fn issue_wrapped_moax(
         &self,
         token_display_name: ManagedBuffer,
         token_ticker: ManagedBuffer,
         initial_supply: BigUint,
     ) {
-        let issue_cost = self.call_value().egld_value();
+        let issue_cost = self.call_value().moax_value();
         self.send()
             .dct_system_sc_proxy()
             .issue_fungible(
@@ -26,7 +26,7 @@ pub trait Child {
                 &token_ticker,
                 &initial_supply,
                 FungibleTokenProperties {
-                    num_decimals: EGLD_DECIMALS,
+                    num_decimals: MOAX_DECIMALS,
                     can_freeze: false,
                     can_wipe: false,
                     can_pause: false,
@@ -47,12 +47,12 @@ pub trait Child {
     #[callback]
     fn dct_issue_callback(&self, #[call_result] _result: IgnoreValue) {
         let (token_identifier, _amount) = self.call_value().single_fungible_dct();
-        self.wrapped_egld_token_identifier().set(&token_identifier);
+        self.wrapped_moax_token_identifier().set(&token_identifier);
     }
 
     // storage
 
-    #[view(getWrappedEgldTokenIdentifier)]
-    #[storage_mapper("wrappedEgldTokenIdentifier")]
-    fn wrapped_egld_token_identifier(&self) -> SingleValueMapper<TokenIdentifier>;
+    #[view(getWrappedMoaxTokenIdentifier)]
+    #[storage_mapper("wrappedMoaxTokenIdentifier")]
+    fn wrapped_moax_token_identifier(&self) -> SingleValueMapper<TokenIdentifier>;
 }

@@ -3,7 +3,7 @@ mod dns_proxy {
 
     #[dharitri_sc::proxy]
     pub trait Dns {
-        #[payable("EGLD")]
+        #[payable("MOAX")]
         #[endpoint]
         fn register(&self, name: &ManagedBuffer);
     }
@@ -21,14 +21,14 @@ pub trait DnsModule {
     #[proxy]
     fn dns_proxy(&self, to: ManagedAddress) -> dns_proxy::Proxy<Self::Api>;
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[only_owner]
     #[endpoint(dnsRegister)]
     fn dns_register(&self, dns_address: ManagedAddress, name: ManagedBuffer) {
-        let payment = self.call_value().egld_value().clone_value();
+        let payment = self.call_value().moax_value().clone_value();
         self.dns_proxy(dns_address)
             .register(&name)
-            .with_egld_transfer(payment)
+            .with_moax_transfer(payment)
             .async_call()
             .call_and_exit()
     }

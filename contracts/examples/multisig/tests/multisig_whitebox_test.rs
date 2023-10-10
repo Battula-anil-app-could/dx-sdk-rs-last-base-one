@@ -62,7 +62,7 @@ pub enum ActionRaw {
 
 pub struct CallActionDataRaw {
     pub to: Address,
-    pub egld_amount: RustBigUint,
+    pub moax_amount: RustBigUint,
     pub endpoint_name: BoxedBytes,
     pub arguments: Vec<BoxedBytes>,
 }
@@ -126,14 +126,14 @@ fn call_propose(
     action: ActionRaw,
     expected_message: Option<&str>,
 ) -> usize {
-    let egld_amount = match &action {
-        ActionRaw::SendTransferExecute(call_data) => call_data.egld_amount.clone(),
-        ActionRaw::SendAsyncCall(call_data) => call_data.egld_amount.clone(),
+    let moax_amount = match &action {
+        ActionRaw::SendTransferExecute(call_data) => call_data.moax_amount.clone(),
+        ActionRaw::SendAsyncCall(call_data) => call_data.moax_amount.clone(),
         ActionRaw::SCDeployFromSource { amount, .. } => amount.clone(),
         ActionRaw::SCUpgradeFromSource { amount, .. } => amount.clone(),
         _ => rust_biguint!(0),
     };
-    let amount_bytes = egld_amount.to_bytes_be();
+    let amount_bytes = moax_amount.to_bytes_be();
     let amount_rust_biguint = num_bigint::BigUint::from_bytes_be(amount_bytes.as_slice());
 
     let mut action_id = 0;
@@ -144,7 +144,7 @@ fn call_propose(
         &multisig_whitebox,
         ScCallStep::new()
             .from(PROPOSER_ADDRESS_EXPR)
-            .egld_value(amount_rust_biguint)
+            .moax_value(amount_rust_biguint)
             .no_expect(),
         |sc| {
             action_id = match action {
@@ -166,7 +166,7 @@ fn call_propose(
 
                     sc.propose_transfer_execute(
                         managed_address!(&call_data.to),
-                        BigUint::from_bytes_be(&call_data.egld_amount.to_bytes_be()),
+                        BigUint::from_bytes_be(&call_data.moax_amount.to_bytes_be()),
                         opt_endpoint,
                         boxed_bytes_vec_to_managed(call_data.arguments).into(),
                     )
@@ -182,7 +182,7 @@ fn call_propose(
 
                     sc.propose_async_call(
                         managed_address!(&call_data.to),
-                        BigUint::from_bytes_be(&call_data.egld_amount.to_bytes_be()),
+                        BigUint::from_bytes_be(&call_data.moax_amount.to_bytes_be()),
                         opt_endpoint,
                         boxed_bytes_vec_to_managed(call_data.arguments).into(),
                     )
@@ -538,13 +538,13 @@ fn test_transfer_execute_to_user() {
         SetStateStep::new().put_account(NEW_USER_ADDRESS_EXPR, Account::new().nonce(1)),
     );
 
-    const EGLD_AMOUNT: u64 = 100;
+    const MOAX_AMOUNT: u64 = 100;
 
     world.whitebox_call(
         &multisig_whitebox,
         ScCallStep::new()
             .from(PROPOSER_ADDRESS_EXPR)
-            .egld_value(EGLD_AMOUNT),
+            .moax_value(MOAX_AMOUNT),
         |sc| {
             sc.deposit();
         },
@@ -552,7 +552,7 @@ fn test_transfer_execute_to_user() {
 
     world.check_state_step(CheckStateStep::new().put_account(
         MULTISIG_ADDRESS_EXPR,
-        CheckAccount::new().balance(EGLD_AMOUNT.to_string().as_str()),
+        CheckAccount::new().balance(MOAX_AMOUNT.to_string().as_str()),
     ));
 
     // failed attempt
@@ -560,7 +560,7 @@ fn test_transfer_execute_to_user() {
         &mut world,
         ActionRaw::SendTransferExecute(CallActionDataRaw {
             to: address_expr_to_address(NEW_USER_ADDRESS_EXPR),
-            egld_amount: rust_biguint!(0),
+            moax_amount: rust_biguint!(0),
             endpoint_name: BoxedBytes::empty(),
             arguments: Vec::new(),
         }),
@@ -572,7 +572,7 @@ fn test_transfer_execute_to_user() {
         &mut world,
         ActionRaw::SendTransferExecute(CallActionDataRaw {
             to: address_expr_to_address(NEW_USER_ADDRESS_EXPR),
-            egld_amount: rust_biguint!(EGLD_AMOUNT),
+            moax_amount: rust_biguint!(MOAX_AMOUNT),
             endpoint_name: BoxedBytes::empty(),
             arguments: Vec::new(),
         }),
@@ -595,7 +595,7 @@ fn test_transfer_execute_to_user() {
 
     world.check_state_step(CheckStateStep::new().put_account(
         NEW_USER_ADDRESS_EXPR,
-        CheckAccount::new().balance(EGLD_AMOUNT.to_string().as_str()),
+        CheckAccount::new().balance(MOAX_AMOUNT.to_string().as_str()),
     ));
 }
 
@@ -632,7 +632,7 @@ fn test_transfer_execute_sc_all() {
         &mut world,
         ActionRaw::SendTransferExecute(CallActionDataRaw {
             to: address_expr_to_address(ADDER_ADDRESS_EXPR),
-            egld_amount: 0u64.into(),
+            moax_amount: 0u64.into(),
             endpoint_name: BoxedBytes::from(&b"add"[..]),
             arguments: vec![BoxedBytes::from(&[5u8][..])],
         }),
@@ -693,7 +693,7 @@ fn test_async_call_to_sc() {
         &mut world,
         ActionRaw::SendAsyncCall(CallActionDataRaw {
             to: address_expr_to_address(ADDER_ADDRESS_EXPR),
-            egld_amount: 0u64.into(),
+            moax_amount: 0u64.into(),
             endpoint_name: BoxedBytes::from(&b"add"[..]),
             arguments: vec![BoxedBytes::from(&[5u8][..])],
         }),
@@ -787,7 +787,7 @@ fn test_deploy_and_upgrade_from_source() {
         &mut world,
         ActionRaw::SendTransferExecute(CallActionDataRaw {
             to: address_expr_to_address(NEW_ADDER_ADDRESS_EXPR),
-            egld_amount: 0u64.into(),
+            moax_amount: 0u64.into(),
             endpoint_name: BoxedBytes::from(&b"add"[..]),
             arguments: vec![BoxedBytes::from(&[5u8][..])],
         }),

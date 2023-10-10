@@ -226,11 +226,11 @@ impl BlockchainVMRef {
     ) -> Result<BlockchainUpdate, TxPanic> {
         state.with_shared(|state_arc| {
             let tx_cache = TxCache::new(state_arc);
-            tx_cache.subtract_egld_balance(&async_data.from, &async_data.call_value)?;
+            tx_cache.subtract_moax_balance(&async_data.from, &async_data.call_value)?;
             tx_cache.insert_account(AccountData {
                 address: async_data.to.clone(),
                 nonce: 0,
-                egld_balance: async_data.call_value.clone(),
+                moax_balance: async_data.call_value.clone(),
                 dct: AccountDct::default(),
                 username: Vec::new(),
                 storage: HashMap::new(),

@@ -1068,7 +1068,7 @@ impl VMHooks for VMHooksDispatcher {
     }
 
     fn big_int_get_call_value(&self, destination_handle: i32) {
-        self.handler.load_egld_value(destination_handle);
+        self.handler.load_moax_value(destination_handle);
     }
 
     fn big_int_get_dct_call_value(&self, destination: i32) {

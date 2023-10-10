@@ -20,7 +20,7 @@ pub struct ValidatorRewardStep {
 
 impl TransferStep {
     pub fn new() -> Self {
-        // 50,000 is the gas limit for simple EGLD transfers, so it is default for convenience
+        // 50,000 is the gas limit for simple MOAX transfers, so it is default for convenience
         // DCT transfers will need more
         Self::default().gas_limit("50,000")
     }
@@ -41,15 +41,15 @@ impl TransferStep {
         self
     }
 
-    pub fn egld_value<A>(mut self, amount: A) -> Self
+    pub fn moax_value<A>(mut self, amount: A) -> Self
     where
         BigUintValue: From<A>,
     {
         if !self.tx.dct_value.is_empty() {
-            panic!("Cannot transfer both EGLD and DCT");
+            panic!("Cannot transfer both MOAX and DCT");
         }
 
-        self.tx.egld_value = BigUintValue::from(amount);
+        self.tx.moax_value = BigUintValue::from(amount);
         self
     }
 
@@ -59,8 +59,8 @@ impl TransferStep {
         U64Value: From<N>,
         BigUintValue: From<A>,
     {
-        if self.tx.egld_value.value > 0u32.into() {
-            panic!("Cannot transfer both EGLD and DCT");
+        if self.tx.moax_value.value > 0u32.into() {
+            panic!("Cannot transfer both MOAX and DCT");
         }
 
         self.tx.dct_value.push(TxDCT {

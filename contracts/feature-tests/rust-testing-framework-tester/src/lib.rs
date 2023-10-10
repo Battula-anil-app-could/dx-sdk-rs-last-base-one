@@ -42,31 +42,31 @@ pub trait RustTestingFrameworkTester: dummy_module::DummyModule {
     }
 
     #[endpoint]
-    fn get_egld_balance(&self) -> BigUint {
+    fn get_moax_balance(&self) -> BigUint {
         self.blockchain()
-            .get_sc_balance(&EgldOrDctTokenIdentifier::egld(), 0)
+            .get_sc_balance(&MoaxOrDctTokenIdentifier::moax(), 0)
     }
 
     #[endpoint]
     fn get_dct_balance(&self, token_id: TokenIdentifier, nonce: u64) -> BigUint {
         self.blockchain()
-            .get_sc_balance(&EgldOrDctTokenIdentifier::dct(token_id), nonce)
+            .get_sc_balance(&MoaxOrDctTokenIdentifier::dct(token_id), nonce)
     }
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint]
-    fn receive_egld(&self) -> BigUint {
-        self.call_value().egld_value().clone_value()
+    fn receive_moax(&self) -> BigUint {
+        self.call_value().moax_value().clone_value()
     }
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint]
-    fn recieve_egld_half(&self) {
+    fn recieve_moax_half(&self) {
         let caller = self.blockchain().get_caller();
-        let payment_amount = &*self.call_value().egld_value() / 2u32;
+        let payment_amount = &*self.call_value().moax_value() / 2u32;
         self.send().direct(
             &caller,
-            &EgldOrDctTokenIdentifier::egld(),
+            &MoaxOrDctTokenIdentifier::moax(),
             0,
             &payment_amount,
         );

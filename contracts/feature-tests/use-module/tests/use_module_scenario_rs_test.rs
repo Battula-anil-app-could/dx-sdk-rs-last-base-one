@@ -16,10 +16,10 @@ mod dns_mock {
         #[proxy]
         fn user_builtin_proxy(&self, to: ManagedAddress) -> super::user_builtin::Proxy<Self::Api>;
 
-        #[payable("EGLD")]
+        #[payable("MOAX")]
         #[endpoint]
         fn register(&self, name: BoxedBytes) {
-            let _payment = self.call_value().egld_value();
+            let _payment = self.call_value().moax_value();
             let address = self.blockchain().get_caller();
             self.user_builtin_proxy(address)
                 .set_user_name(&name)

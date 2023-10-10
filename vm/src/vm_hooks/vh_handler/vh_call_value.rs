@@ -5,16 +5,16 @@ use super::VMHooksManagedTypes;
 
 pub trait VMHooksCallValue: VMHooksHandlerSource + VMHooksManagedTypes {
     fn check_not_payable(&self) {
-        if self.input_ref().egld_value > num_bigint::BigUint::zero() {
-            self.vm_error(vm_err_msg::NON_PAYABLE_FUNC_EGLD);
+        if self.input_ref().moax_value > num_bigint::BigUint::zero() {
+            self.vm_error(vm_err_msg::NON_PAYABLE_FUNC_MOAX);
         }
         if self.dct_num_transfers() > 0 {
             self.vm_error(vm_err_msg::NON_PAYABLE_FUNC_DCT);
         }
     }
 
-    fn load_egld_value(&self, dest: RawHandle) {
-        let value = self.input_ref().received_egld().clone();
+    fn load_moax_value(&self, dest: RawHandle) {
+        let value = self.input_ref().received_moax().clone();
         self.m_types_lock().bi_overwrite(dest, value.into());
     }
 

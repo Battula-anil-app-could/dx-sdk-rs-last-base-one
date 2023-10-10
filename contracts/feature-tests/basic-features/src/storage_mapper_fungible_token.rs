@@ -4,14 +4,14 @@ dharitri_sc::imports!();
 pub trait FungibleTokenMapperFeatures:
     dharitri_sc_modules::default_issue_callbacks::DefaultIssueCallbacksModule
 {
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint]
     fn issue_fungible_default_callback(
         &self,
         token_ticker: ManagedBuffer,
         initial_supply: BigUint,
     ) {
-        let payment_amount = self.call_value().egld_value();
+        let payment_amount = self.call_value().moax_value();
         self.fungible_token_mapper().issue(
             payment_amount.clone_value(),
             ManagedBuffer::new(),
@@ -22,10 +22,10 @@ pub trait FungibleTokenMapperFeatures:
         );
     }
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint]
     fn issue_fungible_custom_callback(&self, token_ticker: ManagedBuffer, initial_supply: BigUint) {
-        let payment = self.call_value().egld_value();
+        let payment = self.call_value().moax_value();
         let cb = if initial_supply > 0 {
             FungibleTokenMapperFeatures::callbacks(self).custom_issue_non_zero_supply_cb()
         } else {
@@ -70,10 +70,10 @@ pub trait FungibleTokenMapperFeatures:
         }
     }
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint]
     fn issue_and_set_all_roles_fungible(&self, token_ticker: ManagedBuffer) {
-        let payment = self.call_value().egld_value();
+        let payment = self.call_value().moax_value();
         self.fungible_token_mapper().issue_and_set_all_roles(
             payment.clone_value(),
             ManagedBuffer::new(),

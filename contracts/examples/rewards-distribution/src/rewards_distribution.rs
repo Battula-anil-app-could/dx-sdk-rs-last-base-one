@@ -53,7 +53,7 @@ pub trait RewardsDistribution:
     #[payable("*")]
     #[endpoint(depositRoyalties)]
     fn deposit_royalties(&self) {
-        let payment = self.call_value().egld_or_single_dct();
+        let payment = self.call_value().moax_or_single_dct();
         let raffle_id = self.raffle_id().get();
         self.royalties(raffle_id, &payment.token_identifier, payment.token_nonce)
             .update(|total| *total += payment.amount);
@@ -241,7 +241,7 @@ pub trait RewardsDistribution:
         &self,
         raffle_id_start: u64,
         raffle_id_end: u64,
-        reward_tokens: MultiValueEncoded<MultiValue2<EgldOrDctTokenIdentifier, u64>>,
+        reward_tokens: MultiValueEncoded<MultiValue2<MoaxOrDctTokenIdentifier, u64>>,
     ) {
         let nfts = self.call_value().all_dct_transfers();
         self.validate_nft_payments(&nfts);
@@ -249,11 +249,11 @@ pub trait RewardsDistribution:
 
         let caller = self.blockchain().get_caller();
         let mut rewards = ManagedVec::new();
-        let mut total_egld_reward = BigUint::zero();
+        let mut total_moax_reward = BigUint::zero();
 
         for reward_token_pair in reward_tokens.into_iter() {
             let (reward_token_id, reward_token_nonce) = reward_token_pair.into_tuple();
-            let (egld_reward, reward_payment_opt) = self.claim_reward_token(
+            let (moax_reward, reward_payment_opt) = self.claim_reward_token(
                 raffle_id_start,
                 raffle_id_end,
                 &reward_token_id,
@@ -261,14 +261,14 @@ pub trait RewardsDistribution:
                 &nfts,
             );
 
-            total_egld_reward += egld_reward;
+            total_moax_reward += moax_reward;
             if let Some(reward_payment) = reward_payment_opt {
                 rewards.push(reward_payment);
             }
         }
 
         self.send()
-            .direct_non_zero_egld(&caller, &total_egld_reward);
+            .direct_non_zero_moax(&caller, &total_moax_reward);
         self.send().direct_multi(&caller, &rewards);
         self.send().direct_multi(&caller, &nfts);
     }
@@ -277,7 +277,7 @@ pub trait RewardsDistribution:
         &self,
         raffle_id_start: u64,
         raffle_id_end: u64,
-        reward_token_id: &EgldOrDctTokenIdentifier,
+        reward_token_id: &MoaxOrDctTokenIdentifier,
         reward_token_nonce: u64,
         nfts: &ManagedVec<DctTokenPayment>,
     ) -> (BigUint, Option<DctTokenPayment>) {
@@ -300,7 +300,7 @@ pub trait RewardsDistribution:
             }
         }
 
-        if total == 0 || reward_token_id.is_egld() {
+        if total == 0 || reward_token_id.is_moax() {
             return (total, None);
         }
         let reward_payment = DctTokenPayment::new(
@@ -314,7 +314,7 @@ pub trait RewardsDistribution:
     fn try_claim(
         &self,
         raffle_id: u64,
-        reward_token_id: &EgldOrDctTokenIdentifier,
+        reward_token_id: &MoaxOrDctTokenIdentifier,
         reward_token_nonce: u64,
         nft: &DctTokenPayment,
     ) -> Result<(), ()> {
@@ -337,7 +337,7 @@ pub trait RewardsDistribution:
     fn compute_claimable_amount(
         &self,
         raffle_id: u64,
-        reward_token_id: &EgldOrDctTokenIdentifier,
+        reward_token_id: &MoaxOrDctTokenIdentifier,
         reward_token_nonce: u64,
         nft_nonce: u64,
     ) -> BigUint {
@@ -376,7 +376,7 @@ pub trait RewardsDistribution:
     fn royalties(
         &self,
         raffle_id: u64,
-        reward_token_id: &EgldOrDctTokenIdentifier,
+        reward_token_id: &MoaxOrDctTokenIdentifier,
         reward_token_nonce: u64,
     ) -> SingleValueMapper<BigUint>;
 
@@ -389,7 +389,7 @@ pub trait RewardsDistribution:
     fn was_claimed(
         &self,
         raffle_id: u64,
-        reward_token_id: &EgldOrDctTokenIdentifier,
+        reward_token_id: &MoaxOrDctTokenIdentifier,
         reward_token_nonce: u64,
         nft_nonce: u64,
     ) -> SingleValueMapper<bool>;

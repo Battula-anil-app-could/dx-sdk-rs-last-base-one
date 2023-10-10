@@ -94,11 +94,11 @@ pub trait OwnerEndpointsModule: storage::StorageModule + events::EventsModule {
     {
         let (identifier, nonce, amount) = self.call_value().single_dct().into_tuple();
         let caller = self.blockchain().get_caller();
-        let mut set_payment = EgldOrDctTokenIdentifier::egld();
+        let mut set_payment = MoaxOrDctTokenIdentifier::moax();
 
         if self.bonding_curve(&identifier).is_empty() {
             match payment_token {
-                OptionalValue::Some(token) => set_payment = EgldOrDctTokenIdentifier::dct(token),
+                OptionalValue::Some(token) => set_payment = MoaxOrDctTokenIdentifier::dct(token),
                 OptionalValue::None => {
                     sc_panic!("Expected provided accepted_payment for the token");
                 },
@@ -146,7 +146,7 @@ pub trait OwnerEndpointsModule: storage::StorageModule + events::EventsModule {
         );
 
         let mut tokens_to_claim = ManagedVec::<Self::Api, DctTokenPayment<Self::Api>>::new();
-        let mut egld_to_claim = BigUint::zero();
+        let mut moax_to_claim = BigUint::zero();
         let serializer = ManagedSerializer::new();
         for token in self.owned_tokens(&caller).iter() {
             let nonces = self.token_details(&token).get().token_nonces;
@@ -172,7 +172,7 @@ pub trait OwnerEndpointsModule: storage::StorageModule + events::EventsModule {
                     bonding_curve.payment.amount,
                 ));
             } else {
-                egld_to_claim += bonding_curve.payment.amount;
+                moax_to_claim += bonding_curve.payment.amount;
             }
 
             self.token_details(&token).clear();
@@ -180,8 +180,8 @@ pub trait OwnerEndpointsModule: storage::StorageModule + events::EventsModule {
         }
         self.owned_tokens(&caller).clear();
         self.send().direct_multi(&caller, &tokens_to_claim);
-        if egld_to_claim > BigUint::zero() {
-            self.send().direct_egld(&caller, &egld_to_claim);
+        if moax_to_claim > BigUint::zero() {
+            self.send().direct_moax(&caller, &moax_to_claim);
         }
     }
 
@@ -189,7 +189,7 @@ pub trait OwnerEndpointsModule: storage::StorageModule + events::EventsModule {
         &self,
         identifier: &TokenIdentifier,
         amount: BigUint,
-        payment_token_identifier: EgldOrDctTokenIdentifier,
+        payment_token_identifier: MoaxOrDctTokenIdentifier,
     ) where
         T: CurveFunction<Self::Api>
             + TopEncode
@@ -211,7 +211,7 @@ pub trait OwnerEndpointsModule: storage::StorageModule + events::EventsModule {
                 available_supply: amount.clone(),
                 balance: amount,
             };
-            payment = EgldOrDctTokenPayment::new(payment_token_identifier, 0, BigUint::zero());
+            payment = MoaxOrDctTokenPayment::new(payment_token_identifier, 0, BigUint::zero());
             sell_availability = false;
         } else {
             let bonding_curve: BondingCurve<Self::Api, T> =

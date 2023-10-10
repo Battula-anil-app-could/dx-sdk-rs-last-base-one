@@ -10,10 +10,10 @@ use crate::{
 };
 
 use super::{
-    contract_call_no_payment::ContractCallNoPayment, ContractCallWithEgld, ManagedArgBuffer,
+    contract_call_no_payment::ContractCallNoPayment, ContractCallWithMoax, ManagedArgBuffer,
 };
 
-impl<SA, OriginalResult> ContractCallWithEgld<SA, OriginalResult>
+impl<SA, OriginalResult> ContractCallWithMoax<SA, OriginalResult>
 where
     SA: CallTypeApi + 'static,
 {
@@ -43,7 +43,7 @@ where
                 new_arg_buffer.push_arg(&self.basic.endpoint_name);
             }
 
-            ContractCallWithEgld {
+            ContractCallWithMoax {
                 basic: ContractCallNoPayment {
                     _phantom: PhantomData,
                     to: self.basic.to,
@@ -52,7 +52,7 @@ where
                     explicit_gas_limit: self.basic.explicit_gas_limit,
                     _return_type: PhantomData,
                 },
-                egld_payment: BigUint::zero(),
+                moax_payment: BigUint::zero(),
             }
         } else {
             // NFT
@@ -73,7 +73,7 @@ where
             // nft transfer is sent to self, sender = receiver
             let recipient_addr = BlockchainWrapper::<SA>::new().get_sc_address();
 
-            ContractCallWithEgld {
+            ContractCallWithMoax {
                 basic: ContractCallNoPayment {
                     _phantom: PhantomData,
                     to: recipient_addr,
@@ -82,7 +82,7 @@ where
                     explicit_gas_limit: self.basic.explicit_gas_limit,
                     _return_type: PhantomData,
                 },
-                egld_payment: BigUint::zero(),
+                moax_payment: BigUint::zero(),
             }
         }
     }
@@ -107,7 +107,7 @@ where
         // multi transfer is sent to self, sender = receiver
         let recipient_addr = BlockchainWrapper::<SA>::new().get_sc_address();
 
-        ContractCallWithEgld {
+        ContractCallWithMoax {
             basic: ContractCallNoPayment {
                 _phantom: PhantomData,
                 to: recipient_addr,
@@ -116,7 +116,7 @@ where
                 explicit_gas_limit: self.basic.explicit_gas_limit,
                 _return_type: PhantomData,
             },
-            egld_payment: BigUint::zero(),
+            moax_payment: BigUint::zero(),
         }
     }
 }

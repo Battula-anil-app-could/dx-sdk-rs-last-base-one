@@ -12,7 +12,7 @@ The repo contains:
     - A powerful debugger, based on a partial implementation of the Dharitri VM, in Rust.
     - A framework for writing both black-box and white-box tests. They rely on the standard Dharitri blockchain scenario format.
     - The official data serializer and deserializer for smart contract data. Can be used both on- and off-chain.
-- A large collection of smart contract examples and feature tests, together with some of the core smart contracts used on the blockchain (e.g. the wrapped egld swap, multisig, etc.).
+- A large collection of smart contract examples and feature tests, together with some of the core smart contracts used on the blockchain (e.g. the wrapped moax swap, multisig, etc.).
 - A framework for interacting with the blockchain, based on the smart contract logic, especially suitable for developers.
 - A code snippet generator.
 

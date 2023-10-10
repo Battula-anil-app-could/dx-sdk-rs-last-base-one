@@ -3,14 +3,14 @@ use dharitri_price_aggregator_sc::{
     staking::EndpointWrappers as StakingEndpointWrappers,
     PriceAggregator, MAX_ROUND_DURATION_SECONDS,
 };
-use dharitri_sc::types::{EgldOrDctTokenIdentifier, MultiValueEncoded};
+use dharitri_sc::types::{MoaxOrDctTokenIdentifier, MultiValueEncoded};
 use dharitri_sc_modules::pause::EndpointWrappers as PauseEndpointWrappers;
 use dharitri_sc_scenario::{
     managed_address, managed_biguint, managed_buffer, scenario_model::*, WhiteboxContract, *,
 };
 
 pub const DECIMALS: u8 = 0;
-pub const EGLD_TICKER: &[u8] = b"EGLD";
+pub const MOAX_TICKER: &[u8] = b"MOAX";
 pub const NR_ORACLES: usize = 4;
 pub const SLASH_AMOUNT: u64 = 10;
 pub const SLASH_QUORUM: usize = 2;
@@ -48,7 +48,7 @@ fn test_price_aggregator_submit() {
         ScCallStep::new().from(OWNER_ADDRESS_EXPR),
         |sc| {
             sc.set_pair_decimals(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 DECIMALS,
             )
@@ -63,7 +63,7 @@ fn test_price_aggregator_submit() {
             .expect(TxExpect::user_error("str:Contract is paused")),
         |sc| {
             sc.submit(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 99,
                 managed_biguint!(100),
@@ -86,7 +86,7 @@ fn test_price_aggregator_submit() {
         ScCallStep::new().from(&oracles[0]).no_expect(),
         |sc| {
             sc.submit(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 10,
                 managed_biguint!(100),
@@ -104,7 +104,7 @@ fn test_price_aggregator_submit() {
         ScCallStep::new().from(&oracles[0]),
         |sc| {
             sc.submit(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 95,
                 managed_biguint!(100),
@@ -116,7 +116,7 @@ fn test_price_aggregator_submit() {
     let current_timestamp = 100;
     world.whitebox_query(&price_aggregator_whitebox, |sc| {
         let token_pair = TokenPair {
-            from: managed_buffer!(EGLD_TICKER),
+            from: managed_buffer!(MOAX_TICKER),
             to: managed_buffer!(USD_TICKER),
         };
         assert_eq!(
@@ -154,7 +154,7 @@ fn test_price_aggregator_submit() {
         ScCallStep::new().from(&oracles[0]),
         |sc| {
             sc.submit(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 95,
                 managed_biguint!(100),
@@ -190,7 +190,7 @@ fn test_price_aggregator_submit_round_ok() {
         ScCallStep::new().from(OWNER_ADDRESS_EXPR),
         |sc| {
             sc.set_pair_decimals(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 DECIMALS,
             )
@@ -210,7 +210,7 @@ fn test_price_aggregator_submit_round_ok() {
         ScCallStep::new().from(&oracles[0]),
         |sc| {
             sc.submit(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 95,
                 managed_biguint!(10_000),
@@ -228,7 +228,7 @@ fn test_price_aggregator_submit_round_ok() {
         ScCallStep::new().from(&oracles[1]),
         |sc| {
             sc.submit(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 101,
                 managed_biguint!(11_000),
@@ -243,7 +243,7 @@ fn test_price_aggregator_submit_round_ok() {
         ScCallStep::new().from(&oracles[2]),
         |sc| {
             sc.submit(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 105,
                 managed_biguint!(12_000),
@@ -254,12 +254,12 @@ fn test_price_aggregator_submit_round_ok() {
 
     world.whitebox_query(&price_aggregator_whitebox, |sc| {
         let result = sc
-            .latest_price_feed(managed_buffer!(EGLD_TICKER), managed_buffer!(USD_TICKER))
+            .latest_price_feed(managed_buffer!(MOAX_TICKER), managed_buffer!(USD_TICKER))
             .unwrap();
 
         let (round_id, from, to, timestamp, price, decimals) = result.into_tuple();
         assert_eq!(round_id, 1);
-        assert_eq!(from, managed_buffer!(EGLD_TICKER));
+        assert_eq!(from, managed_buffer!(MOAX_TICKER));
         assert_eq!(to, managed_buffer!(USD_TICKER));
         assert_eq!(timestamp, current_timestamp);
         assert_eq!(price, managed_biguint!(11_000));
@@ -297,7 +297,7 @@ fn test_price_aggregator_discarded_round() {
         ScCallStep::new().from(OWNER_ADDRESS_EXPR),
         |sc| {
             sc.set_pair_decimals(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 DECIMALS,
             )
@@ -317,7 +317,7 @@ fn test_price_aggregator_discarded_round() {
         ScCallStep::new().from(&oracles[0]),
         |sc| {
             sc.submit(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 95,
                 managed_biguint!(10_000),
@@ -335,7 +335,7 @@ fn test_price_aggregator_discarded_round() {
         ScCallStep::new().from(&oracles[1]),
         |sc| {
             sc.submit(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 current_timestamp - 1,
                 managed_biguint!(11_000),
@@ -346,7 +346,7 @@ fn test_price_aggregator_discarded_round() {
 
     world.whitebox_query(&price_aggregator_whitebox, |sc| {
         let token_pair = TokenPair {
-            from: managed_buffer!(EGLD_TICKER),
+            from: managed_buffer!(MOAX_TICKER),
             to: managed_buffer!(USD_TICKER),
         };
         let submissions = sc.submissions().get(&token_pair).unwrap();
@@ -405,7 +405,7 @@ fn test_price_aggregator_slashing() {
         ScCallStep::new().from(&oracles[1]).no_expect(),
         |sc| {
             sc.submit(
-                managed_buffer!(EGLD_TICKER),
+                managed_buffer!(MOAX_TICKER),
                 managed_buffer!(USD_TICKER),
                 95,
                 managed_biguint!(10_000),
@@ -457,7 +457,7 @@ fn setup() -> (ScenarioWorld, Vec<AddressValue>) {
             }
 
             sc.init(
-                EgldOrDctTokenIdentifier::egld(),
+                MoaxOrDctTokenIdentifier::moax(),
                 managed_biguint!(STAKE_AMOUNT),
                 managed_biguint!(SLASH_AMOUNT),
                 SLASH_QUORUM,
@@ -472,7 +472,7 @@ fn setup() -> (ScenarioWorld, Vec<AddressValue>) {
             &price_aggregator_whitebox,
             ScCallStep::new()
                 .from(oracle_address)
-                .egld_value(STAKE_AMOUNT),
+                .moax_value(STAKE_AMOUNT),
             |sc| sc.call_stake(),
         );
     }

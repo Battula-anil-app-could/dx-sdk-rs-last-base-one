@@ -18,7 +18,7 @@ pub enum InteractCliCommand {
     Deploy,
     #[command(name = "dns-register", about = "Register DNS")]
     DnsRegister(DnsRegisterArgs),
-    #[command(name = "feed", about = "Feed contract EGLD")]
+    #[command(name = "feed", about = "Feed contract MOAX")]
     Feed,
     #[command(name = "multi-deploy", about = "Multiple deploy contracts")]
     MultiDeploy(MultiDeployArgs),
@@ -42,15 +42,15 @@ pub enum InteractCliCommand {
     NftSpecial,
     #[command(name = "quorum", about = "Print quorum")]
     Quorum,
-    #[command(name = "unwrap-egld", about = "Unwrap EGLD")]
-    UnwrapEgld,
+    #[command(name = "unwrap-moax", about = "Unwrap MOAX")]
+    UnwrapMoax,
     #[command(
-        name = "wegld-swap-full",
-        about = "Deploy and swap WEGLD with multisig"
+        name = "wmoax-swap-full",
+        about = "Deploy and swap WMOAX with multisig"
     )]
-    WEgldSwapFull,
-    #[command(name = "wrap-egld", about = "Wrap EGLD")]
-    WrapEgld,
+    WMoaxSwapFull,
+    #[command(name = "wrap-moax", about = "Wrap MOAX")]
+    WrapMoax,
 }
 
 #[derive(Default, Clone, PartialEq, Eq, Debug, Args)]

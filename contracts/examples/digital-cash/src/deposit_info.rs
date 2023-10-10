@@ -5,7 +5,7 @@ dharitri_sc::derive_imports!();
 pub struct DepositInfo<M: ManagedTypeApi> {
     pub depositor_address: ManagedAddress<M>,
     pub dct_funds: ManagedVec<M, DctTokenPayment<M>>,
-    pub egld_funds: BigUint<M>,
+    pub moax_funds: BigUint<M>,
     pub valability: u64,
     pub expiration_round: u64,
     pub fees: Fee<M>,
@@ -17,7 +17,7 @@ where
 {
     pub fn get_num_tokens(&self) -> usize {
         let mut amount = self.dct_funds.len();
-        if self.egld_funds > 0 {
+        if self.moax_funds > 0 {
             amount += 1;
         }
 
@@ -28,5 +28,5 @@ where
 #[derive(NestedEncode, NestedDecode, TopEncode, TopDecode, TypeAbi)]
 pub struct Fee<M: ManagedTypeApi> {
     pub num_token_to_transfer: usize,
-    pub value: EgldOrDctTokenPayment<M>,
+    pub value: MoaxOrDctTokenPayment<M>,
 }

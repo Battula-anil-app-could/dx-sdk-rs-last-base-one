@@ -46,7 +46,7 @@ dharitri_sc_wasm_adapter::endpoints! {
         item_for_ref => item_for_ref
         item_for_slice => item_for_slice
         item_for_option => item_for_option
-        payable_egld => payable_egld
+        payable_moax => payable_moax
         payable_some_token => payable_some_token
         payable_any_token => payable_any_token
     )

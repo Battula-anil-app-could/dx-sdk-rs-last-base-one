@@ -157,8 +157,8 @@ fn multi_transfer_dct_rs() {
 }
 
 #[test]
-fn transfer_egld_rs() {
-    world().run("tests/scenarios-self/transfer-egld.scen.json");
+fn transfer_moax_rs() {
+    world().run("tests/scenarios-self/transfer-moax.scen.json");
 }
 
 #[test]

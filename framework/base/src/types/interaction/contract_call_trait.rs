@@ -4,7 +4,7 @@ use crate::{
     api::CallTypeApi, contract_base::ExitCodecErrorHandler, err_msg, types::ManagedBuffer,
 };
 
-use super::{AsyncCall, ContractCallNoPayment, ContractCallWithEgld, ManagedArgBuffer};
+use super::{AsyncCall, ContractCallNoPayment, ContractCallWithMoax, ManagedArgBuffer};
 
 /// Defines a contract call object, which is the basis for all calls to other contracts.
 ///
@@ -16,9 +16,9 @@ where
     type OriginalResult: TopEncodeMulti;
 
     /// Converts any DCT transfers into builtin function calls,
-    /// thus reducing it to a simple transaction with optional EGLD value.
+    /// thus reducing it to a simple transaction with optional MOAX value.
     #[doc(hidden)]
-    fn into_normalized(self) -> ContractCallWithEgld<SA, Self::OriginalResult>;
+    fn into_normalized(self) -> ContractCallWithMoax<SA, Self::OriginalResult>;
 
     /// Mutable access to the common base.
     #[doc(hidden)]

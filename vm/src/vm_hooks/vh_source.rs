@@ -64,7 +64,7 @@ pub trait VMHooksHandlerSource: Debug {
     fn perform_async_call(
         &self,
         to: VMAddress,
-        egld_value: num_bigint::BigUint,
+        moax_value: num_bigint::BigUint,
         func_name: TxFunctionName,
         args: Vec<Vec<u8>>,
     ) -> !;
@@ -72,14 +72,14 @@ pub trait VMHooksHandlerSource: Debug {
     fn perform_execute_on_dest_context(
         &self,
         to: VMAddress,
-        egld_value: num_bigint::BigUint,
+        moax_value: num_bigint::BigUint,
         func_name: TxFunctionName,
         args: Vec<Vec<u8>>,
     ) -> Vec<Vec<u8>>;
 
     fn perform_deploy(
         &self,
-        egld_value: num_bigint::BigUint,
+        moax_value: num_bigint::BigUint,
         contract_code: Vec<u8>,
         code_metadata: VMCodeMetadata,
         args: Vec<Vec<u8>>,
@@ -88,7 +88,7 @@ pub trait VMHooksHandlerSource: Debug {
     fn perform_transfer_execute(
         &self,
         to: VMAddress,
-        egld_value: num_bigint::BigUint,
+        moax_value: num_bigint::BigUint,
         func_name: TxFunctionName,
         arguments: Vec<Vec<u8>>,
     );

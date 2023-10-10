@@ -36,23 +36,23 @@ fn payable_any_4_rs() {
 }
 
 #[test]
-fn payable_egld_1_rs() {
-    world().run("scenarios/payable_egld_1.scen.json");
+fn payable_moax_1_rs() {
+    world().run("scenarios/payable_moax_1.scen.json");
 }
 
 #[test]
-fn payable_egld_2_rs() {
-    world().run("scenarios/payable_egld_2.scen.json");
+fn payable_moax_2_rs() {
+    world().run("scenarios/payable_moax_2.scen.json");
 }
 
 #[test]
-fn payable_egld_3_rs() {
-    world().run("scenarios/payable_egld_3.scen.json");
+fn payable_moax_3_rs() {
+    world().run("scenarios/payable_moax_3.scen.json");
 }
 
 #[test]
-fn payable_egld_4_rs() {
-    world().run("scenarios/payable_egld_4.scen.json");
+fn payable_moax_4_rs() {
+    world().run("scenarios/payable_moax_4.scen.json");
 }
 
 #[test]

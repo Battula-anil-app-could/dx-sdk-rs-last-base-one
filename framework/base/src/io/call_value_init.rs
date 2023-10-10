@@ -6,7 +6,7 @@ use crate::{
     contract_base::CallValueWrapper,
     err_msg,
     types::{
-        BigUint, EgldOrDctTokenIdentifier, DctTokenPayment, ManagedRef, ManagedType, ManagedVec,
+        BigUint, MoaxOrDctTokenIdentifier, DctTokenPayment, ManagedRef, ManagedType, ManagedVec,
     },
 };
 
@@ -25,8 +25,8 @@ where
 {
 }
 
-/// Called initially in the generated code whenever `#[payable("EGLD")]` annotation is provided.
-pub fn payable_egld<A>()
+/// Called initially in the generated code whenever `#[payable("MOAX")]` annotation is provided.
+pub fn payable_moax<A>()
 where
     A: CallValueApi + ErrorApi,
 {
@@ -66,16 +66,16 @@ pub fn arg_payment_amount<A>() -> BigUint<A>
 where
     A: CallValueApi + ManagedTypeApi,
 {
-    CallValueWrapper::<A>::new().egld_or_single_dct().amount
+    CallValueWrapper::<A>::new().moax_or_single_dct().amount
 }
 
 /// Initializes an argument annotated with `#[payment_token]`.
-pub fn arg_payment_token<A>() -> EgldOrDctTokenIdentifier<A>
+pub fn arg_payment_token<A>() -> MoaxOrDctTokenIdentifier<A>
 where
     A: CallValueApi + ManagedTypeApi,
 {
     CallValueWrapper::<A>::new()
-        .egld_or_single_dct()
+        .moax_or_single_dct()
         .token_identifier
 }
 
@@ -85,7 +85,7 @@ where
     A: CallValueApi + ManagedTypeApi,
 {
     CallValueWrapper::<A>::new()
-        .egld_or_single_dct()
+        .moax_or_single_dct()
         .token_nonce
 }
 

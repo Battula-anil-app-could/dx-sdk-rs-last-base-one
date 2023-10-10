@@ -18,7 +18,7 @@ pub trait LocalDctAndDctNft {
 
     // Fungible Tokens
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint(issueFungibleToken)]
     fn issue_fungible_token(
         &self,
@@ -26,7 +26,7 @@ pub trait LocalDctAndDctNft {
         token_ticker: ManagedBuffer,
         initial_supply: BigUint,
     ) {
-        let issue_cost = self.call_value().egld_value();
+        let issue_cost = self.call_value().moax_value();
         let caller = self.blockchain().get_caller();
 
         self.send()
@@ -65,10 +65,10 @@ pub trait LocalDctAndDctNft {
 
     // Non-Fungible Tokens
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint(nftIssue)]
     fn nft_issue(&self, token_display_name: ManagedBuffer, token_ticker: ManagedBuffer) {
-        let issue_cost = self.call_value().egld_value();
+        let issue_cost = self.call_value().moax_value();
         let caller = self.blockchain().get_caller();
 
         self.send()
@@ -170,10 +170,10 @@ pub trait LocalDctAndDctNft {
 
     // Semi-Fungible
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint(sftIssue)]
     fn sft_issue(&self, token_display_name: ManagedBuffer, token_ticker: ManagedBuffer) {
-        let issue_cost = self.call_value().egld_value();
+        let issue_cost = self.call_value().moax_value();
         let caller = self.blockchain().get_caller();
 
         self.send()
@@ -275,7 +275,7 @@ pub trait LocalDctAndDctNft {
         caller: &ManagedAddress,
         #[call_result] result: ManagedAsyncCallResult<()>,
     ) {
-        let (token_identifier, returned_tokens) = self.call_value().egld_or_single_fungible_dct();
+        let (token_identifier, returned_tokens) = self.call_value().moax_or_single_fungible_dct();
         // callback is called with DCTTransfer of the newly issued token, with the amount requested,
         // so we can get the token identifier and amount from the call data
         match result {
@@ -286,8 +286,8 @@ pub trait LocalDctAndDctNft {
             },
             ManagedAsyncCallResult::Err(message) => {
                 // return issue cost to the caller
-                if token_identifier.is_egld() && returned_tokens > 0 {
-                    self.send().direct_egld(caller, &returned_tokens);
+                if token_identifier.is_moax() && returned_tokens > 0 {
+                    self.send().direct_moax(caller, &returned_tokens);
                 }
 
                 self.last_error_message().set(&message.err_msg);
@@ -309,9 +309,9 @@ pub trait LocalDctAndDctNft {
             ManagedAsyncCallResult::Err(message) => {
                 // return issue cost to the caller
                 let (token_identifier, returned_tokens) =
-                    self.call_value().egld_or_single_fungible_dct();
-                if token_identifier.is_egld() && returned_tokens > 0 {
-                    self.send().direct_egld(caller, &returned_tokens);
+                    self.call_value().moax_or_single_fungible_dct();
+                if token_identifier.is_moax() && returned_tokens > 0 {
+                    self.send().direct_moax(caller, &returned_tokens);
                 }
 
                 self.last_error_message().set(&message.err_msg);

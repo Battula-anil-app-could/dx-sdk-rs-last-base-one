@@ -4,7 +4,7 @@
 dharitri_sc::imports!();
 
 /// Contract that only tests the call value features,
-/// i.e. the framework/Arwen functionality for accepting EGLD and DCT payments.
+/// i.e. the framework/Arwen functionality for accepting MOAX and DCT payments.
 #[dharitri_sc::contract]
 pub trait PayableFeatures {
     #[init]
@@ -16,7 +16,7 @@ pub trait PayableFeatures {
         &self,
     ) -> MultiValue2<BigUint, ManagedVec<Self::Api, DctTokenPayment<Self::Api>>> {
         (
-            self.call_value().egld_value().clone_value(),
+            self.call_value().moax_value().clone_value(),
             self.call_value().all_dct_transfers().clone_value(),
         )
             .into()
@@ -43,8 +43,8 @@ pub trait PayableFeatures {
     fn payable_any_1(
         &self,
         #[payment_amount] payment: BigUint,
-        #[payment_token] token: EgldOrDctTokenIdentifier,
-    ) -> MultiValue2<BigUint, EgldOrDctTokenIdentifier> {
+        #[payment_token] token: MoaxOrDctTokenIdentifier,
+    ) -> MultiValue2<BigUint, MoaxOrDctTokenIdentifier> {
         (payment, token).into()
     }
 
@@ -53,8 +53,8 @@ pub trait PayableFeatures {
     fn payable_any_2(
         &self,
         #[payment] payment: BigUint,
-    ) -> MultiValue2<BigUint, EgldOrDctTokenIdentifier> {
-        let token = self.call_value().egld_or_single_dct().token_identifier;
+    ) -> MultiValue2<BigUint, MoaxOrDctTokenIdentifier> {
+        let token = self.call_value().moax_or_single_dct().token_identifier;
         (payment, token).into()
     }
 
@@ -62,54 +62,54 @@ pub trait PayableFeatures {
     #[payable("*")]
     fn payable_any_3(
         &self,
-        #[payment_token] token: EgldOrDctTokenIdentifier,
-    ) -> MultiValue2<BigUint, EgldOrDctTokenIdentifier> {
-        let payment = self.call_value().egld_or_single_dct();
+        #[payment_token] token: MoaxOrDctTokenIdentifier,
+    ) -> MultiValue2<BigUint, MoaxOrDctTokenIdentifier> {
+        let payment = self.call_value().moax_or_single_dct();
         (payment.amount, token).into()
     }
 
     #[endpoint]
     #[payable("*")]
-    fn payable_any_4(&self) -> MultiValue2<BigUint, EgldOrDctTokenIdentifier> {
-        let payment = self.call_value().egld_or_single_dct();
+    fn payable_any_4(&self) -> MultiValue2<BigUint, MoaxOrDctTokenIdentifier> {
+        let payment = self.call_value().moax_or_single_dct();
         (payment.amount, payment.token_identifier).into()
     }
 
     #[endpoint]
-    #[payable("EGLD")]
-    fn payable_egld_1(
+    #[payable("MOAX")]
+    fn payable_moax_1(
         &self,
-        #[payment_token] token: EgldOrDctTokenIdentifier,
-    ) -> MultiValue2<BigUint, EgldOrDctTokenIdentifier> {
-        let payment = self.call_value().egld_value().clone_value();
+        #[payment_token] token: MoaxOrDctTokenIdentifier,
+    ) -> MultiValue2<BigUint, MoaxOrDctTokenIdentifier> {
+        let payment = self.call_value().moax_value().clone_value();
         (payment, token).into()
     }
 
     #[endpoint]
-    #[payable("EGLD")]
-    fn payable_egld_2(
+    #[payable("MOAX")]
+    fn payable_moax_2(
         &self,
         #[payment] payment: BigUint,
-    ) -> MultiValue2<BigUint, EgldOrDctTokenIdentifier> {
-        let token = self.call_value().egld_or_single_dct().token_identifier;
+    ) -> MultiValue2<BigUint, MoaxOrDctTokenIdentifier> {
+        let token = self.call_value().moax_or_single_dct().token_identifier;
         (payment, token).into()
     }
 
     #[endpoint]
-    #[payable("EGLD")]
-    fn payable_egld_3(
+    #[payable("MOAX")]
+    fn payable_moax_3(
         &self,
-        #[payment_token] token: EgldOrDctTokenIdentifier,
-    ) -> MultiValue2<BigUint, EgldOrDctTokenIdentifier> {
-        let payment = self.call_value().egld_value().clone_value();
+        #[payment_token] token: MoaxOrDctTokenIdentifier,
+    ) -> MultiValue2<BigUint, MoaxOrDctTokenIdentifier> {
+        let payment = self.call_value().moax_value().clone_value();
         (payment, token).into()
     }
 
     #[endpoint]
-    #[payable("EGLD")]
-    fn payable_egld_4(&self) -> MultiValue2<BigUint, EgldOrDctTokenIdentifier> {
-        let payment = self.call_value().egld_value();
-        let token = self.call_value().egld_or_single_dct().token_identifier;
+    #[payable("MOAX")]
+    fn payable_moax_4(&self) -> MultiValue2<BigUint, MoaxOrDctTokenIdentifier> {
+        let payment = self.call_value().moax_value();
+        let token = self.call_value().moax_or_single_dct().token_identifier;
         (payment.clone_value(), token).into()
     }
 
@@ -118,8 +118,8 @@ pub trait PayableFeatures {
     fn payable_token_1(
         &self,
         #[payment] payment: BigUint,
-        #[payment_token] token: EgldOrDctTokenIdentifier,
-    ) -> MultiValue2<BigUint, EgldOrDctTokenIdentifier> {
+        #[payment_token] token: MoaxOrDctTokenIdentifier,
+    ) -> MultiValue2<BigUint, MoaxOrDctTokenIdentifier> {
         (payment, token).into()
     }
 
@@ -137,8 +137,8 @@ pub trait PayableFeatures {
     #[payable("PAYABLE-FEATURES-TOKEN")]
     fn payable_token_3(
         &self,
-        #[payment_token] token: EgldOrDctTokenIdentifier,
-    ) -> MultiValue2<BigUint, EgldOrDctTokenIdentifier> {
+        #[payment_token] token: MoaxOrDctTokenIdentifier,
+    ) -> MultiValue2<BigUint, MoaxOrDctTokenIdentifier> {
         let payment = self.call_value().single_dct();
         (payment.amount, token).into()
     }

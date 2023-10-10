@@ -233,7 +233,7 @@ fn init(
 )
 ```
 
-Each breeding will cost a fixed amount of eGLD. The birth operation can cost a lot of gas, depending on the implementation of the genetic algortihm, so whoever calls the give_birth method (will be discussed later) will get the deposited `birth_fee`.
+Each breeding will cost a fixed amount of MOAX. The birth operation can cost a lot of gas, depending on the implementation of the genetic algortihm, so whoever calls the give_birth method (will be discussed later) will get the deposited `birth_fee`.
 
 The next two arguments are the addresses of the other two contracts: the kitty-auction contract and the kitty-genetic-alg contract. These can either be set now or later by the owner, using the appropriate setter methods.
 
@@ -274,7 +274,7 @@ Gets the `birth_fee` set by the owner.
 Approves an address to use the kitty as a sire. Only the owner of `kitty_id` may call this function, and it may not override an already existing approved address.
 
 ```
-#[payable("EGLD")]
+#[payable("MOAX")]
 #[endpoint(breedWith)]
 fn breed_with(
 	matron_id: u32,

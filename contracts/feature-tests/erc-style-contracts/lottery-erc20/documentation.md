@@ -104,7 +104,7 @@ pub struct LotteryInfo<BigUint:BigUintApi> {
 It basically contains the exact same fields as the arguments of the start function, plus an additional two fields:
 
 *current\_ticket\_number*: Could be called “tickets sold”, but this name makes more sense in the implementation.  
-*prize\_pool*: the accumulated eGLD up until now.
+*prize\_pool*: the accumulated MOAX up until now.
 *queued\_tickets*: the number of tickets that are currently being processed
 
 ## 2) State-altering functions

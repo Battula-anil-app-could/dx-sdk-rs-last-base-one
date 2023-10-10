@@ -42,7 +42,7 @@
             "id": "validatorReward-1",
             "tx": {
                 "to": "sc:basic-features",
-                "egldValue": "100,000,000"
+                "moaxValue": "100,000,000"
             }
         },
         {
@@ -71,7 +71,7 @@
             "id": "validatorReward-1",
             "tx": {
                 "to": "sc:basic-features",
-                "egldValue": "300"
+                "moaxValue": "300"
             }
         },
         {

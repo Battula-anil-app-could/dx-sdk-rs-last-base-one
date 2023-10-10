@@ -21,7 +21,7 @@ use crate::{
     },
     storage::StorageKey,
     types::{
-        BigUint, CallbackClosure, ContractCall, ContractCallWithEgld, DctTokenData,
+        BigUint, CallbackClosure, ContractCall, ContractCallWithMoax, DctTokenData,
         DctTokenPayment, DctTokenType, ManagedAddress, ManagedBuffer, ManagedType,
         TokenIdentifier,
     },
@@ -215,7 +215,7 @@ where
         issue_cost: BigUint<SA>,
         token_display_name: ManagedBuffer<SA>,
         token_ticker: ManagedBuffer<SA>,
-    ) -> ContractCallWithEgld<SA, ()> {
+    ) -> ContractCallWithMoax<SA, ()> {
         let system_sc_proxy = DCTSystemSmartContractProxy::<SA>::new_proxy_obj();
         system_sc_proxy.issue_non_fungible(
             issue_cost,
@@ -229,7 +229,7 @@ where
         issue_cost: BigUint<SA>,
         token_display_name: ManagedBuffer<SA>,
         token_ticker: ManagedBuffer<SA>,
-    ) -> ContractCallWithEgld<SA, ()> {
+    ) -> ContractCallWithMoax<SA, ()> {
         let system_sc_proxy = DCTSystemSmartContractProxy::<SA>::new_proxy_obj();
         system_sc_proxy.issue_semi_fungible(
             issue_cost,
@@ -244,7 +244,7 @@ where
         token_display_name: ManagedBuffer<SA>,
         token_ticker: ManagedBuffer<SA>,
         num_decimals: usize,
-    ) -> ContractCallWithEgld<SA, ()> {
+    ) -> ContractCallWithMoax<SA, ()> {
         let system_sc_proxy = DCTSystemSmartContractProxy::<SA>::new_proxy_obj();
         let properties = MetaTokenProperties {
             num_decimals,

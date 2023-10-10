@@ -2,7 +2,7 @@ use std::{cell::RefCell, rc::Rc};
 
 use forwarder_queue::QueuedCallType;
 use dharitri_sc_snippets::{
-    dharitri_sc::types::{EgldOrDctTokenIdentifier, EgldOrDctTokenPayment, MultiValueEncoded},
+    dharitri_sc::types::{MoaxOrDctTokenIdentifier, MoaxOrDctTokenPayment, MultiValueEncoded},
     dharitri_sc_scenario::{
         api::StaticApi,
         bech32,
@@ -27,7 +27,7 @@ impl ComposabilityInteract {
         forwarders: &Vec<Rc<RefCell<ForwarderQueueTarget>>>,
         call_type: QueuedCallType,
         endpoint_name: &str,
-        payment_token: EgldOrDctTokenIdentifier<StaticApi>,
+        payment_token: MoaxOrDctTokenIdentifier<StaticApi>,
         payment_nonce: u64,
         payment_amount: BigUint,
     ) {
@@ -66,8 +66,8 @@ impl ComposabilityInteract {
                                         FORWARD_QUEUED_CALLS_ENDPOINT,
                                         MultiValueEncoded::<StaticApi, _>::new(),
                                     )
-                                    .with_egld_or_single_dct_transfer(
-                                        EgldOrDctTokenPayment::new(
+                                    .with_moax_or_single_dct_transfer(
+                                        MoaxOrDctTokenPayment::new(
                                             payment_token.clone(),
                                             payment_nonce,
                                             payment_amount.clone().into(),
@@ -98,8 +98,8 @@ impl ComposabilityInteract {
                                         endpoint_name,
                                         MultiValueEncoded::<StaticApi, _>::new(),
                                     )
-                                    .with_egld_or_single_dct_transfer(
-                                        EgldOrDctTokenPayment::new(
+                                    .with_moax_or_single_dct_transfer(
+                                        MoaxOrDctTokenPayment::new(
                                             payment_token.clone(),
                                             payment_nonce,
                                             payment_amount.clone().into(),

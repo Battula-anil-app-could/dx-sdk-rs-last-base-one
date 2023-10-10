@@ -7,7 +7,7 @@ use crate::{
     },
 };
 
-use super::{contract_call_no_payment::ContractCallNoPayment, ContractCall, ContractCallWithEgld};
+use super::{contract_call_no_payment::ContractCallNoPayment, ContractCall, ContractCallWithMoax};
 
 #[must_use]
 pub struct ContractCallWithMultiDct<SA, OriginalResult>
@@ -25,7 +25,7 @@ where
 {
     type OriginalResult = OriginalResult;
 
-    fn into_normalized(self) -> ContractCallWithEgld<SA, Self::OriginalResult> {
+    fn into_normalized(self) -> ContractCallWithMoax<SA, Self::OriginalResult> {
         self.basic
             .into_normalized()
             .convert_to_dct_transfer_call(self.dct_payments)

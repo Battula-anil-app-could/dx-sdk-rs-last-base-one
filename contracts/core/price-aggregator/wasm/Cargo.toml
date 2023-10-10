@@ -1,6 +1,6 @@
 [package]
 name = "dharitri-price-aggregator-sc-wasm"
-version = "0.0.0"
+version = "0.0.1"
 authors = [ "Claudiu-Marcel Bruda <claudiu.bruda@dharitri.com>",]
 edition = "2021"
 publish = false
@@ -19,7 +19,7 @@ panic = "abort"
 path = ".."
 
 [dependencies.dharitri-sc-wasm-adapter]
-version = "0.43.4"
+version = "0.0.1"
 path = "../../../../framework/wasm-adapter"
 
 [workspace]

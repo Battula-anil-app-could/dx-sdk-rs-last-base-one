@@ -95,14 +95,14 @@ fn dct_token_payment_backwards_compatibility_decode() {
 #[test]
 fn dct_token_payment_backwards_compatibility_decode_real_data() {
     let bytes = dharitri_sc::hex_literal::hex!(
-        "020000000f41534845474c44462d3236356334350000000000000001000000065af3107a4000"
+        "020000000f4153484d4f4158462d3236356334350000000000000001000000065af3107a4000"
     );
     let decoded = dct_token_payment_backwards_compatible_top_decode_or_handle_err(
         &bytes[..],
         DefaultErrorHandler,
     )
     .unwrap();
-    assert_eq!(decoded.token_identifier.to_string(), "ASHEGLDF-265c45");
+    assert_eq!(decoded.token_identifier.to_string(), "ASHMOAXF-265c45");
     assert_eq!(decoded.token_nonce, 1);
     assert_eq!(decoded.amount, BigUint::from(0x5af3107a4000u64));
 }

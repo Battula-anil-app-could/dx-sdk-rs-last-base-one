@@ -23,7 +23,7 @@ pub struct MxpySnippetGenerator {
     sender_nonce: Option<u64>,
     tx: TransactionType,
     gas_limit: u64,
-    egld_value: num_bigint::BigUint,
+    moax_value: num_bigint::BigUint,
     arguments: Vec<Vec<u8>>,
     proxy: String,
     chain_id: String,
@@ -48,7 +48,7 @@ impl MxpySnippetGenerator {
                 opt_json_out_file,
             },
             gas_limit: bounded_gas_limit,
-            egld_value: num_bigint::BigUint::zero(),
+            moax_value: num_bigint::BigUint::zero(),
             arguments: Vec::new(),
             proxy,
             chain_id,
@@ -75,7 +75,7 @@ impl MxpySnippetGenerator {
                 opt_json_out_file,
             },
             gas_limit: bounded_gas_limit,
-            egld_value: num_bigint::BigUint::zero(),
+            moax_value: num_bigint::BigUint::zero(),
             arguments: Vec::new(),
             proxy,
             chain_id,
@@ -103,7 +103,7 @@ impl MxpySnippetGenerator {
                 dct_transfers: Vec::new(),
             },
             gas_limit: bounded_gas_limit,
-            egld_value: num_bigint::BigUint::zero(),
+            moax_value: num_bigint::BigUint::zero(),
             arguments: Vec::new(),
             proxy,
             chain_id,
@@ -125,15 +125,15 @@ impl MxpySnippetGenerator {
                 function,
             },
             gas_limit: 0,
-            egld_value: num_bigint::BigUint::zero(),
+            moax_value: num_bigint::BigUint::zero(),
             arguments: Vec::new(),
             proxy,
             chain_id,
         }
     }
 
-    pub fn set_egld_value(&mut self, egld_value: &num_bigint::BigUint) {
-        self.egld_value = egld_value.clone();
+    pub fn set_moax_value(&mut self, moax_value: &num_bigint::BigUint) {
+        self.moax_value = moax_value.clone();
     }
 
     pub fn add_dct_transfer(
@@ -337,8 +337,8 @@ impl MxpySnippetGenerator {
             },
         }
 
-        if self.egld_value > num_bigint::BigUint::zero() {
-            cmd_builder.add_numerical_argument(EGLD_VALUE_ARG_NAME, &self.egld_value);
+        if self.moax_value > num_bigint::BigUint::zero() {
+            cmd_builder.add_numerical_argument(MOAX_VALUE_ARG_NAME, &self.moax_value);
         }
 
         cmd_builder.add_numerical_argument(
@@ -502,7 +502,7 @@ fn main() {
     println!();
     println!();
 
-    // sc call with EGLD
+    // sc call with MOAX
 
     generator = MxpySnippetGenerator::new_sc_call(
         ChainConfig::Devnet,
@@ -515,9 +515,9 @@ fn main() {
     generator.add_argument(&my_val);
     generator.add_argument(&other_arg);
 
-    generator.set_egld_value(&num_bigint::BigUint::from_str("10_000_000_000_000_000_000").unwrap());
+    generator.set_moax_value(&num_bigint::BigUint::from_str("10_000_000_000_000_000_000").unwrap());
 
-    println!("SC Call with EGLD transfer:");
+    println!("SC Call with MOAX transfer:");
     generator.print(PrintOption::Both);
     println!();
     println!();

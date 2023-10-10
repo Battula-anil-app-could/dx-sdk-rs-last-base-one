@@ -12,7 +12,7 @@
             "tx": {
                 "from": "address:acc2",
                 "to": "sc:kitty_ownership_contract",
-                "egldValue": "10",
+                "moaxValue": "10",
                 "function": "breedWith",
                 "arguments": [
                     "2",

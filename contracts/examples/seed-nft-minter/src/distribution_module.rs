@@ -20,7 +20,7 @@ pub trait DistributionModule {
 
     fn distribute_funds(
         &self,
-        token_id: &EgldOrDctTokenIdentifier,
+        token_id: &MoaxOrDctTokenIdentifier,
         token_nonce: u64,
         total_amount: BigUint,
     ) {
@@ -35,7 +35,7 @@ pub trait DistributionModule {
             }
             self.send()
                 .contract_call::<IgnoreValue>(distribution.address, distribution.endpoint)
-                .with_egld_or_single_dct_transfer((token_id.clone(), token_nonce, payment_amount))
+                .with_moax_or_single_dct_transfer((token_id.clone(), token_nonce, payment_amount))
                 .with_gas_limit(distribution.gas_limit)
                 .transfer_execute();
         }

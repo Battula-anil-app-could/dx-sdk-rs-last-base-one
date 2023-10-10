@@ -42,15 +42,15 @@ pub trait SeedNftMinter:
         opt_token_used_as_payment_nonce: OptionalValue<u64>,
     ) {
         let token_used_as_payment = match opt_token_used_as_payment {
-            OptionalValue::Some(token) => EgldOrDctTokenIdentifier::dct(token),
-            OptionalValue::None => EgldOrDctTokenIdentifier::egld(),
+            OptionalValue::Some(token) => MoaxOrDctTokenIdentifier::dct(token),
+            OptionalValue::None => MoaxOrDctTokenIdentifier::moax(),
         };
         require!(
             token_used_as_payment.is_valid(),
             "Invalid token_used_as_payment arg, not a valid token ID"
         );
 
-        let token_used_as_payment_nonce = if token_used_as_payment.is_egld() {
+        let token_used_as_payment_nonce = if token_used_as_payment.is_moax() {
             0
         } else {
             match opt_token_used_as_payment_nonce {
@@ -77,12 +77,12 @@ pub trait SeedNftMinter:
 
     #[only_owner]
     #[endpoint(claimAndDistribute)]
-    fn claim_and_distribute(&self, token_id: EgldOrDctTokenIdentifier, token_nonce: u64) {
+    fn claim_and_distribute(&self, token_id: MoaxOrDctTokenIdentifier, token_nonce: u64) {
         let total_amount = self.claim_royalties(&token_id, token_nonce);
         self.distribute_funds(&token_id, token_nonce, total_amount);
     }
 
-    fn claim_royalties(&self, token_id: &EgldOrDctTokenIdentifier, token_nonce: u64) -> BigUint {
+    fn claim_royalties(&self, token_id: &MoaxOrDctTokenIdentifier, token_nonce: u64) -> BigUint {
         let claim_destination = self.blockchain().get_sc_address();
         let mut total_amount = BigUint::zero();
         for address in self.marketplaces().iter() {
@@ -91,9 +91,9 @@ pub trait SeedNftMinter:
                 .claim_tokens(&claim_destination, token_id, token_nonce)
                 .execute_on_dest_context();
 
-            let (egld_amount, dct_payments) = results.into_tuple();
-            let amount = if token_id.is_egld() {
-                egld_amount
+            let (moax_amount, dct_payments) = results.into_tuple();
+            let amount = if token_id.is_moax() {
+                moax_amount
             } else {
                 dct_payments
                     .try_get(0)
@@ -130,7 +130,7 @@ mod nft_marketplace_proxy {
         fn claim_tokens(
             &self,
             claim_destination: &ManagedAddress,
-            token_id: &EgldOrDctTokenIdentifier,
+            token_id: &MoaxOrDctTokenIdentifier,
             token_nonce: u64,
         ) -> MultiValue2<BigUint, ManagedVec<DctTokenPayment>>;
     }

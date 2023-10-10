@@ -9,7 +9,7 @@ static mut STATIC_BUFFER: LockableStaticBuffer = LockableStaticBuffer::new();
 static mut EXTERNAL_VIEW_TARGET_ADDRESS_HANDLE: i32 = 0;
 static mut NEXT_HANDLE: i32 = const_handles::NEW_HANDLE_START_FROM;
 static mut NUM_ARGUMENTS: i32 = 0;
-static mut CALL_VALUE_EGLD_HANDLE: i32 = const_handles::UNINITIALIZED_HANDLE;
+static mut CALL_VALUE_MOAX_HANDLE: i32 = const_handles::UNINITIALIZED_HANDLE;
 static mut CALL_VALUE_MULTI_DCT_HANDLE: i32 = const_handles::UNINITIALIZED_HANDLE;
 
 // The compiler seems to enjoy inlining this method no matter how many times it shows up.
@@ -59,14 +59,14 @@ impl StaticVarApiImpl for VmApiImpl {
         unsafe { NUM_ARGUMENTS }
     }
 
-    fn set_call_value_egld_handle(&self, handle: RawHandle) {
+    fn set_call_value_moax_handle(&self, handle: RawHandle) {
         unsafe {
-            CALL_VALUE_EGLD_HANDLE = handle;
+            CALL_VALUE_MOAX_HANDLE = handle;
         }
     }
 
-    fn get_call_value_egld_handle(&self) -> RawHandle {
-        unsafe { CALL_VALUE_EGLD_HANDLE }
+    fn get_call_value_moax_handle(&self) -> RawHandle {
+        unsafe { CALL_VALUE_MOAX_HANDLE }
     }
 
     fn set_call_value_multi_dct_handle(&self, handle: RawHandle) {

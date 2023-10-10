@@ -17,7 +17,7 @@ use crate::{
     data::{address::Address, transaction::Transaction},
 };
 
-const EGLD_COIN_TYPE: u32 = 508;
+const MOAX_COIN_TYPE: u32 = 508;
 const HARDENED: u32 = 0x80000000;
 
 type HmacSha521 = Hmac<Sha512>;
@@ -71,7 +71,7 @@ impl Wallet {
 
         for child_idx in [
             44 | HARDENED,
-            EGLD_COIN_TYPE | HARDENED,
+            MOAX_COIN_TYPE | HARDENED,
             account | HARDENED, // account
             HARDENED,
             address_index | HARDENED, // addressIndex
@@ -100,13 +100,18 @@ impl Wallet {
 
     pub fn from_pem_file(file_path: &str) -> Result<Self> {
         let contents = std::fs::read_to_string(file_path).unwrap();
+        //eprintln!("{:?}", contents);
         Self::from_pem_file_contents(contents)
     }
 
     pub fn from_pem_file_contents(contents: String) -> Result<Self> {
-        let x = pem::parse(contents)?;
+        eprintln!("Contents: {:?}", contents);
+        let x = pem::parse(contents.clone())?;
+        eprintln!("x is s{:?}", x);
         let x = x.contents[..PRIVATE_KEY_LENGTH].to_vec();
+       
         let priv_key_str = std::str::from_utf8(x.as_slice())?;
+        eprintln!("{:?}", priv_key_str);
         let pri_key = PrivateKey::from_hex_str(priv_key_str)?;
         Ok(Self { priv_key: pri_key })
     }

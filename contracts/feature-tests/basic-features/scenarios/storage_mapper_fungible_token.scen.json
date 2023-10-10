@@ -687,7 +687,7 @@
             "tx": {
                 "from": "address:an_account",
                 "to": "sc:basic-features",
-                "egldValue": "100",
+                "moaxValue": "100",
                 "function": "require_same_token_fungible",
                 "arguments": [],
                 "gasLimit": "100,000,000",

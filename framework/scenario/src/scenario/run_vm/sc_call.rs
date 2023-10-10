@@ -82,7 +82,7 @@ fn tx_input_from_call(sc_call_step: &ScCallStep) -> TxInput {
     TxInput {
         from: tx.from.to_vm_address(),
         to: tx.to.to_vm_address(),
-        egld_value: tx.egld_value.value.clone(),
+        moax_value: tx.moax_value.value.clone(),
         dct_values: tx_dct_transfers_from_scenario(tx.dct_value.as_slice()),
         func_name: tx.function.clone().into(),
         args: tx

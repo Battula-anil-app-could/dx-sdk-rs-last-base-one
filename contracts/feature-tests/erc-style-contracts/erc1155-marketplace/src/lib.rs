@@ -7,7 +7,7 @@ const PERCENTAGE_TOTAL: u8 = 100;
 
 #[derive(TopEncode, TopDecode, TypeAbi)]
 pub struct Auction<M: ManagedTypeApi> {
-    pub token_identifier: EgldOrDctTokenIdentifier<M>,
+    pub token_identifier: MoaxOrDctTokenIdentifier<M>,
     pub min_bid: BigUint<M>,
     pub max_bid: BigUint<M>,
     pub deadline: u64,
@@ -18,7 +18,7 @@ pub struct Auction<M: ManagedTypeApi> {
 
 #[derive(TopEncode, TopDecode, TypeAbi)]
 pub struct AuctionArgument<M: ManagedTypeApi> {
-    pub token_identifier: EgldOrDctTokenIdentifier<M>,
+    pub token_identifier: MoaxOrDctTokenIdentifier<M>,
     pub min_bid: BigUint<M>,
     pub max_bid: BigUint<M>,
     pub deadline: u64,
@@ -139,7 +139,7 @@ pub trait Erc1155Marketplace {
     #[payable("*")]
     #[endpoint]
     fn bid(&self, type_id: BigUint, nft_id: BigUint) {
-        let (payment_token, payment) = self.call_value().egld_or_single_fungible_dct();
+        let (payment_token, payment) = self.call_value().moax_or_single_fungible_dct();
         require!(
             self.is_up_for_auction(&type_id, &nft_id),
             "Token is not up for auction"
@@ -277,7 +277,7 @@ pub trait Erc1155Marketplace {
         type_id: &BigUint,
         nft_id: &BigUint,
         original_owner: &ManagedAddress,
-        token: &EgldOrDctTokenIdentifier,
+        token: &MoaxOrDctTokenIdentifier,
         min_bid: &BigUint,
         max_bid: &BigUint,
         deadline: u64,
@@ -320,14 +320,14 @@ pub trait Erc1155Marketplace {
         total_amount * cut_percentage as u32 / PERCENTAGE_TOTAL as u32
     }
 
-    fn add_claimable_funds(&self, token_identifier: &EgldOrDctTokenIdentifier, amount: &BigUint) {
+    fn add_claimable_funds(&self, token_identifier: &MoaxOrDctTokenIdentifier, amount: &BigUint) {
         let mut mapper = self.get_claimable_funds_mapper();
         let mut total = mapper.get(token_identifier).unwrap_or_default();
         total += amount;
         mapper.insert(token_identifier.clone(), total);
     }
 
-    fn clear_claimable_funds(&self, token_identifier: &EgldOrDctTokenIdentifier) {
+    fn clear_claimable_funds(&self, token_identifier: &MoaxOrDctTokenIdentifier) {
         let mut mapper = self.get_claimable_funds_mapper();
         mapper.insert(token_identifier.clone(), BigUint::zero());
     }
@@ -353,7 +353,7 @@ pub trait Erc1155Marketplace {
     // claimable funds - only after an auction ended and the fixed percentage has been reserved by the SC
 
     #[storage_mapper("claimableFunds")]
-    fn get_claimable_funds_mapper(&self) -> MapMapper<EgldOrDctTokenIdentifier, BigUint>;
+    fn get_claimable_funds_mapper(&self) -> MapMapper<MoaxOrDctTokenIdentifier, BigUint>;
 
     // auction properties for each token
 

@@ -55,15 +55,15 @@ impl<VHB: VMHooksApiBackend> StaticVarApiImpl for VMHooksApi<VHB> {
         self.with_static_data(|data| data.static_vars_cell.borrow().num_arguments)
     }
 
-    fn set_call_value_egld_handle(&self, handle: RawHandle) {
+    fn set_call_value_moax_handle(&self, handle: RawHandle) {
         self.with_static_data(|data| {
-            data.static_vars_cell.borrow_mut().call_value_egld_handle = handle;
+            data.static_vars_cell.borrow_mut().call_value_moax_handle = handle;
         })
     }
 
-    fn get_call_value_egld_handle(&self) -> RawHandle {
+    fn get_call_value_moax_handle(&self) -> RawHandle {
         self.with_static_data(|data| {
-            use_raw_handle(data.static_vars_cell.borrow().call_value_egld_handle)
+            use_raw_handle(data.static_vars_cell.borrow().call_value_moax_handle)
         })
     }
 

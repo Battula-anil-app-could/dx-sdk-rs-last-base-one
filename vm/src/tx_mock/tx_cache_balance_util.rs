@@ -8,16 +8,16 @@ use crate::{
 use super::TxCache;
 
 impl TxCache {
-    pub fn subtract_egld_balance(
+    pub fn subtract_moax_balance(
         &self,
         address: &VMAddress,
         call_value: &BigUint,
     ) -> Result<(), TxPanic> {
         self.with_account_mut(address, |account| {
-            if call_value > &account.egld_balance {
+            if call_value > &account.moax_balance {
                 return Err(TxPanic::vm_error("failed transfer (insufficient funds)"));
             }
-            account.egld_balance -= call_value;
+            account.moax_balance -= call_value;
             Ok(())
         })
     }
@@ -26,16 +26,16 @@ impl TxCache {
         self.with_account_mut(address, |account| {
             let gas_cost = BigUint::from(gas_limit) * BigUint::from(gas_price);
             assert!(
-                account.egld_balance >= gas_cost,
+                account.moax_balance >= gas_cost,
                 "Not enough balance to pay gas upfront"
             );
-            account.egld_balance -= &gas_cost;
+            account.moax_balance -= &gas_cost;
         });
     }
 
-    pub fn increase_egld_balance(&self, address: &VMAddress, amount: &BigUint) {
+    pub fn increase_moax_balance(&self, address: &VMAddress, amount: &BigUint) {
         self.with_account_mut(address, |account| {
-            account.egld_balance += amount;
+            account.moax_balance += amount;
         });
     }
 
@@ -86,17 +86,17 @@ impl TxCache {
         });
     }
 
-    pub fn transfer_egld_balance(
+    pub fn transfer_moax_balance(
         &self,
         from: &VMAddress,
         to: &VMAddress,
         value: &BigUint,
     ) -> Result<(), TxPanic> {
         if !is_system_sc_address(from) {
-            self.subtract_egld_balance(from, value)?;
+            self.subtract_moax_balance(from, value)?;
         }
         if !is_system_sc_address(to) {
-            self.increase_egld_balance(to, value);
+            self.increase_moax_balance(to, value);
         }
         Ok(())
     }

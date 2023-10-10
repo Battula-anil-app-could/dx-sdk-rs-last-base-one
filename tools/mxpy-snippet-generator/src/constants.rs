@@ -19,7 +19,7 @@ pub const PROXY_ARG_NAME: &str = "proxy";
 pub const CHAIN_ID_ARG_NAME: &str = "chain";
 pub const NONCE_ARG_NAME: &str = "nonce";
 pub const GAS_LIMIT_ARG_NAME: &str = "gas-limit";
-pub const EGLD_VALUE_ARG_NAME: &str = "value";
+pub const MOAX_VALUE_ARG_NAME: &str = "value";
 pub const FUNCTION_ARG_NAME: &str = "function";
 pub const ARGUMENTS_ARG_NAME: &str = "arguments";
 

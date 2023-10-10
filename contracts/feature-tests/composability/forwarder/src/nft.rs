@@ -34,7 +34,7 @@ pub trait ForwarderNftModule: storage::ForwarderStorageModule {
     #[payable("*")]
     #[endpoint]
     fn buy_nft(&self, nft_id: TokenIdentifier, nft_nonce: u64, nft_amount: BigUint) -> BigUint {
-        let payment = self.call_value().egld_or_single_dct();
+        let payment = self.call_value().moax_or_single_dct();
 
         self.send().sell_nft(
             &nft_id,
@@ -47,10 +47,10 @@ pub trait ForwarderNftModule: storage::ForwarderStorageModule {
         )
     }
 
-    #[payable("EGLD")]
+    #[payable("MOAX")]
     #[endpoint]
     fn nft_issue(&self, token_display_name: ManagedBuffer, token_ticker: ManagedBuffer) {
-        let issue_cost = self.call_value().egld_value();
+        let issue_cost = self.call_value().moax_value();
         let caller = self.blockchain().get_caller();
 
         self.send()
@@ -88,9 +88,9 @@ pub trait ForwarderNftModule: storage::ForwarderStorageModule {
             ManagedAsyncCallResult::Err(message) => {
                 // return issue cost to the caller
                 let (token_identifier, returned_tokens) =
-                    self.call_value().egld_or_single_fungible_dct();
-                if token_identifier.is_egld() && returned_tokens > 0 {
-                    self.send().direct_egld(caller, &returned_tokens);
+                    self.call_value().moax_or_single_fungible_dct();
+                if token_identifier.is_moax() && returned_tokens > 0 {
+                    self.send().direct_moax(caller, &returned_tokens);
                 }
 
                 self.last_error_message().set(&message.err_msg);

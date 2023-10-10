@@ -89,15 +89,15 @@ impl BlockchainStateWrapper {
         }
     }
 
-    pub fn check_egld_balance(&self, address: &Address, expected_balance: &num_bigint::BigUint) {
+    pub fn check_moax_balance(&self, address: &Address, expected_balance: &num_bigint::BigUint) {
         let actual_balance = match &self.world.get_state().accounts.get(&to_vm_address(address)) {
-            Some(acc) => acc.egld_balance.clone(),
+            Some(acc) => acc.moax_balance.clone(),
             None => num_bigint::BigUint::zero(),
         };
 
         assert!(
             expected_balance == &actual_balance,
-            "EGLD balance mismatch for address {}\n Expected: {}\n Have: {}\n",
+            "MOAX balance mismatch for address {}\n Expected: {}\n Have: {}\n",
             address_to_hex(address),
             expected_balance,
             actual_balance
@@ -178,9 +178,9 @@ impl BlockchainStateWrapper {
 }
 
 impl BlockchainStateWrapper {
-    pub fn create_user_account(&mut self, egld_balance: &num_bigint::BigUint) -> Address {
+    pub fn create_user_account(&mut self, moax_balance: &num_bigint::BigUint) -> Address {
         let address = self.address_factory.new_address();
-        self.create_account_raw(&address, egld_balance, None, None, None);
+        self.create_account_raw(&address, moax_balance, None, None, None);
 
         address
     }
@@ -188,14 +188,14 @@ impl BlockchainStateWrapper {
     pub fn create_user_account_fixed_address(
         &mut self,
         address: &Address,
-        egld_balance: &num_bigint::BigUint,
+        moax_balance: &num_bigint::BigUint,
     ) {
-        self.create_account_raw(address, egld_balance, None, None, None);
+        self.create_account_raw(address, moax_balance, None, None, None);
     }
 
     pub fn create_sc_account<CB, ContractObjBuilder>(
         &mut self,
-        egld_balance: &num_bigint::BigUint,
+        moax_balance: &num_bigint::BigUint,
         owner: Option<&Address>,
         obj_builder: ContractObjBuilder,
         contract_wasm_path: &str,
@@ -207,7 +207,7 @@ impl BlockchainStateWrapper {
         let address = self.address_factory.new_sc_address();
         self.create_sc_account_fixed_address(
             &address,
-            egld_balance,
+            moax_balance,
             owner,
             obj_builder,
             contract_wasm_path,
@@ -217,7 +217,7 @@ impl BlockchainStateWrapper {
     pub fn create_sc_account_fixed_address<CB, ContractObjBuilder>(
         &mut self,
         address: &Address,
-        egld_balance: &num_bigint::BigUint,
+        moax_balance: &num_bigint::BigUint,
         owner: Option<&Address>,
         obj_builder: ContractObjBuilder,
         contract_wasm_path: &str,
@@ -244,7 +244,7 @@ impl BlockchainStateWrapper {
         );
 
         let mut account = Account::new()
-            .balance(egld_balance)
+            .balance(moax_balance)
             .code(contract_code_expr.clone());
         if let Some(owner) = owner {
             account = account.owner(owner);
@@ -283,7 +283,7 @@ impl BlockchainStateWrapper {
     pub fn create_account_raw(
         &mut self,
         address: &Address,
-        egld_balance: &num_bigint::BigUint,
+        moax_balance: &num_bigint::BigUint,
         _owner: Option<&Address>,
         _sc_identifier: Option<Vec<u8>>,
         _sc_mandos_path_expr: Option<Vec<u8>>,
@@ -293,7 +293,7 @@ impl BlockchainStateWrapper {
             panic!("Address already used: {:?}", address_to_hex(address));
         }
 
-        let account = Account::new().balance(egld_balance);
+        let account = Account::new().balance(moax_balance);
 
         self.world
             .set_state_step(SetStateStep::new().put_account(address, account));
@@ -343,17 +343,17 @@ impl BlockchainStateWrapper {
         ContractObjWrapper::new(old_wrapper.address, new_builder)
     }
 
-    pub fn set_egld_balance(&mut self, address: &Address, balance: &num_bigint::BigUint) {
+    pub fn set_moax_balance(&mut self, address: &Address, balance: &num_bigint::BigUint) {
         let vm_address = to_vm_address(address);
         match self.world.get_mut_state().accounts.get_mut(&vm_address) {
             Some(acc) => {
-                acc.egld_balance = balance.clone();
+                acc.moax_balance = balance.clone();
 
                 self.add_mandos_set_account(address);
             },
 
             None => panic!(
-                "set_egld_balance: Account {:?} does not exist",
+                "set_moax_balance: Account {:?} does not exist",
                 address_to_hex(address)
             ),
         }
@@ -589,7 +589,7 @@ impl BlockchainStateWrapper {
         &mut self,
         caller: &Address,
         sc_wrapper: &ContractObjWrapper<CB, ContractObjBuilder>,
-        egld_payment: &num_bigint::BigUint,
+        moax_payment: &num_bigint::BigUint,
         tx_fn: TxFn,
     ) -> TxResult
     where
@@ -597,7 +597,7 @@ impl BlockchainStateWrapper {
         ContractObjBuilder: 'static + Copy + Fn() -> CB,
         TxFn: FnOnce(CB),
     {
-        self.execute_tx_any(caller, sc_wrapper, egld_payment, Vec::new(), tx_fn)
+        self.execute_tx_any(caller, sc_wrapper, moax_payment, Vec::new(), tx_fn)
     }
 
     pub fn execute_dct_transfer<CB, ContractObjBuilder, TxFn>(
@@ -672,7 +672,7 @@ impl BlockchainStateWrapper {
         &mut self,
         caller: &Address,
         sc_wrapper: &ContractObjWrapper<CB, ContractObjBuilder>,
-        egld_payment: &num_bigint::BigUint,
+        moax_payment: &num_bigint::BigUint,
         dct_payments: Vec<TxTokenTransfer>,
         tx_fn: TxFn,
     ) -> TxResult
@@ -685,7 +685,7 @@ impl BlockchainStateWrapper {
             .from(caller)
             .to(sc_wrapper.address_ref())
             .function(TxFunctionName::WHITEBOX_CALL.as_str())
-            .egld_value(egld_payment)
+            .moax_value(moax_payment)
             .gas_limit(u64::MAX)
             .no_expect();
 
@@ -731,11 +731,11 @@ impl BlockchainStateWrapper {
 }
 
 impl BlockchainStateWrapper {
-    pub fn get_egld_balance(&self, address: &Address) -> num_bigint::BigUint {
+    pub fn get_moax_balance(&self, address: &Address) -> num_bigint::BigUint {
         match self.world.get_state().accounts.get(&to_vm_address(address)) {
-            Some(acc) => acc.egld_balance.clone(),
+            Some(acc) => acc.moax_balance.clone(),
             None => panic!(
-                "get_egld_balance: Account {:?} does not exist",
+                "get_moax_balance: Account {:?} does not exist",
                 address_to_hex(address)
             ),
         }
@@ -805,7 +805,7 @@ impl BlockchainStateWrapper {
         };
 
         println!("State for account: {:?}", address_to_hex(address));
-        println!("EGLD: {}", account.egld_balance);
+        println!("MOAX: {}", account.moax_balance);
 
         if !account.dct.is_empty() {
             println!("DCT Tokens:");

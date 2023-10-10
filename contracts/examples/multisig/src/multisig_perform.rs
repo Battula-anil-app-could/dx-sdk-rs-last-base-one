@@ -162,14 +162,14 @@ pub trait MultisigPerformModule:
                 self.perform_transfer_execute_event(
                     action_id,
                     &call_data.to,
-                    &call_data.egld_amount,
+                    &call_data.moax_amount,
                     gas,
                     &call_data.endpoint_name,
                     call_data.arguments.as_multi(),
                 );
-                let result = self.send_raw().direct_egld_execute(
+                let result = self.send_raw().direct_moax_execute(
                     &call_data.to,
-                    &call_data.egld_amount,
+                    &call_data.moax_amount,
                     gas,
                     &call_data.endpoint_name,
                     &call_data.arguments.into(),
@@ -184,14 +184,14 @@ pub trait MultisigPerformModule:
                 self.perform_async_call_event(
                     action_id,
                     &call_data.to,
-                    &call_data.egld_amount,
+                    &call_data.moax_amount,
                     gas_left,
                     &call_data.endpoint_name,
                     call_data.arguments.as_multi(),
                 );
                 self.send()
                     .contract_call::<()>(call_data.to, call_data.endpoint_name)
-                    .with_egld_transfer(call_data.egld_amount)
+                    .with_moax_transfer(call_data.moax_amount)
                     .with_raw_arguments(call_data.arguments.into())
                     .async_call()
                     .with_callback(self.callbacks().perform_async_call_callback())

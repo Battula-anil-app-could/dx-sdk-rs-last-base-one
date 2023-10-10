@@ -7,7 +7,7 @@ use dharitri_sc::{
     codec::multi_types::MultiValue2,
     storage::mappers::SingleValue,
     types::{
-        Address, BigUint, EgldOrDctTokenIdentifier, ManagedVec, MultiValueEncoded,
+        Address, BigUint, MoaxOrDctTokenIdentifier, ManagedVec, MultiValueEncoded,
         OperationCompletionStatus, TokenIdentifier,
     },
 };
@@ -228,7 +228,7 @@ fn test_raffle_and_claim() {
     state.world.sc_call(
         ScCallStep::new()
             .from(ALICE_ADDRESS_EXPR)
-            .egld_value("2_070_000_000")
+            .moax_value("2_070_000_000")
             .call(state.rewards_distribution_contract.deposit_royalties()),
     );
 
@@ -250,7 +250,7 @@ fn test_raffle_and_claim() {
                     .rewards_distribution_contract
                     .compute_claimable_amount(
                         0u64,
-                        &EgldOrDctTokenIdentifier::egld(),
+                        &MoaxOrDctTokenIdentifier::moax(),
                         0u64,
                         nonce,
                     ),
@@ -294,7 +294,7 @@ fn test_raffle_and_claim() {
                     .rewards_distribution_contract
                     .compute_claimable_amount(
                         0u64,
-                        &EgldOrDctTokenIdentifier::egld(),
+                        &MoaxOrDctTokenIdentifier::moax(),
                         0u64,
                         nonce,
                     ),
@@ -308,9 +308,9 @@ fn test_raffle_and_claim() {
     // claim rewards
     let mut reward_tokens: MultiValueEncoded<
         StaticApi,
-        MultiValue2<EgldOrDctTokenIdentifier<StaticApi>, u64>,
+        MultiValue2<MoaxOrDctTokenIdentifier<StaticApi>, u64>,
     > = MultiValueEncoded::new();
-    reward_tokens.push((EgldOrDctTokenIdentifier::egld(), 0).into());
+    reward_tokens.push((MoaxOrDctTokenIdentifier::moax(), 0).into());
     state.world.sc_call(
         ScCallStep::new()
             .from(ALICE_ADDRESS_EXPR)
@@ -328,7 +328,7 @@ fn test_raffle_and_claim() {
             ScQueryStep::new()
                 .call(state.rewards_distribution_contract.was_claimed(
                     0u64,
-                    &EgldOrDctTokenIdentifier::egld(),
+                    &MoaxOrDctTokenIdentifier::moax(),
                     0u64,
                     nonce,
                 ))
@@ -350,9 +350,9 @@ fn test_raffle_and_claim() {
     // a second claim with the same nfts should succeed, but return no more rewards
     let mut reward_tokens: MultiValueEncoded<
         StaticApi,
-        MultiValue2<EgldOrDctTokenIdentifier<StaticApi>, u64>,
+        MultiValue2<MoaxOrDctTokenIdentifier<StaticApi>, u64>,
     > = MultiValueEncoded::new();
-    reward_tokens.push((EgldOrDctTokenIdentifier::egld(), 0).into());
+    reward_tokens.push((MoaxOrDctTokenIdentifier::moax(), 0).into());
     state.world.sc_call(
         ScCallStep::new()
             .from(ALICE_ADDRESS_EXPR)

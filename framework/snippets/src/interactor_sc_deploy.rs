@@ -13,7 +13,7 @@ impl Interactor {
     pub(crate) fn sc_deploy_to_blockchain_tx(&self, sc_deploy_step: &ScDeployStep) -> Transaction {
         Transaction {
             nonce: 0,
-            value: sc_deploy_step.tx.egld_value.value.to_string(),
+            value: sc_deploy_step.tx.moax_value.value.to_string(),
             sender: mandos_to_erdrs_address(&sc_deploy_step.tx.from),
             receiver: ErdrsAddress::from_bytes(DEPLOY_RECEIVER),
             gas_price: self.network_config.min_gas_price,

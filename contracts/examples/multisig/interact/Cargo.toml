@@ -18,13 +18,13 @@ toml = "0.7.2"
 path = ".."
 
 [dependencies.dharitri-sc-modules]
-version = "0.43.4"
+version = "0.0.1"
 path = "../../../../contracts/modules"
 
 [dependencies.dharitri-sc-snippets]
-version = "0.43.4"
+version = "0.0.1"
 path = "../../../../framework/snippets"
 
 [dependencies.dharitri-sc-scenario]
-version = "=0.43.4"
+version = "=0.0.1"
 path = "../../../../framework/scenario"

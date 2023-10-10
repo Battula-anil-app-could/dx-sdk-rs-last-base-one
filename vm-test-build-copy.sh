@@ -36,12 +36,12 @@ build_and_copy_with_scenarios() {
 # if you still want to build all:
 # ./build-wasm.sh
 
-build_and_copy_with_scenarios ./contracts/core/wegld-swap $VM_REPO_PATH/test/wegld-swap
+build_and_copy_with_scenarios ./contracts/core/wmoax-swap $VM_REPO_PATH/test/wmoax-swap
 build_and_copy_with_scenarios ./contracts/examples/adder $VM_REPO_PATH/test/adder
 build_and_copy_with_scenarios ./contracts/examples/crowdfunding-dct $VM_REPO_PATH/test/crowdfunding-dct
 build_and_copy_with_scenarios ./contracts/examples/digital-cash $VM_REPO_PATH/test/digital-cash
 build_and_copy_with_scenarios ./contracts/examples/factorial $VM_REPO_PATH/test/factorial
-build_and_copy_with_scenarios ./contracts/examples/ping-pong-egld $VM_REPO_PATH/test/ping-pong-egld
+build_and_copy_with_scenarios ./contracts/examples/ping-pong-moax $VM_REPO_PATH/test/ping-pong-moax
 build_and_copy_with_scenarios ./contracts/examples/multisig $VM_REPO_PATH/test/multisig
 build_and_copy_with_scenarios ./contracts/feature-tests/alloc-features $VM_REPO_PATH/test/features/alloc-features
 build_and_copy_with_scenarios ./contracts/feature-tests/basic-features $VM_REPO_PATH/test/features/basic-features

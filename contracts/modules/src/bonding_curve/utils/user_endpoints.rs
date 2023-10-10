@@ -71,7 +71,7 @@ pub trait UserEndpointsModule: storage::StorageModule + events::EventsModule {
             + PartialEq
             + Default,
     {
-        let (offered_token, payment) = self.call_value().egld_or_single_fungible_dct();
+        let (offered_token, payment) = self.call_value().moax_or_single_fungible_dct();
         let payment_token =
             self.check_owned_return_payment_token::<T>(&requested_token, &requested_amount);
         self.check_given_token(&payment_token, &offered_token);
@@ -220,7 +220,7 @@ pub trait UserEndpointsModule: storage::StorageModule + events::EventsModule {
         &self,
         issued_token: &TokenIdentifier,
         amount: &BigUint,
-    ) -> EgldOrDctTokenIdentifier
+    ) -> MoaxOrDctTokenIdentifier
     where
         T: CurveFunction<Self::Api>
             + TopEncode
@@ -247,8 +247,8 @@ pub trait UserEndpointsModule: storage::StorageModule + events::EventsModule {
 
     fn check_given_token(
         &self,
-        accepted_token: &EgldOrDctTokenIdentifier,
-        given_token: &EgldOrDctTokenIdentifier,
+        accepted_token: &MoaxOrDctTokenIdentifier,
+        given_token: &MoaxOrDctTokenIdentifier,
     ) {
         require!(
             given_token == accepted_token,

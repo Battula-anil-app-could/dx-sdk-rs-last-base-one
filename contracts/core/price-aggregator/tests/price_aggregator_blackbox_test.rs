@@ -5,7 +5,7 @@ use dharitri_price_aggregator_sc::{
 };
 use dharitri_sc::{
     codec::multi_types::MultiValueVec,
-    types::{Address, EgldOrDctTokenIdentifier},
+    types::{Address, MoaxOrDctTokenIdentifier},
 };
 use dharitri_sc_modules::pause::ProxyTrait;
 use dharitri_sc_scenario::{
@@ -16,7 +16,7 @@ use dharitri_sc_scenario::{
 };
 
 const DECIMALS: u8 = 0;
-const EGLD_TICKER: &[u8] = b"EGLD";
+const MOAX_TICKER: &[u8] = b"MOAX";
 const NR_ORACLES: usize = 4;
 const OWNER_ADDRESS_EXPR: &str = "address:owner";
 const PRICE_AGGREGATOR_ADDRESS_EXPR: &str = "sc:price-aggregator";
@@ -100,7 +100,7 @@ impl PriceAggregatorTestState {
                 .from(OWNER_ADDRESS_EXPR)
                 .code(price_aggregator_code)
                 .call(self.price_aggregator_contract.init(
-                    EgldOrDctTokenIdentifier::egld(),
+                    MoaxOrDctTokenIdentifier::moax(),
                     STAKE_AMOUNT,
                     SLASH_AMOUNT,
                     SLASH_QUORUM,
@@ -113,7 +113,7 @@ impl PriceAggregatorTestState {
             self.world.sc_call(
                 ScCallStep::new()
                     .from(address)
-                    .egld_value(STAKE_AMOUNT)
+                    .moax_value(STAKE_AMOUNT)
                     .call(self.price_aggregator_contract.stake()),
             );
         }
@@ -125,7 +125,7 @@ impl PriceAggregatorTestState {
         self.world.sc_call(
             ScCallStep::new().from(OWNER_ADDRESS_EXPR).call(
                 self.price_aggregator_contract
-                    .set_pair_decimals(EGLD_TICKER, USD_TICKER, DECIMALS),
+                    .set_pair_decimals(MOAX_TICKER, USD_TICKER, DECIMALS),
             ),
         );
     }
@@ -141,7 +141,7 @@ impl PriceAggregatorTestState {
     fn submit(&mut self, from: &AddressValue, submission_timestamp: u64, price: u64) {
         self.world.sc_call(ScCallStep::new().from(from).call(
             self.price_aggregator_contract.submit(
-                EGLD_TICKER,
+                MOAX_TICKER,
                 USD_TICKER,
                 submission_timestamp,
                 price,
@@ -161,7 +161,7 @@ impl PriceAggregatorTestState {
             ScCallStep::new()
                 .from(from)
                 .call(self.price_aggregator_contract.submit(
-                    EGLD_TICKER,
+                    MOAX_TICKER,
                     USD_TICKER,
                     submission_timestamp,
                     price,
@@ -211,7 +211,7 @@ fn test_price_aggregator_submit() {
         .world
         .whitebox_query(&state.price_aggregator_whitebox, |sc| {
             let token_pair = TokenPair {
-                from: managed_buffer!(EGLD_TICKER),
+                from: managed_buffer!(MOAX_TICKER),
                 to: managed_buffer!(USD_TICKER),
             };
             assert_eq!(
@@ -290,12 +290,12 @@ fn test_price_aggregator_submit_round_ok() {
         .world
         .whitebox_query(&state.price_aggregator_whitebox, |sc| {
             let result = sc
-                .latest_price_feed(managed_buffer!(EGLD_TICKER), managed_buffer!(USD_TICKER))
+                .latest_price_feed(managed_buffer!(MOAX_TICKER), managed_buffer!(USD_TICKER))
                 .unwrap();
 
             let (round_id, from, to, timestamp, price, decimals) = result.into_tuple();
             assert_eq!(round_id, 1);
-            assert_eq!(from, managed_buffer!(EGLD_TICKER));
+            assert_eq!(from, managed_buffer!(MOAX_TICKER));
             assert_eq!(to, managed_buffer!(USD_TICKER));
             assert_eq!(timestamp, current_timestamp);
             assert_eq!(price, managed_biguint!(11_000));
@@ -345,7 +345,7 @@ fn test_price_aggregator_discarded_round() {
         .world
         .whitebox_query(&state.price_aggregator_whitebox, |sc| {
             let token_pair = TokenPair {
-                from: managed_buffer!(EGLD_TICKER),
+                from: managed_buffer!(MOAX_TICKER),
                 to: managed_buffer!(USD_TICKER),
             };
             let submissions = sc.submissions().get(&token_pair).unwrap();

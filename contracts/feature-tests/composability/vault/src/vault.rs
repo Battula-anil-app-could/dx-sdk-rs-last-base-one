@@ -48,7 +48,7 @@ pub trait Vault {
     #[endpoint]
     fn accept_funds(&self) {
         let dct_transfers_multi = self.dct_transfers_multi();
-        self.accept_funds_event(&self.call_value().egld_value(), &dct_transfers_multi);
+        self.accept_funds_event(&self.call_value().moax_value(), &dct_transfers_multi);
 
         self.call_counts(ManagedBuffer::from(b"accept_funds"))
             .update(|c| *c += 1);
@@ -59,14 +59,14 @@ pub trait Vault {
     fn accept_funds_echo_payment(
         &self,
     ) -> MultiValue2<BigUint, MultiValueEncoded<DctTokenPaymentMultiValue>> {
-        let egld_value = self.call_value().egld_value();
+        let moax_value = self.call_value().moax_value();
         let dct_transfers_multi = self.dct_transfers_multi();
-        self.accept_funds_event(&egld_value, &dct_transfers_multi);
+        self.accept_funds_event(&moax_value, &dct_transfers_multi);
 
         self.call_counts(ManagedBuffer::from(b"accept_funds_echo_payment"))
             .update(|c| *c += 1);
 
-        (egld_value.clone_value(), dct_transfers_multi).into()
+        (moax_value.clone_value(), dct_transfers_multi).into()
     }
 
     #[payable("*")]
@@ -79,7 +79,7 @@ pub trait Vault {
     #[endpoint]
     fn reject_funds(&self) {
         let dct_transfers_multi = self.dct_transfers_multi();
-        self.reject_funds_event(&self.call_value().egld_value(), &dct_transfers_multi);
+        self.reject_funds_event(&self.call_value().moax_value(), &dct_transfers_multi);
         sc_panic!("reject_funds");
     }
 
@@ -114,7 +114,7 @@ pub trait Vault {
         back_transfers: OptionalValue<u64>,
         back_transfer_value: OptionalValue<BigUint>,
     ) {
-        let payment = self.call_value().egld_or_single_dct();
+        let payment = self.call_value().moax_or_single_dct();
         let caller = self.blockchain().get_caller();
         let endpoint_name = ManagedBuffer::from(b"");
         let nr_callbacks = match back_transfers.into_option() {
@@ -128,7 +128,7 @@ pub trait Vault {
         };
 
         let return_payment =
-            EgldOrDctTokenPayment::new(payment.token_identifier, payment.token_nonce, value);
+            MoaxOrDctTokenPayment::new(payment.token_identifier, payment.token_nonce, value);
 
         self.num_called_retrieve_funds_promises()
             .update(|c| *c += 1);
@@ -138,14 +138,14 @@ pub trait Vault {
 
             self.send()
                 .contract_call::<()>(caller.clone(), endpoint_name.clone())
-                .with_egld_or_single_dct_transfer(return_payment.clone())
+                .with_moax_or_single_dct_transfer(return_payment.clone())
                 .with_gas_limit(self.blockchain().get_gas_left() / 2)
                 .transfer_execute()
         }
     }
 
     #[endpoint]
-    fn retrieve_funds(&self, token: EgldOrDctTokenIdentifier, nonce: u64, amount: BigUint) {
+    fn retrieve_funds(&self, token: MoaxOrDctTokenIdentifier, nonce: u64, amount: BigUint) {
         self.retrieve_funds_event(&token, nonce, &amount);
         let caller = self.blockchain().get_caller();
 
@@ -153,7 +153,7 @@ pub trait Vault {
             self.send()
                 .direct_dct(&caller, &dct_token_id, nonce, &amount);
         } else {
-            self.send().direct_egld(&caller, &amount);
+            self.send().direct_moax(&caller, &amount);
         }
     }
 
@@ -217,21 +217,21 @@ pub trait Vault {
     #[event("accept_funds")]
     fn accept_funds_event(
         &self,
-        #[indexed] egld_value: &BigUint,
+        #[indexed] moax_value: &BigUint,
         #[indexed] multi_dct: &MultiValueEncoded<DctTokenPaymentMultiValue>,
     );
 
     #[event("reject_funds")]
     fn reject_funds_event(
         &self,
-        #[indexed] egld_value: &BigUint,
+        #[indexed] moax_value: &BigUint,
         #[indexed] multi_dct: &MultiValueEncoded<DctTokenPaymentMultiValue>,
     );
 
     #[event("retrieve_funds")]
     fn retrieve_funds_event(
         &self,
-        #[indexed] token: &EgldOrDctTokenIdentifier,
+        #[indexed] token: &MoaxOrDctTokenIdentifier,
         #[indexed] nonce: u64,
         #[indexed] amount: &BigUint,
     );

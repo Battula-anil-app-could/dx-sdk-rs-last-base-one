@@ -44,10 +44,10 @@ impl BlockchainState {
         });
         let gas_cost = BigUint::from(gas_limit) * BigUint::from(gas_price);
         assert!(
-            account.egld_balance >= gas_cost,
+            account.moax_balance >= gas_cost,
             "Not enough balance to pay gas upfront"
         );
-        account.egld_balance -= &gas_cost;
+        account.moax_balance -= &gas_cost;
     }
 
     pub fn increase_validator_reward(&mut self, address: &VMAddress, amount: &BigUint) {
@@ -57,7 +57,7 @@ impl BlockchainState {
                 &std::str::from_utf8(address.as_ref()).unwrap()
             )
         });
-        account.egld_balance += amount;
+        account.moax_balance += amount;
         let mut storage_v_rew =
             if let Some(old_storage_value) = account.storage.get(STORAGE_REWARD_KEY) {
                 BigUint::from_bytes_be(old_storage_value)

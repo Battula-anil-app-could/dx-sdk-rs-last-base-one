@@ -15,7 +15,7 @@ static MAXIMUM_BOARD_MEMBERS: usize = 100;
 pub trait StakingModule {
     fn init_staking_module(
         &self,
-        staking_token: &EgldOrDctTokenIdentifier,
+        staking_token: &MoaxOrDctTokenIdentifier,
         staking_amount: &BigUint,
         slash_amount: &BigUint,
         slash_quorum: usize,
@@ -57,7 +57,7 @@ pub trait StakingModule {
     #[payable("*")]
     #[endpoint]
     fn stake(&self) {
-        let (payment_token, payment_amount) = self.call_value().egld_or_single_fungible_dct();
+        let (payment_token, payment_amount) = self.call_value().moax_or_single_fungible_dct();
         let staking_token = self.staking_token().get();
         require!(payment_token == staking_token, "Invalid payment token");
 
@@ -178,7 +178,7 @@ pub trait StakingModule {
     }
 
     #[storage_mapper("staking_module:stakingToken")]
-    fn staking_token(&self) -> SingleValueMapper<EgldOrDctTokenIdentifier>;
+    fn staking_token(&self) -> SingleValueMapper<MoaxOrDctTokenIdentifier>;
 
     #[storage_mapper("staking_module:requiredStakeAmount")]
     fn required_stake_amount(&self) -> SingleValueMapper<BigUint>;

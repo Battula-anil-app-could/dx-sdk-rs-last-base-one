@@ -22,7 +22,7 @@ dharitri_sc_wasm_adapter::endpoints! {
     forwarder
     (
         init => init
-        send_egld => send_egld
+        send_moax => send_moax
         echo_arguments_sync => echo_arguments_sync
         echo_arguments_sync_twice => echo_arguments_sync_twice
         forward_sync_accept_funds => forward_sync_accept_funds

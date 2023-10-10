@@ -21,7 +21,7 @@
             "tx": {
                 "from": "address:bidder1",
                 "to": "sc:kitty_auction_contract",
-                "egldValue": "200",
+                "moaxValue": "200",
                 "function": "bid",
                 "arguments": [
                     "1"

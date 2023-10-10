@@ -71,7 +71,7 @@
                     "nonce": "4",
                     "balance": "0",
                     "dct": {
-                        "str:EGLD-135790": "135",
+                        "str:MOAX-135790": "135",
                         "str:MFFT-123456": "10",
                         "str:MFSFT-246802": {
                             "instances": [
@@ -88,7 +88,7 @@
                     "nonce": "3",
                     "balance": "0",
                     "dct": {
-                        "str:EGLD-135790": "19995",
+                        "str:MOAX-135790": "19995",
                         "str:MFNFT-567890": {
                             "instances": [
                                 {
@@ -116,7 +116,7 @@
                     "nonce": "12",
                     "balance": "0",
                     "dct": {
-                        "str:EGLD-135790": "60",
+                        "str:MOAX-135790": "60",
                         "str:MFNFT-567890": {
                             "instances": [
                                 {
@@ -149,7 +149,7 @@
                     "nonce": "6",
                     "balance": "0",
                     "dct": {
-                        "str:EGLD-135790": "10",
+                        "str:MOAX-135790": "10",
                         "str:MFSFT-246802": {
                             "instances": [
                                 {

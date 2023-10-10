@@ -10,7 +10,7 @@ use crate::{
     err_msg::{ONLY_OWNER_CALLER, ONLY_USER_ACCOUNT_CALLER},
     storage::{self},
     types::{
-        BigUint, EgldOrDctTokenIdentifier, DctLocalRoleFlags, DctTokenData, DctTokenType,
+        BigUint, MoaxOrDctTokenIdentifier, DctLocalRoleFlags, DctTokenData, DctTokenType,
         ManagedAddress, ManagedBuffer, ManagedByteArray, ManagedType, ManagedVec, TokenIdentifier,
     },
 };
@@ -135,7 +135,7 @@ where
     }
 
     #[inline]
-    pub fn get_sc_balance(&self, token: &EgldOrDctTokenIdentifier<A>, nonce: u64) -> BigUint<A> {
+    pub fn get_sc_balance(&self, token: &MoaxOrDctTokenIdentifier<A>, nonce: u64) -> BigUint<A> {
         token.map_ref_or_else(
             || self.get_balance(&self.get_sc_address()),
             |token_identifier| {

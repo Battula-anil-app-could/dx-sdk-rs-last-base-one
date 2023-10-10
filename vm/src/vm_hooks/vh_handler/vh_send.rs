@@ -105,14 +105,14 @@ pub trait VMHooksSend: VMHooksHandlerSource {
     fn perform_upgrade_contract(
         &self,
         to: VMAddress,
-        egld_value: num_bigint::BigUint,
+        moax_value: num_bigint::BigUint,
         contract_code: Vec<u8>,
         code_metadata: VMCodeMetadata,
         args: Vec<Vec<u8>>,
     ) -> ! {
         let mut arguments = vec![contract_code, code_metadata.to_vec()];
         arguments.extend(args);
-        self.perform_async_call(to, egld_value, UPGRADE_CONTRACT_FUNC_NAME.into(), arguments)
+        self.perform_async_call(to, moax_value, UPGRADE_CONTRACT_FUNC_NAME.into(), arguments)
     }
 
     fn transfer_value_execute(
@@ -124,13 +124,13 @@ pub trait VMHooksSend: VMHooksHandlerSource {
         arg_buffer_handle: RawHandle,
     ) -> Result<(), &'static [u8]> {
         let recipient = self.m_types_lock().mb_to_address(to_handle);
-        let egld_value = self.m_types_lock().bu_get(amount_handle);
+        let moax_value = self.m_types_lock().bu_get(amount_handle);
         let endpoint_name = self
             .m_types_lock()
             .mb_to_function_name(endpoint_name_handle);
         let arg_buffer = self.m_types_lock().mb_get_vec_of_bytes(arg_buffer_handle);
 
-        self.perform_transfer_execute(recipient, egld_value, endpoint_name, arg_buffer);
+        self.perform_transfer_execute(recipient, moax_value, endpoint_name, arg_buffer);
 
         Ok(())
     }
@@ -182,25 +182,25 @@ pub trait VMHooksSend: VMHooksHandlerSource {
     fn async_call_raw(
         &self,
         to_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
     ) -> ! {
         let to = self.m_types_lock().mb_to_address(to_handle);
-        let egld_value = self.m_types_lock().bu_get(egld_value_handle);
+        let moax_value = self.m_types_lock().bu_get(moax_value_handle);
         let endpoint_name = self
             .m_types_lock()
             .mb_to_function_name(endpoint_name_handle);
         let arg_buffer = self.m_types_lock().mb_get_vec_of_bytes(arg_buffer_handle);
 
-        self.perform_async_call(to, egld_value, endpoint_name, arg_buffer)
+        self.perform_async_call(to, moax_value, endpoint_name, arg_buffer)
     }
 
     #[allow(clippy::too_many_arguments)]
     fn create_async_call_raw(
         &self,
         to_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
         success_callback: &[u8],
@@ -211,7 +211,7 @@ pub trait VMHooksSend: VMHooksHandlerSource {
     ) {
         let contract_address = self.current_address().clone();
         let to = self.m_types_lock().mb_to_address(to_handle);
-        let egld_value = self.m_types_lock().bu_get(egld_value_handle);
+        let moax_value = self.m_types_lock().bu_get(moax_value_handle);
         let endpoint_name = self
             .m_types_lock()
             .mb_to_function_name(endpoint_name_handle);
@@ -222,7 +222,7 @@ pub trait VMHooksSend: VMHooksHandlerSource {
         let call = AsyncCallTxData {
             from: contract_address,
             to,
-            call_value: egld_value,
+            call_value: moax_value,
             endpoint_name,
             arguments: arg_buffer,
             tx_hash,
@@ -244,14 +244,14 @@ pub trait VMHooksSend: VMHooksHandlerSource {
     fn deploy_contract(
         &self,
         _gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         code_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
         new_address_handle: RawHandle,
         result_handle: RawHandle,
     ) {
-        let egld_value = self.m_types_lock().bu_get(egld_value_handle);
+        let moax_value = self.m_types_lock().bu_get(moax_value_handle);
         let code = self.m_types_lock().mb_get(code_handle).to_vec();
         let code_metadata = self
             .m_types_lock()
@@ -259,7 +259,7 @@ pub trait VMHooksSend: VMHooksHandlerSource {
         let arg_buffer = self.m_types_lock().mb_get_vec_of_bytes(arg_buffer_handle);
 
         let (new_address, result) =
-            self.perform_deploy(egld_value, code, code_metadata, arg_buffer);
+            self.perform_deploy(moax_value, code, code_metadata, arg_buffer);
 
         self.m_types_lock()
             .mb_set(new_address_handle, new_address.to_vec());
@@ -271,14 +271,14 @@ pub trait VMHooksSend: VMHooksHandlerSource {
     fn deploy_from_source_contract(
         &self,
         _gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         source_contract_address_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
         new_address_handle: RawHandle,
         result_handle: RawHandle,
     ) {
-        let egld_value = self.m_types_lock().bu_get(egld_value_handle);
+        let moax_value = self.m_types_lock().bu_get(moax_value_handle);
         let source_contract_address = self
             .m_types_lock()
             .mb_to_address(source_contract_address_handle);
@@ -289,7 +289,7 @@ pub trait VMHooksSend: VMHooksHandlerSource {
         let arg_buffer = self.m_types_lock().mb_get_vec_of_bytes(arg_buffer_handle);
 
         let (new_address, result) =
-            self.perform_deploy(egld_value, source_contract_code, code_metadata, arg_buffer);
+            self.perform_deploy(moax_value, source_contract_code, code_metadata, arg_buffer);
 
         self.m_types_lock()
             .mb_set(new_address_handle, new_address.to_vec());
@@ -301,13 +301,13 @@ pub trait VMHooksSend: VMHooksHandlerSource {
         &self,
         sc_address_handle: RawHandle,
         _gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         source_contract_address_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
     ) {
         let to = self.m_types_lock().mb_to_address(sc_address_handle);
-        let egld_value = self.m_types_lock().bu_get(egld_value_handle);
+        let moax_value = self.m_types_lock().bu_get(moax_value_handle);
         let source_contract_address = self
             .m_types_lock()
             .mb_to_address(source_contract_address_handle);
@@ -319,7 +319,7 @@ pub trait VMHooksSend: VMHooksHandlerSource {
 
         self.perform_upgrade_contract(
             to,
-            egld_value,
+            moax_value,
             source_contract_code,
             code_metadata,
             arg_buffer,
@@ -330,40 +330,40 @@ pub trait VMHooksSend: VMHooksHandlerSource {
         &self,
         sc_address_handle: RawHandle,
         _gas: u64,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         code_handle: RawHandle,
         code_metadata_handle: RawHandle,
         arg_buffer_handle: RawHandle,
     ) {
         let to = self.m_types_lock().mb_to_address(sc_address_handle);
-        let egld_value = self.m_types_lock().bu_get(egld_value_handle);
+        let moax_value = self.m_types_lock().bu_get(moax_value_handle);
         let code = self.m_types_lock().mb_get(code_handle).to_vec();
         let code_metadata = self
             .m_types_lock()
             .mb_to_code_metadata(code_metadata_handle);
         let arg_buffer = self.m_types_lock().mb_get_vec_of_bytes(arg_buffer_handle);
 
-        self.perform_upgrade_contract(to, egld_value, code, code_metadata, arg_buffer)
+        self.perform_upgrade_contract(to, moax_value, code, code_metadata, arg_buffer)
     }
 
     fn execute_on_dest_context_raw(
         &self,
         _gas: u64,
         to_handle: RawHandle,
-        egld_value_handle: RawHandle,
+        moax_value_handle: RawHandle,
         endpoint_name_handle: RawHandle,
         arg_buffer_handle: RawHandle,
         result_handle: RawHandle,
     ) {
         let to = self.m_types_lock().mb_to_address(to_handle);
-        let egld_value = self.m_types_lock().bu_get(egld_value_handle);
+        let moax_value = self.m_types_lock().bu_get(moax_value_handle);
         let endpoint_name = self
             .m_types_lock()
             .mb_to_function_name(endpoint_name_handle);
         let arg_buffer = self.m_types_lock().mb_get_vec_of_bytes(arg_buffer_handle);
 
         let result =
-            self.perform_execute_on_dest_context(to, egld_value, endpoint_name, arg_buffer);
+            self.perform_execute_on_dest_context(to, moax_value, endpoint_name, arg_buffer);
 
         self.m_types_lock()
             .mb_set_vec_of_bytes(result_handle, result);
